@@ -8,11 +8,11 @@
     <!-- PDF থিমের Colors (LOCKED - Your Preferred Style) -->
     <style>
         :root {
-            --primary-blue: #1f9dbf;
+            --primary-blue: #2c3e50;
             --secondary-blue: #34495e;
             --accent-orange: #e67e22;
             --light-gray: #ecf0f1;
-            --dark-gray: #1f9dbf;
+            --dark-gray: #2c3e50;
             --text-dark: #333333;
             --text-light: #ffffff;
             --border-color: #bdc3c7;
@@ -20,20 +20,14 @@
         }
     </style>
     
-<<<<<<< HEAD
-    <meta name="theme-color" content="#2c3e50">
-    <meta name="description" content="Industrial Electrical and Electronics Solutions">
-=======
     <!-- PWA Configuration -->
-    <meta name="theme-color" content="#1f9dbf">
+    <meta name="theme-color" content="#2c3e50">
     <meta name="description" content="Industrial Electrical and Electronics Solutions - Supplier of Automation Products">
->>>>>>> 1ba21a3507717c7df313430ed1049ca626304912
     
     <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
     
-<<<<<<< Updated upstream
     <!-- Leaflet for Maps -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
@@ -42,15 +36,12 @@
            LOCKED STYLE - Your Preferred PDF Theme
            DO NOT CHANGE THESE COLORS
         ============================================ */
-=======
-    <style>
->>>>>>> Stashed changes
         :root {
-            --primary-blue: #1f9dbf;
+            --primary-blue: #2c3e50;
             --secondary-blue: #34495e;
             --accent-orange: #e67e22;
             --light-gray: #ecf0f1;
-            --dark-gray: #1f9dbf;
+            --dark-gray: #2c3e50;
             --text-dark: #333333;
             --text-light: #ffffff;
             --border-color: #bdc3c7;
@@ -63,32 +54,25 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-<<<<<<< HEAD
-=======
             -webkit-tap-highlight-color: transparent;
         }
         
-        
         html {
             scroll-behavior: smooth;
->>>>>>> 1ba21a3507717c7df313430ed1049ca626304912
         }
         
         body {
             font-family: 'Roboto', sans-serif;
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             color: var(--text-dark);
-            line-height: 1.6;
+            line-height: 1.7;
+            overflow-x: hidden;
         }
         
-<<<<<<< Updated upstream
         /* ============================================
            HEADER SECTION - With Your Logo
            Replace "YOUR_LOGO_PATH" with your actual logo path
         ============================================ */
-=======
-        /* Header */
->>>>>>> Stashed changes
         .app-header {
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
             color: var(--text-light);
@@ -97,10 +81,11 @@
             top: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            border-bottom: 3px solid var(--accent-orange);
         }
         
         .logo-section {
@@ -109,16 +94,10 @@
             gap: 15px;
         }
         
-<<<<<<< Updated upstream
         /* YOUR LOGO - Replace this image path */
         .company-logo {
             height: 55px;
             width: 55px;
-=======
-        .company-logo {
-            height: 50px;
-            width: 85px;
->>>>>>> Stashed changes
             border-radius: 8px;
             object-fit: contain;
             border: 2px solid var(--accent-orange);
@@ -128,22 +107,16 @@
         
         .logo-text {
             font-family: 'Montserrat', sans-serif;
-<<<<<<< Updated upstream
             font-size: 1.2rem;
-=======
-            font-size: 1.1rem;
->>>>>>> Stashed changes
             font-weight: 800;
+            letter-spacing: 0.5px;
         }
         
         .tagline {
             font-size: 0.8rem;
             opacity: 0.9;
-<<<<<<< Updated upstream
             margin-top: 2px;
             font-weight: 300;
-=======
->>>>>>> Stashed changes
         }
         
         /* ============================================
@@ -153,16 +126,14 @@
             display: flex;
             background: var(--light-gray);
             position: fixed;
-<<<<<<< Updated upstream
             top: 85px;
-=======
-            top: 80px;
->>>>>>> Stashed changes
             width: 100%;
             z-index: 999;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             padding: 0.5rem 0;
             overflow-x: auto;
+            white-space: nowrap;
+            border-bottom: 1px solid var(--border-color);
         }
         
         .nav-item {
@@ -172,6 +143,7 @@
             border-bottom: 3px solid transparent;
             font-size: 0.85rem;
             font-weight: 500;
+            transition: all 0.3s ease;
             min-width: 90px;
             cursor: pointer;
         }
@@ -179,48 +151,46 @@
         .nav-item.active {
             color: var(--accent-orange);
             border-bottom-color: var(--accent-orange);
+            background: rgba(230, 126, 34, 0.1);
         }
         
         .nav-icon {
             display: block;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 0.3rem;
+            color: var(--primary-blue);
+        }
+        
+        .nav-item.active .nav-icon {
+            color: var(--accent-orange);
         }
         
         /* ============================================
            MAIN CONTENT
         ============================================ */
         .main-content {
-<<<<<<< Updated upstream
             padding: 150px 1rem 2rem;
-=======
-            padding: 140px 1rem 2rem;
->>>>>>> Stashed changes
             max-width: 1200px;
             margin: 0 auto;
         }
         
         .section {
             display: none;
+            animation: fadeIn 0.5s ease;
         }
         
         .section.active {
             display: block;
-            animation: fadeIn 0.5s;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-<<<<<<< Updated upstream
         /* ============================================
            HERO SECTION
         ============================================ */
-=======
-        /* Hero Section */
->>>>>>> Stashed changes
         .hero-section {
             background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9));
             color: var(--text-light);
@@ -228,21 +198,18 @@
             padding: 2rem;
             margin-bottom: 2rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
             border: 2px solid var(--accent-orange);
         }
         
         .hero-title {
             font-family: 'Montserrat', sans-serif;
-<<<<<<< Updated upstream
             font-size: 2rem;
-=======
-            font-size: 1.8rem;
->>>>>>> Stashed changes
             font-weight: 800;
             margin-bottom: 1rem;
         }
         
-<<<<<<< Updated upstream
         .hero-subtitle {
             font-size: 1rem;
             opacity: 0.9;
@@ -260,35 +227,29 @@
             border-radius: var(--radius);
             padding: 1.8rem;
             margin-bottom: 1.8rem;
-=======
-        /* Cards */
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
->>>>>>> Stashed changes
             box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
             border-left: 5px solid var(--accent-orange);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
         
         .section-title {
             font-family: 'Montserrat', sans-serif;
-<<<<<<< Updated upstream
             font-size: 1.6rem;
             color: var(--primary-blue);
             margin: 2rem 0 1.2rem;
             padding-bottom: 0.6rem;
-=======
-            font-size: 1.5rem;
-            color: var(--primary-blue);
-            margin: 1.5rem 0 1rem;
-            padding-bottom: 0.5rem;
->>>>>>> Stashed changes
             border-bottom: 3px solid var(--accent-orange);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-<<<<<<< Updated upstream
         .section-title i {
             color: var(--accent-orange);
         }
@@ -296,9 +257,6 @@
         /* ============================================
            BUTTONS - PDF Style
         ============================================ */
-=======
-        /* Buttons */
->>>>>>> Stashed changes
         .btn {
             display: inline-flex;
             align-items: center;
@@ -312,7 +270,6 @@
             font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
-<<<<<<< Updated upstream
             transition: all 0.3s ease;
             text-decoration: none;
             box-shadow: 0 4px 15px rgba(44, 62, 80, 0.3);
@@ -323,18 +280,21 @@
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(44, 62, 80, 0.4);
             background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue));
-=======
-            margin: 0.5rem;
-            text-decoration: none;
->>>>>>> Stashed changes
         }
         
         .btn-secondary {
             background: linear-gradient(135deg, var(--accent-orange), #d35400);
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
         }
         
         .btn-whatsapp {
             background: linear-gradient(135deg, #25D366, #128C7E);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+        
+        .btn-call {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
         
         /* ============================================
@@ -352,17 +312,15 @@
             border-radius: var(--radius);
             overflow: hidden;
             box-shadow: var(--shadow);
+            transition: all 0.3s ease;
             border: 1px solid var(--border-color);
         }
         
-<<<<<<< Updated upstream
         .product-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
         
-=======
->>>>>>> Stashed changes
         .product-img {
             height: 180px;
             background: var(--light-gray);
@@ -371,11 +329,8 @@
             justify-content: center;
             color: var(--primary-blue);
             font-size: 2.5rem;
-<<<<<<< Updated upstream
             position: relative;
             overflow: hidden;
-=======
->>>>>>> Stashed changes
         }
         
         .product-img img {
@@ -388,7 +343,6 @@
             padding: 1.5rem;
         }
         
-<<<<<<< Updated upstream
         .product-title {
             font-size: 1.2rem;
             color: var(--primary-blue);
@@ -399,9 +353,6 @@
         /* ============================================
            BRANDS GRID
         ============================================ */
-=======
-        /* Brands Grid */
->>>>>>> Stashed changes
         .brands-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -415,18 +366,16 @@
             padding: 1.2rem;
             text-align: center;
             box-shadow: var(--shadow);
+            transition: all 0.3s ease;
             border: 1px solid var(--border-color);
         }
         
-<<<<<<< Updated upstream
         .brand-card:hover {
             transform: scale(1.05);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             border-color: var(--accent-orange);
         }
         
-=======
->>>>>>> Stashed changes
         .brand-logo {
             height: 50px;
             width: 100%;
@@ -442,14 +391,10 @@
             object-fit: contain;
         }
         
-<<<<<<< Updated upstream
         /* ============================================
            IMAGE GALLERY
            Replace image paths in the code below
         ============================================ */
-=======
-        /* Gallery Grid */
->>>>>>> Stashed changes
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -462,15 +407,12 @@
             border-radius: var(--radius);
             overflow: hidden;
             box-shadow: var(--shadow);
-<<<<<<< Updated upstream
             transition: all 0.3s ease;
         }
         
         .gallery-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-=======
->>>>>>> Stashed changes
         }
         
         .gallery-img {
@@ -479,7 +421,6 @@
             object-fit: cover;
         }
         
-<<<<<<< Updated upstream
         /* ============================================
            ADMIN PANEL
         ============================================ */
@@ -487,13 +428,6 @@
             background: var(--card-bg);
             border-radius: var(--radius);
             padding: 1.8rem;
-=======
-        /* Admin Panel */
-        .admin-panel {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 1.5rem;
->>>>>>> Stashed changes
             margin: 1.5rem 0;
             box-shadow: var(--shadow);
             border: 2px solid var(--accent-orange);
@@ -502,11 +436,7 @@
         .admin-form {
             display: grid;
             gap: 1rem;
-<<<<<<< Updated upstream
             margin-top: 1.2rem;
-=======
-            margin-top: 1rem;
->>>>>>> Stashed changes
         }
         
         .admin-form input,
@@ -515,22 +445,17 @@
             padding: 0.8rem;
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
-<<<<<<< Updated upstream
             font-family: 'Roboto', sans-serif;
-=======
->>>>>>> Stashed changes
             font-size: 0.9rem;
         }
         
-        /* Footer */
-        .app-footer {
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: var(--text-light);
-            padding: 2rem 1rem;
-            margin-top: 2rem;
+        .admin-form input:focus,
+        .admin-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
         }
         
-<<<<<<< Updated upstream
         /* ============================================
            FOOTER
         ============================================ */
@@ -558,13 +483,10 @@
             padding-bottom: 0.5rem;
         }
         
-=======
->>>>>>> Stashed changes
         .copyright {
             text-align: center;
             padding-top: 1.5rem;
             margin-top: 1.5rem;
-<<<<<<< Updated upstream
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: rgba(255, 255, 255, 0.7);
             font-size: 0.85rem;
@@ -599,58 +521,6 @@
                 padding: 130px 0.8rem 1.5rem;
             }
             
-=======
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.7);
-            font-size: 0.85rem;
-        }
-        
-        /* Map Container */
-        .map-container {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            overflow: hidden;
-            margin: 1.5rem 0;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
-        }
-        
-        .map-placeholder {
-            height: 300px;
-            background: var(--light-gray);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--dark-gray);
-        }
-        
-        /* Login Modal */
-        .login-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .login-box {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: var(--radius);
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
->>>>>>> Stashed changes
             .products-grid,
             .brands-grid,
             .gallery-grid {
@@ -664,19 +534,15 @@
             .gallery-grid {
                 grid-template-columns: 1fr;
             }
-<<<<<<< Updated upstream
             
             .btn {
                 padding: 0.7rem 1.2rem;
                 font-size: 0.85rem;
             }
-=======
->>>>>>> Stashed changes
         }
     </style>
 </head>
 <body>
-<<<<<<< Updated upstream
     <div class="app-container">
         <!-- Header with Your Logo -->
         <header class="app-header">
@@ -1012,246 +878,18 @@
                             <i class="fas fa-image"></i> Add Gallery
                         </button>
                     </div>
-=======
-    <!-- Login Modal -->
-    <div class="login-modal" id="loginModal">
-        <div class="login-box">
-            <h2 style="color: var(--primary-blue); margin-bottom: 1.5rem;">Admin Login</h2>
-            <div style="display: grid; gap: 1rem;">
-                <input type="password" id="adminPassword" placeholder="Enter admin password" style="padding: 0.8rem; border: 1px solid var(--border-color); border-radius: var(--radius);">
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn" onclick="loginAdmin()">Login</button>
-                    <button class="btn btn-secondary" onclick="closeLogin()">Cancel</button>
                 </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Header -->
-    <header class="app-header">
-        <div class="logo-section">
-            <!-- YOUR LOGO PATH HERE -->
-            <img src="images/logo.png" alt="Logo" class="company-logo">
-            <div>
-                <div class="logo-text">SHAFA ABID AUTOMATION BD</div>
-                <div class="tagline">Industrial Electrical & Electronics Solutions</div>
-            </div>
-        </div>
-        <button class="btn btn-secondary" onclick="showLogin()">
-            <i class="fas fa-user-cog"></i> Admin
-        </button>
-    </header>
-    
-    <!-- Navigation -->
-    <nav class="nav-container">
-        <div class="nav-item active" data-section="home">
-            <i class="fas fa-home nav-icon"></i>
-            Home
-        </div>
-        <div class="nav-item" data-section="products">
-            <i class="fas fa-boxes nav-icon"></i>
-            Products
-        </div>
-        <div class="nav-item" data-section="brands">
-            <i class="fas fa-tags nav-icon"></i>
-            Brands
-        </div>
-        <div class="nav-item" data-section="gallery">
-            <i class="fas fa-images nav-icon"></i>
-            Gallery
-        </div>
-        <div class="nav-item" data-section="contact">
-            <i class="fas fa-map-marker-alt nav-icon"></i>
-            Contact
-        </div>
-    </nav>
-    
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Home Section -->
-        <section id="home" class="section active">
-            <div class="hero-section">
-                <h1 class="hero-title">Industrial Electrical & Automation Solutions</h1>
-                <p>Established in 2017, professional suppliers across Bangladesh</p>
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
-                    <button class="btn btn-secondary" onclick="showSection('products')">
-                        <i class="fas fa-shopping-cart"></i> View Products
-                    </button>
-                    <button class="btn" onclick="showSection('about')">
-                        <i class="fas fa-info-circle"></i> About Us
-                    </button>
-                    <button class="btn btn-whatsapp" onclick="window.open('https://wa.me/8801869552775')">
-                        <i class="fab fa-whatsapp"></i> WhatsApp
-                    </button>
-                </div>
-            </div>
-            
-            <h2 class="section-title">Featured Products</h2>
-            <div class="products-grid" id="featuredProducts">
-                <!-- Featured products loaded by JavaScript -->
-            </div>
-        </section>
+            </section>
+        </main>
         
-        <!-- About Section -->
-        <section id="about" class="section">
-            <div class="card">
-                <h2 class="section-title">About Company</h2>
-                <p><strong>Established:</strong> 2017</p>
-                <p><strong>Owner:</strong> Md. Mostafa Shahid</p>
-                <p><strong>Capital:</strong> 1 Million BDT</p>
-                <p><strong>Products:</strong> 10+ series, 2000+ specifications</p>
-                <p><strong>Coverage:</strong> All 64 districts of Bangladesh</p>
-            </div>
-        </section>
-        
-        <!-- Products Section -->
-        <section id="products" class="section">
-            <div class="card">
-                <h2 class="section-title">Our Products</h2>
-                
-                <!-- Product Filter -->
-                <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-                    <button class="btn" onclick="filterProducts('all')">All</button>
-                    <button class="btn" onclick="filterProducts('automation')">Automation</button>
-                    <button class="btn" onclick="filterProducts('electrical')">Electrical</button>
-                    <button class="btn" onclick="filterProducts('sensors')">Sensors</button>
-                </div>
-                
-                <!-- Products Container -->
-                <div class="products-grid" id="productsContainer">
-                    <!-- Products loaded by JavaScript -->
-                </div>
-                
-                <!-- Admin Add Product (Only visible when admin logged in) -->
-                <div class="admin-panel" id="adminProductPanel" style="display: none;">
-                    <h3><i class="fas fa-plus"></i> Add New Product</h3>
-                    <div class="admin-form">
-                        <input type="text" id="newProductName" placeholder="Product Name">
-                        <input type="text" id="newProductModel" placeholder="Model Number">
-                        <input type="text" id="newProductPrice" placeholder="Price">
-                        <select id="newProductCategory">
-                            <option value="automation">Automation</option>
-                            <option value="electrical">Electrical</option>
-                            <option value="sensors">Sensors</option>
-                            <option value="drives">Drives</option>
-                        </select>
-                        <textarea id="newProductDescription" placeholder="Description" rows="3"></textarea>
-                        <input type="text" id="newProductImage" placeholder="Image URL (or path)">
-                        <button class="btn btn-secondary" onclick="addProduct()">
-                            <i class="fas fa-plus"></i> Add Product
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Brands Section -->
-        <section id="brands" class="section">
-            <div class="card">
-                <h2 class="section-title">Our Brands</h2>
-                
-                <div class="brands-grid" id="brandsContainer">
-                    <!-- Brands loaded by JavaScript -->
-                </div>
-                
-                <!-- Admin Add Brand (Only visible when admin logged in) -->
-                <div class="admin-panel" id="adminBrandPanel" style="display: none;">
-                    <h3><i class="fas fa-plus"></i> Add New Brand</h3>
-                    <div class="admin-form">
-                        <input type="text" id="newBrandName" placeholder="Brand Name">
-                        <input type="text" id="newBrandImage" placeholder="Logo URL (or path)">
-                        <button class="btn btn-secondary" onclick="addBrand()">
-                            <i class="fas fa-plus"></i> Add Brand
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Gallery Section -->
-        <section id="gallery" class="section">
-            <div class="card">
-                <h2 class="section-title">Gallery</h2>
-                
-                <div class="gallery-grid" id="galleryContainer">
-                    <!-- Gallery items loaded by JavaScript -->
-                </div>
-                
-                <!-- Admin Add Gallery (Only visible when admin logged in) -->
-                <div class="admin-panel" id="adminGalleryPanel" style="display: none;">
-                    <h3><i class="fas fa-plus"></i> Add Gallery Image</h3>
-                    <div class="admin-form">
-                        <input type="text" id="newGalleryTitle" placeholder="Image Title">
-                        <input type="text" id="newGalleryImage" placeholder="Image URL (or path)">
-                        <button class="btn btn-secondary" onclick="addGalleryItem()">
-                            <i class="fas fa-plus"></i> Add Image
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Contact Section -->
-        <section id="contact" class="section">
-            <div class="card">
-                <h2 class="section-title">Contact Us</h2>
-                
-                <!-- Facebook Link -->
-                <div style="margin-bottom: 1.5rem; padding: 1.2rem; background: rgba(59, 89, 152, 0.1); border-radius: var(--radius);">
-                    <h3 style="color: #1877F2; margin-bottom: 0.8rem;">
-                        <i class="fab fa-facebook"></i> Facebook Page
-                    </h3>
-                    <!-- YOUR FACEBOOK LINK HERE -->
-                    <button class="btn" onclick="window.open('https://web.facebook.com/profile.php?id=61574697974139')" style="background: #1877F2;">
-                        <i class="fab fa-facebook"></i> Visit Facebook Page
-                    </button>
-                </div>
-                
-                <!-- Contact Info -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.2rem; margin: 1.5rem 0;">
-                    <div style="padding: 1.2rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
-                        <h4><i class="fas fa-phone-alt"></i> Phone</h4>
-                        <p>+880 1869-552775</p>
-                        <p>+880 1406-503242</p>
-                    </div>
-                    
-                    <div style="padding: 1.2rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
-                        <h4><i class="fas fa-envelope"></i> Email</h4>
-                        <p>shafaabidautomation.bd@gmail.com</p>
-                    </div>
-                    
-                    <div style="padding: 1.2rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
-                        <h4><i class="fas fa-map-marker-alt"></i> Address</h4>
-                        <p>Shop No: 01, Porir Rasta, Cort Para, Kumira-4314, Sitakunda, Chittagong</p>
-                    </div>
-                </div>
-                
-                <!-- Map -->
-                <div class="map-container">
-                    <div class="map-placeholder">
-                        <i class="fas fa-map-marker-alt" style="font-size: 3rem; color: var(--primary-blue); margin-bottom: 1rem;"></i>
-                        <h3>Our Location</h3>
-                        <!-- YOUR MAP LINK HERE -->
-                        <button class="btn" onclick="window.open('https://maps.app.goo.gl/wrvSQWH3EcMFJdVa9')" style="margin-top: 1rem;">
-                            <i class="fas fa-directions"></i> Open in Google Maps
-                        </button>
-                    </div>
->>>>>>> Stashed changes
-                </div>
-            </div>
-        </section>
-    </main>
-    
-    <!-- Footer -->
-    <footer class="app-footer">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
-                <div>
-                    <h3 style="color: var(--accent-orange); margin-bottom: 1rem;">SHAFA ABID AUTOMATION BD</h3>
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SHAFA ABID AUTOMATION BD</h3>
                     <p>Industrial Electrical and Electronics Solutions</p>
                 </div>
                 
-<<<<<<< Updated upstream
                 <div class="footer-section">
                     <h3>Quick Links</h3>
                     <ul style="list-style: none; padding: 0;">
@@ -1267,68 +905,21 @@
                         +880 1869-552775<br>
                         shafaabidautomation.bd@gmail.com
                     </p>
-=======
-                <div>
-                    <h3 style="color: var(--accent-orange); margin-bottom: 1rem;">Contact</h3>
-                    <p>+880 1869-552775</p>
-                    <p>shafaabidautomation.bd@gmail.com</p>
->>>>>>> Stashed changes
                 </div>
             </div>
             
             <div class="copyright">
                 © 2017-2023 SHAFA ABID AUTOMATION BD. All Rights Reserved.
             </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
     
+    <!-- JavaScript Libraries -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Main JavaScript -->
     <script>
         // ============================================
-<<<<<<< Updated upstream
-=======
-        // DATA STORAGE SYSTEM
-        // ============================================
-        const ADMIN_PASSWORD = "Shafa2026"; // Change this password
-        
-        let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
-        
-        // Load or initialize data
-        let productsData = JSON.parse(localStorage.getItem('productsData')) || [
-            {
-                id: 1,
-                name: "Siemens PLC S7-1200",
-                model: "6ES7214-1HG40-0XB0",
-                price: "Contact for quote",
-                category: "automation",
-                description: "Programmable Logic Controller",
-                image: "images/products/plc.png",
-                featured: true
-            },
-            {
-                id: 2,
-                name: "ABB VFD Drive 7.5kW",
-                model: "ACS580-01-076A-4",
-                price: "Contact for quote",
-                category: "drives",
-                description: "Variable Frequency Drive",
-                image: "images/products/vfd.jpg",
-                featured: true
-            }
-        ];
-        
-        let brandsData = JSON.parse(localStorage.getItem('brandsData')) || [
-            { id: 1, name: "Siemens", image: "images/brands/siemens.png" },
-            { id: 2, name: "ABB", image: "images/brands/abb.png" },
-            { id: 3, name: "Omron", image: "images/brands/omron.png" }
-        ];
-        
-        let galleryData = JSON.parse(localStorage.getItem('galleryData')) || [
-            { id: 1, title: "Control Panel Design", image: "images/gallery/panel1.jpg" },
-            { id: 2, title: "Factory Setup", image: "images/gallery/panel2.jpg" }
-        ];
-        
-        // ============================================
->>>>>>> Stashed changes
         // NAVIGATION SYSTEM
         // ============================================
         document.querySelectorAll('.nav-item').forEach(item => {
@@ -1346,7 +937,6 @@
         }
         
         // ============================================
-<<<<<<< Updated upstream
         // PRODUCT FILTERING SYSTEM
         // ============================================
         function filterProducts(category) {
@@ -1371,60 +961,10 @@
         let map;
         function initializeMap() {
             if (!document.getElementById('map')) return;
-=======
-        // ADMIN LOGIN SYSTEM
-        // ============================================
-        function showLogin() {
-            document.getElementById('loginModal').style.display = 'flex';
-        }
-        
-        function closeLogin() {
-            document.getElementById('loginModal').style.display = 'none';
-            document.getElementById('adminPassword').value = '';
-        }
-        
-        function loginAdmin() {
-            const password = document.getElementById('adminPassword').value;
-            if (password === ADMIN_PASSWORD) {
-                isAdminLoggedIn = true;
-                localStorage.setItem('adminLoggedIn', 'true');
-                closeLogin();
-                alert('Admin login successful!');
-                showAdminPanels();
-            } else {
-                alert('Incorrect password!');
-            }
-        }
-        
-        function logoutAdmin() {
-            isAdminLoggedIn = false;
-            localStorage.setItem('adminLoggedIn', 'false');
-            hideAdminPanels();
-            alert('Admin logged out!');
-        }
-        
-        function showAdminPanels() {
-            document.getElementById('adminProductPanel').style.display = 'block';
-            document.getElementById('adminBrandPanel').style.display = 'block';
-            document.getElementById('adminGalleryPanel').style.display = 'block';
->>>>>>> Stashed changes
             
-            // Add logout button to header
-            const header = document.querySelector('.app-header');
-            const logoutBtn = document.createElement('button');
-            logoutBtn.className = 'btn btn-secondary';
-            logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
-            logoutBtn.onclick = logoutAdmin;
-            logoutBtn.id = 'logoutBtn';
-            header.appendChild(logoutBtn);
-        }
-        
-        function hideAdminPanels() {
-            document.getElementById('adminProductPanel').style.display = 'none';
-            document.getElementById('adminBrandPanel').style.display = 'none';
-            document.getElementById('adminGalleryPanel').style.display = 'none';
+            const lat = 22.5018957;
+            const lng = 91.7118761;
             
-<<<<<<< Updated upstream
             map = L.map('map').setView([lat, lng], 16);
             
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -1462,52 +1002,6 @@
                         <h3 class="product-title">${product.name}</h3>
                         ${product.model ? `<p><strong>Model:</strong> ${product.model}</p>` : ''}
                         ${product.description ? `<p>${product.description}</p>` : ''}
-=======
-            // Remove logout button
-            const logoutBtn = document.getElementById('logoutBtn');
-            if (logoutBtn) logoutBtn.remove();
-        }
-        
-        // ============================================
-        // PRODUCTS SYSTEM
-        // ============================================
-        function loadProducts() {
-            const container = document.getElementById('productsContainer');
-            const featuredContainer = document.getElementById('featuredProducts');
-            
-            // All products
-            container.innerHTML = productsData.map(product => `
-                <div class="product-card" data-category="${product.category}">
-                    <div class="product-img">
-                        ${product.image ? `<img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-box\"></i>';" />` : '<i class="fas fa-box"></i>'}
-                    </div>
-                    <div class="product-body">
-                        <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">${product.name}</h3>
-                        ${product.model ? `<p><strong>Model:</strong> ${product.model}</p>` : ''}
-                        ${product.description ? `<p>${product.description}</p>` : ''}
-                        ${product.price ? `<p><strong>Price:</strong> ${product.price}</p>` : ''}
-                        <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801869552775?text=Interested in ${encodeURIComponent(product.name)}')" style="margin-top: 0.8rem; width: 100%;">
-                            <i class="fab fa-whatsapp"></i> Inquire Now
-                        </button>
-                        ${isAdminLoggedIn ? `
-                            <button class="btn" onclick="deleteProduct(${product.id})" style="margin-top: 0.5rem; width: 100%; background: #e74c3c;">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        ` : ''}
-                    </div>
-                </div>
-            `).join('');
-            
-            // Featured products
-            const featuredProducts = productsData.filter(p => p.featured);
-            featuredContainer.innerHTML = featuredProducts.map(product => `
-                <div class="product-card">
-                    <div class="product-img">
-                        ${product.image ? `<img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-box\"></i>';" />` : '<i class="fas fa-box"></i>'}
-                    </div>
-                    <div class="product-body">
-                        <h3 style="color: var(--primary-blue);">${product.name}</h3>
->>>>>>> Stashed changes
                         ${product.price ? `<p><strong>Price:</strong> ${product.price}</p>` : ''}
                         <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801869552775?text=Interested in ${encodeURIComponent(product.name)}')" style="margin-top: 0.8rem; width: 100%;">
                             <i class="fab fa-whatsapp"></i> Inquire Now
@@ -1517,7 +1011,6 @@
             `).join('');
         }
         
-<<<<<<< Updated upstream
         // ============================================
         // INITIALIZE ON PAGE LOAD
         // ============================================
@@ -1533,208 +1026,6 @@
         // ============================================
         function openFacebook() {
             window.open('https://facebook.com/ShafaAbidAutomationBD', '_blank');
-=======
-        function addProduct() {
-            const name = document.getElementById('newProductName').value;
-            const model = document.getElementById('newProductModel').value;
-            const price = document.getElementById('newProductPrice').value;
-            const category = document.getElementById('newProductCategory').value;
-            const description = document.getElementById('newProductDescription').value;
-            const image = document.getElementById('newProductImage').value;
-            
-            if (!name) {
-                alert('Product name is required');
-                return;
-            }
-            
-            const newProduct = {
-                id: Date.now(),
-                name: name,
-                model: model,
-                price: price,
-                category: category,
-                description: description,
-                image: image,
-                featured: false
-            };
-            
-            productsData.push(newProduct);
-            saveData();
-            loadProducts();
-            
-            // Clear form
-            document.getElementById('newProductName').value = '';
-            document.getElementById('newProductModel').value = '';
-            document.getElementById('newProductPrice').value = '';
-            document.getElementById('newProductDescription').value = '';
-            document.getElementById('newProductImage').value = '';
-            
-            alert('Product added successfully!');
-        }
-        
-        function deleteProduct(id) {
-            if (confirm('Are you sure you want to delete this product?')) {
-                productsData = productsData.filter(p => p.id !== id);
-                saveData();
-                loadProducts();
-            }
-        }
-        
-        function filterProducts(category) {
-            const products = document.querySelectorAll('#productsContainer .product-card');
-            products.forEach(product => {
-                if (category === 'all' || product.getAttribute('data-category') === category) {
-                    product.style.display = 'block';
-                } else {
-                    product.style.display = 'none';
-                }
-            });
-        }
-        
-        // ============================================
-        // BRANDS SYSTEM
-        // ============================================
-        function loadBrands() {
-            const container = document.getElementById('brandsContainer');
-            container.innerHTML = brandsData.map(brand => `
-                <div class="brand-card">
-                    <div class="brand-logo">
-                        ${brand.image ? `<img src="${brand.image}" alt="${brand.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-tag\"></i>';" />` : '<i class="fas fa-tag"></i>'}
-                    </div>
-                    <p>${brand.name}</p>
-                    ${isAdminLoggedIn ? `
-                        <button class="btn" onclick="deleteBrand(${brand.id})" style="margin-top: 0.5rem; width: 100%; padding: 0.5rem; background: #e74c3c;">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    ` : ''}
-                </div>
-            `).join('');
-        }
-        
-        function addBrand() {
-            const name = document.getElementById('newBrandName').value;
-            const image = document.getElementById('newBrandImage').value;
-            
-            if (!name) {
-                alert('Brand name is required');
-                return;
-            }
-            
-            const newBrand = {
-                id: Date.now(),
-                name: name,
-                image: image
-            };
-            
-            brandsData.push(newBrand);
-            saveData();
-            loadBrands();
-            
-            // Clear form
-            document.getElementById('newBrandName').value = '';
-            document.getElementById('newBrandImage').value = '';
-            
-            alert('Brand added successfully!');
-        }
-        
-        function deleteBrand(id) {
-            if (confirm('Are you sure you want to delete this brand?')) {
-                brandsData = brandsData.filter(b => b.id !== id);
-                saveData();
-                loadBrands();
-            }
-        }
-        
-        // ============================================
-        // GALLERY SYSTEM
-        // ============================================
-        function loadGallery() {
-            const container = document.getElementById('galleryContainer');
-            container.innerHTML = galleryData.map(item => `
-                <div class="gallery-item">
-                    <img src="${item.image}" alt="${item.title}" class="gallery-img" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
-                    ${isAdminLoggedIn ? `
-                        <div style="padding: 1rem; text-align: center;">
-                            <p>${item.title}</p>
-                            <button class="btn" onclick="deleteGalleryItem(${item.id})" style="margin-top: 0.5rem; width: 100%; background: #e74c3c;">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    ` : ''}
-                </div>
-            `).join('');
-        }
-        
-        function addGalleryItem() {
-            const title = document.getElementById('newGalleryTitle').value;
-            const image = document.getElementById('newGalleryImage').value;
-            
-            if (!title || !image) {
-                alert('Title and image are required');
-                return;
-            }
-            
-            const newItem = {
-                id: Date.now(),
-                title: title,
-                image: image
-            };
-            
-            galleryData.push(newItem);
-            saveData();
-            loadGallery();
-            
-            // Clear form
-            document.getElementById('newGalleryTitle').value = '';
-            document.getElementById('newGalleryImage').value = '';
-            
-            alert('Gallery image added successfully!');
-        }
-        
-        function deleteGalleryItem(id) {
-            if (confirm('Are you sure you want to delete this image?')) {
-                galleryData = galleryData.filter(g => g.id !== id);
-                saveData();
-                loadGallery();
-            }
-        }
-        
-        // ============================================
-        // DATA SAVE/LOAD
-        // ============================================
-        function saveData() {
-            localStorage.setItem('productsData', JSON.stringify(productsData));
-            localStorage.setItem('brandsData', JSON.stringify(brandsData));
-            localStorage.setItem('galleryData', JSON.stringify(galleryData));
-        }
-        
-        // ============================================
-        // INITIALIZE
-        // ============================================
-        document.addEventListener('DOMContentLoaded', function() {
-            loadProducts();
-            loadBrands();
-            loadGallery();
-            
-            if (isAdminLoggedIn) {
-                showAdminPanels();
-            }
-            
-            // Check for login on page load
-            checkAutoLogin();
-        });
-        
-        function checkAutoLogin() {
-            if (localStorage.getItem('adminLoggedIn') === 'true') {
-                isAdminLoggedIn = true;
-                showAdminPanels();
-            }
-        }
-        
-        // Manual URL setting function
-        function setManualURLs() {
-            alert('Replace these URLs in the code:\n\n1. YOUR_LOGO_PATH\n2. YOUR_FACEBOOK_LINK\n3. YOUR_GOOGLE_MAPS_LINK\n\nExample:\nLOGO: images/logo.png\nFACEBOOK: https://facebook.com/yourpage\nMAPS: https://maps.google.com/?q=22.5018957,91.7118761');
->>>>>>> Stashed changes
         }
     </script>
 </body>
