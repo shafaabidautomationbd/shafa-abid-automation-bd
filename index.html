@@ -78,7 +78,7 @@
         
         .company-logo {
             height: 50px;
-            width: 50px;
+            width: 85px;
             border-radius: 8px;
             object-fit: contain;
             border: 2px solid var(--accent-orange);
@@ -427,7 +427,7 @@
     <header class="app-header">
         <div class="logo-section">
             <!-- YOUR LOGO PATH HERE -->
-            <img src="images/logo.png" alt="Logo" class="company-logo">
+            <img src="images" alt="Logo" class="company-logo">
             <div>
                 <div class="logo-text">Shafa Abid Automation BD</div>
                 <div class="tagline">Industrial Electrical & Electronics Solutions</div>
@@ -676,7 +676,7 @@
                 price: "Contact for quote",
                 category: "automation",
                 description: "Programmable Logic Controller",
-                image: "images/products/plc.jpg",
+                image: "images/products/plc",
                 featured: true
             },
             {
@@ -686,19 +686,19 @@
                 price: "Contact for quote",
                 category: "drives",
                 description: "Variable Frequency Drive",
-                image: "images/products/vfd.jpg",
+                image: "images/products/p1.png",
                 featured: true
             }
         ];
         
         let brandsData = JSON.parse(localStorage.getItem('brandsData')) || [
-            { id: 1, name: "Siemens", image: "images/brands/siemens.png" },
+            { id: 1, name: "Siemens", image: "images/brands/siemens" },
             { id: 2, name: "ABB", image: "images/brands/abb.png" },
             { id: 3, name: "Omron", image: "images/brands/omron.png" }
         ];
         
         let galleryData = JSON.parse(localStorage.getItem('galleryData')) || [
-            { id: 1, title: "Control Panel Design", image: "images/gallery/panel1.jpg" },
+            { id: 1, title: "Control Panel Design", image: "images/products/p1" },
             { id: 2, title: "Factory Setup", image: "images/gallery/panel2.jpg" }
         ];
         
