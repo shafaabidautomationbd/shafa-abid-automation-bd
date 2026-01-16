@@ -1,29 +1,50 @@
 {
-  "logo": "C:\Users\MD MOSTAFA SHAHID\Documents\GitHub\shafa-abid-automation-bd\Pictures\SHAFA_LOGO for test.PNG",
+  "logo": "images/logo.png",
+  "siteName": "আমার শপ",
   "brands": [
     {
-      "name": "ABB",
-      "logo": "C:\Users\MD MOSTAFA SHAHID\Documents\GitHub\shafa-abid-automation-bd\Pictures\ABB_logo.svg"
+      "id": 1,
+      "name": "স্যামসাং",
+      "logo": "images/brands/brand1.png",
+      "description": "বিশ্বের সেরা ইলেকট্রনিক্স ব্র্যান্ড"
     },
     {
-      "name": "Brand 2", 
-      "logo": "images/brands/brand2.png"
+      "id": 2,
+      "name": "নাইকি",
+      "logo": "images/brands/brand2.png",
+      "description": "খেলাধুলার সেরা ব্র্যান্ড"
+    },
+    {
+      "id": 3,
+      "name": "অ্যাপল",
+      "logo": "images/brands/brand3.png",
+      "description": "প্রিমিয়াম টেকনোলজি ব্র্যান্ড"
     }
   ],
   "products": [
     {
       "id": 1,
-      "name": "Product 1",
+      "name": "স্মার্টফোন",
       "image": "images/products/product1.jpg",
-      "price": "1000",
-      "category": "Electronics"
+      "price": "25000",
+      "category": "ইলেকট্রনিক্স",
+      "description": "হাই-কোয়ালিটি স্মার্টফোন"
     },
     {
       "id": 2,
-      "name": "Product 2",
+      "name": "স্পোর্টস শু",
       "image": "images/products/product2.jpg",
-      "price": "2000",
-      "category": "Fashion"
+      "price": "4500",
+      "category": "ফ্যাশন",
+      "description": "আরামদায়ক স্পোর্টস জুতা"
+    },
+    {
+      "id": 3,
+      "name": "ল্যাপটপ",
+      "image": "images/products/product3.jpg",
+      "price": "75000",
+      "category": "ইলেকট্রনিক্স",
+      "description": "উচ্চক্ষমতা সম্পন্ন ল্যাপটপ"
     }
   ]
 }
