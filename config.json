@@ -1,10 +1,10 @@
 {
-  "logo": "images/logo.png",
+  "logo": "C:\Users\MD MOSTAFA SHAHID\Documents\GitHub\shafa-abid-automation-bd\images",
   "siteName": "আপনার সাইটের নাম",
   "brands": [
     {
-      "name": "ব্র্যান্ড ১",
-      "logo": "images/brands/brand1.png"
+      "name": "ABB",
+      "logo": "C:\Users\MD MOSTAFA SHAHID\Documents\GitHub\shafa-abid-automation-bd\brands"
     },
     {
       "name": "ব্র্যান্ড ২",
