@@ -1,0 +1,29 @@
+{
+  "logo": "images/logo.png",
+  "brands": [
+    {
+      "name": "Brand 1",
+      "logo": "images/brands/brand1.png"
+    },
+    {
+      "name": "Brand 2", 
+      "logo": "images/brands/brand2.png"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Product 1",
+      "image": "images/products/product1.jpg",
+      "price": "1000",
+      "category": "Electronics"
+    },
+    {
+      "id": 2,
+      "name": "Product 2",
+      "image": "images/products/product2.jpg",
+      "price": "2000",
+      "category": "Fashion"
+    }
+  ]
+}
