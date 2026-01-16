@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shafa Abid Automation BD</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0056b3">
+    <meta name="description" content="Industrial Electrical & Electronics Solutions - Industrial IoT, Automation, PLC, Electrical Products">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" href="assets/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="assets/icon.png">
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS for Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Inline CSS for better performance -->
+    <style>
+        :root {
+            --primary: #0056b3;
+            --secondary: #003d82;
+            --accent: #ff6b00;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #28a745;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --radius: 10px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* App Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-top: max(1rem, env(safe-area-inset-top));
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+        
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .tagline {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Navigation */
+        .nav-container {
+            display: flex;
+            background: white;
+            position: fixed;
+            top: 80px;
+            width: 100%;
+            z-index: 999;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding-top: env(safe-area-inset-top);
+        }
+        
+        .nav-item {
+            flex: 1;
+            padding: 0.8rem 0.5rem;
+            text-align: center;
+            color: var(--gray);
+            border-bottom: 3px solid transparent;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: rgba(0,86,179,0.05);
+        }
+        
+        .nav-icon {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 140px 1rem 2rem;
+            min-height: 100vh;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Cards & Components */
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .section-title {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+            font-size: 1.5rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover, .btn:active {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-whatsapp {
+            background: #25D366;
+        }
+        
+        .btn-facebook {
+            background: #1877F2;
+        }
+        
+        /* Map Container */
+        #map {
+            height: 300px;
+            width: 100%;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+        }
+        
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:active {
+            transform: scale(0.98);
+        }
+        
+        .product-img {
+            height: 100px;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 2.5rem;
+        }
+        
+        .product-info {
+            padding: 1rem;
+        }
+        
+        /* Footer */
+        .app-footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 1rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .logo-text {
+                font-size: 1rem;
+            }
+            
+            .nav-item {
+                font-size: 0.75rem;
+                padding: 0.6rem 0.3rem;
+            }
+            
+            .nav-icon {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                padding: 120px 0.8rem 1rem;
+            }
+        }
+        
+        /* PWA Install Prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            background: white;
+            padding: 1rem;
+            border-radius: var(--radius);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 2000;
+            display: none;
+        }
+        
+        .install-prompt.show {
+            display: block;
+            animation: slideUp 0.3s;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <i class="fas fa-industry logo-icon"></i>
+        <div>
+            <div class="logo-text">SHAFA ABID AUTOMATION BD</div>
+            <div class="tagline">Industrial Electrical & Electronics Solutions</div>
+        </div>
+    </header>
+    
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-item active" data-section="home">
+            <i class="fas fa-home nav-icon"></i>
+            Home
+        </div>
+        <div class="nav-item" data-section="products">
+            <i class="fas fa-boxes nav-icon"></i>
+            Products
+        </div>
+        <div class="nav-item" data-section="services">
+            <i class="fas fa-cogs nav-icon"></i>
+            Services
+        </div>
+        <div class="nav-item" data-section="contact">
+            <i class="fas fa-map-marker-alt nav-icon"></i>
+            Location
+        </div>
+        <div class="nav-item" data-section="about">
+            <i class="fas fa-info-circle nav-icon"></i>
+            About
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="card">
+                <h2 style="color: var(--primary); margin-bottom: 1rem;">
+                    <i class="fas fa-brain"></i> When Machines Start Thinking
+                </h2>
+                <p>Industrial IoT is changing how factories think, decide, and act. Machines now communicate, analyze data in real time, and optimize production automatically.</p>
+                <p style="margin-top: 1rem; font-weight: 500; color: var(--accent);">
+                    This is not the future. This is happening now.
+                </p>
+            </div>
+            
+            <h3 class="section-title">Industry 4.0 Solutions</h3>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="product-info">
+                        <strong>Industrial IoT</strong>
+                        <p style="font-size: 0.9rem; color: var(--gray); margin-top: 0.5rem;">
+                            Siemens, Advantech, Moxa
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="product-info">
+                        <strong>Automation</strong>
+                        <p style="font-size: 0.9rem; color: var(--gray); margin-top: 0.5rem;">
+                            PLC, SCADA, HMI
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="product-info">
+                        <strong>Safety Systems</strong>
+                        <p style="font-size: 0.9rem; color: var(--gray); margin-top: 0.5rem;">
+                            Adaptive Safety Zones
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div class="product-info">
+                        <strong>Control Systems</strong>
+                        <p style="font-size: 0.9rem; color: var(--gray); margin-top: 0.5rem;">
+                            Sensors & Controllers
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: var(--secondary); margin-bottom: 1rem;">
+                    <i class="fas fa-handshake"></i> Our Technology Partners
+                </h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 1rem;">
+                    <span style="padding: 0.5rem 1rem; background: #f8f9fa; border-radius: 20px; font-weight: 500;">Siemens</span>
+                    <span style="padding: 0.5rem 1rem; background: #f8f9fa; border-radius: 20px; font-weight: 500;">Omron</span>
+                    <span style="padding: 0.5rem 1rem; background: #f8f9fa; border-radius: 20px; font-weight: 500;">HYDAC</span>
+                    <span style="padding: 0.5rem 1rem; background: #f8f9fa; border-radius: 20px; font-weight: 500;">Autonics</span>
+                    <span style="padding: 0.5rem 1rem; background: #f8f9fa; border-radius: 20px; font-weight: 500;">Turck</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Products Section -->
+        <section id="products" class="section">
+            <h2 class="section-title">Our Products</h2>
+            
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <i class="fas fa-server"></i> Industrial IoT Platform
+                </h3>
+                <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                    <li>Siemens & Inhand Networks</li>
+                    <li>Siemens SIMATIC IOT2000 & IOT2050</li>
+                    <li>Advantech ECU-1251 (IIoT Gateway)</li>
+                    <li>Moxa UC-8100A Series</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <i class="fas fa-project-diagram"></i> SmartWire-DT
+                </h3>
+                <p style="margin-top: 0.5rem;">Reduces wiring time and effort, which in turn reduces costs. Works with third-party controllers and industry-standard networks.</p>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <i class="fas fa-safety"></i> Adaptive Safety
+                </h3>
+                <p style="margin-top: 0.5rem;">Smart Zones adjust safety in real time. People stay protected. Machines keep running.</p>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <i class="fas fa-sliders-h"></i> Sensors & Controllers
+                </h3>
+                <p style="margin-top: 0.5rem;">Autonics Sensors & Controllers for precise industrial automation.</p>
+            </div>
+        </section>
+        
+        <!-- Services Section -->
+        <section id="services" class="section">
+            <h2 class="section-title">Our Services</h2>
+            
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <i class="fas fa-shopping-cart"></i> Product Sales
+                </h3>
+                <p>Import and supply of various electrical and automation products.</p>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <i class="fas fa-robot"></i> Automation Solutions
+                </h3>
+                <p>Implementing advanced technology for industrial automation and consultancy.</p>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <i class="fas fa-th-large"></i> Panel Design & Manufacturing
+                </h3>
+                <p>Customized design and manufacturing of electrical control panels.</p>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <i class="fas fa-tools"></i> Installation & Maintenance
+                </h3>
+                <p>Providing electrical connections, wiring, and servicing solutions.</p>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <i class="fas fa-headset"></i> Troubleshooting & Consultancy
+                </h3>
+                <p>Expert advice and solutions for electrical issues.</p>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <i class="fas fa-project-diagram"></i> Project Handling
+                </h3>
+                <p>Managing and executing small to large-scale projects.</p>
+            </div>
+        </section>
+        
+        <!-- Contact/Location Section -->
+        <section id="contact" class="section">
+            <h2 class="section-title">Our Location</h2>
+            
+            <div class="card">
+                <div id="map"></div>
+                <div style="margin-top: 1.5rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">
+                        <i class="fas fa-map-marker-alt"></i> Address
+                    </h3>
+                    <p style="line-height: 1.8;">
+                        <strong>Shop No: 01, Porir Rasta, Cot Para,<br>
+                        Kumira-4314, Sitakunda, Chattogram,<br>
+                        Bangladesh</strong>
+                    </p>
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                    <button class="btn" id="getDirections">
+                        <i class="fas fa-directions"></i> Get Directions
+                    </button>
+                    
+                    <button class="btn btn-success" id="callNow">
+                        <i class="fas fa-phone-alt"></i> Call Now
+                    </button>
+                    
+                    <button class="btn btn-whatsapp" id="whatsappBtn">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">
+                    <i class="fas fa-clock"></i> Business Hours
+                </h3>
+                <p>Saturday - Thursday: 9:00 AM - 6:00 PM</p>
+                <p>Friday: Closed</p>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about" class="section">
+            <h2 class="section-title">About Us</h2>
+            
+            <div class="card">
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <div style="width: 100px; height: 100px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-size: 2.5rem;">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 style="color: var(--secondary);">Md Mostafa Shahid</h3>
+                    <p style="color: var(--accent); font-weight: 500;">Owner & Managing Director</p>
+                </div>
+                
+                <h4 style="color: var(--primary); margin: 1.5rem 0 1rem;">
+                    <i class="fas fa-building"></i> Company Information
+                </h4>
+                <p><strong>Business Name:</strong> SHAFA ABID AUTOMATION BD</p>
+                <p><strong>Email:</strong> shafaabidautomation.bd@gmail.com</p>
+                <p><strong>Phone:</strong> +880-18695-52775, +880-14065-03242</p>
+                
+                <div style="margin-top: 1.5rem;">
+                    <button class="btn btn-facebook" id="facebookBtn">
+                        <i class="fab fa-facebook"></i> Facebook Page
+                    </button>
+                    
+                    <button class="btn" onclick="window.open('mailto:shafaabidautomation.bd@gmail.com')">
+                        <i class="fas fa-envelope"></i> Send Email
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">
+                    <i class="fas fa-bullseye"></i> Our Mission
+                </h3>
+                <p>To provide cutting-edge industrial automation solutions that enhance productivity, ensure safety, and optimize operational efficiency for businesses across Bangladesh.</p>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent);">
+            SHAFA ABID AUTOMATION BD
+        </div>
+        <p>Industrial Electrical & Electronics Solutions</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+            © 2023 All Rights Reserved
+        </p>
+        <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 0.5rem;">
+            Kumira, Sitakunda, Chattogram, Bangladesh
+        </p>
+    </footer>
+    
+    <!-- PWA Install Prompt -->
+    <div class="install-prompt" id="installPrompt">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+            <i class="fas fa-mobile-alt" style="font-size: 2rem; color: var(--primary);"></i>
+            <div>
+                <h4 style="color: var(--secondary);">Install App</h4>
+                <p style="font-size: 0.9rem;">Install for better experience</p>
+            </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+            <button class="btn" id="installBtn" style="flex: 2;">Install Now</button>
+            <button class="btn" id="cancelInstall" style="flex: 1; background: var(--gray);">Later</button>
+        </div>
+    </div>
+    
+    <!-- JavaScript Libraries -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Main JavaScript -->
+    <script>
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Update active nav
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Show selected section
+                const sectionId = this.getAttribute('data-section');
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(sectionId).classList.add('active');
+                
+                // Initialize map if contact section
+                if (sectionId === 'contact') {
+                    setTimeout(initializeMap, 300);
+                }
+            });
+        });
+        
+        // Map Initialization
+        let map;
+        function initializeMap() {
+            if (!document.getElementById('map')) return;
+            
+            if (map) map.remove();
+            
+            // Set coordinates for Kumira, Sitakunda
+            map = L.map('map').setView([22.5327, 91.7919], 15);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+            
+            // Add marker
+            L.marker([22.5327, 91.7919]).addTo(map)
+                .bindPopup('<b>Shafa Abid Automation BD</b><br>Shop No: 01, Porir Rasta')
+                .openPopup();
+        }
+        
+        // Contact Buttons
+        document.getElementById('getDirections')?.addEventListener('click', function() {
+            window.open('https://www.google.com/maps/dir/?api=1&destination=22.5327,91.7919', '_blank');
+        });
+        
+        document.getElementById('callNow')?.addEventListener('click', function() {
+            window.open('tel:+8801869552775');
+        });
+        
+        document.getElementById('whatsappBtn')?.addEventListener('click', function() {
+            const message = encodeURIComponent('Hello Shafa Abid Automation BD, I need information about your products.');
+            window.open(`https://wa.me/8801869552775?text=${message}`, '_blank');
+        });
+        
+        document.getElementById('facebookBtn')?.addEventListener('click', function() {
+            window.open('https://facebook.com', '_blank');
+        });
+        
+        // PWA Installation
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installBtn = document.getElementById('installBtn');
+        const cancelBtn = document.getElementById('cancelInstall');
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install prompt after 5 seconds
+            setTimeout(() => {
+                if (deferredPrompt) {
+                    installPrompt.classList.add('show');
+                }
+            }, 5000);
+        });
+        
+        installBtn?.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                console.log('User accepted install');
+            }
+            
+            deferredPrompt = null;
+            installPrompt.classList.remove('show');
+        });
+        
+        cancelBtn?.addEventListener('click', () => {
+            installPrompt.classList.remove('show');
+        });
+        
+        // Service Worker Registration for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize map if on contact section
+            if (document.getElementById('contact').classList.contains('active')) {
+                setTimeout(initializeMap, 500);
+            }
+            
+            // Add touch feedback
+            document.querySelectorAll('.btn, .nav-item, .product-card').forEach(el => {
+                el.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.8';
+                });
+                el.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
+            });
+        });
+        
+        // Handle back button (for PWA)
+        window.addEventListener('popstate', function() {
+            const activeSection = document.querySelector('.section.active').id;
+            if (activeSection !== 'home') {
+                document.querySelector('.nav-item[data-section="home"]').click();
+                history.pushState(null, null, window.location.pathname);
+            }
+        });
+    </script>
+</body>
+</html>
