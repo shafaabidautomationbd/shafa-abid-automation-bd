@@ -1,0 +1,5 @@
+[
+    {"id": 1, "name": "Siemens", "image": "https://raw.githubusercontent.com/shafaabidautomationbd/shafa-abid-automation-bd/main/images/brands/siemens.png"},
+    {"id": 2, "name": "ABB", "image": "https://raw.githubusercontent.com/shafaabidautomationbd/shafa-abid-automation-bd/main/images/brands/abb.png"},
+    {"id": 3, "name": "Rexroth", "image": "https://raw.githubusercontent.com/shafaabidautomationbd/shafa-abid-automation-bd/main/images/brands/rexroth.png"}
+]
