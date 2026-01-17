@@ -583,6 +583,27 @@
             font-size: 1rem;
         }
         
+        /* Image Upload Status */
+        .upload-status {
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            margin-top: 0.5rem;
+            display: none;
+            text-align: center;
+        }
+        
+        .upload-status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .upload-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .products-grid,
@@ -648,6 +669,7 @@
                     </label>
                     <img id="logoPreview" class="preview-image" alt="Logo Preview">
                 </div>
+                <div class="upload-status" id="logoUploadStatus"></div>
                 <div style="display: flex; gap: 1rem;">
                     <button class="btn" onclick="uploadLogo()">Upload Logo</button>
                     <button class="btn btn-secondary" onclick="closeLogoUpload()">Cancel</button>
@@ -693,10 +715,12 @@
     <!-- Header -->
     <header class="app-header">
         <div class="logo-section">
-            <!-- Logo will be loaded from localStorage -->
-            <img id="companyLogo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%232c3e50'/%3E%3Ctext x='50' y='50' font-family='Arial' font-size='14' fill='white' text-anchor='middle' dy='.3em'%3ESA%3C/text%3E%3C/svg%3E" alt="Logo" class="company-logo">
+            <!-- GitHub hosted logo -->
+            <img id="companyLogo" src="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPOSITORY/main/images/logo.png" 
+                 alt="Logo" class="company-logo"
+                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%232c3e50%22/%3E%3Ctext x=%2250%22 y=%2250%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22white%22 text-anchor=%22middle%22 dy=%22.3em%22%3ESA%3C/text%3E%3C/svg%3E'">
             <div>
-                <div class="logo-text">SHAFA ABID AUTOMATION BD</div>
+                <div class="logo-text">Shafa Abid Automation BD</div>
                 <div class="tagline">Industrial Electrical & Electronics Solutions</div>
             </div>
         </div>
@@ -756,7 +780,7 @@
                     <button class="btn" onclick="showSection('about')">
                         <i class="fas fa-info-circle"></i> About Us
                     </button>
-                    <button class="btn btn-whatsapp" onclick="window.open('https://wa.me/8801406503242')">
+                    <button class="btn btn-whatsapp" onclick="window.open('https://wa.me/8801869552775')">
                         <i class="fab fa-whatsapp"></i> WhatsApp
                     </button>
                 </div>
@@ -778,30 +802,6 @@
                 <p><strong>Products:</strong> 10+ series, 2000+ specifications</p>
                 <p><strong>Coverage:</strong> All 64 districts of Bangladesh</p>
                 <p><strong>Specialization:</strong> Industrial Automation, Electrical Components, Sensors, Drives, Control Systems</p>
-            </div>
-            
-            <div class="card">
-                <h2 class="section-title">Our Services</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
-                    <div style="padding: 1.5rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
-                        <h3 style="color: var(--primary-blue); margin-bottom: 0.8rem;">
-                            <i class="fas fa-robot" style="color: var(--accent-orange);"></i> Automation Solutions
-                        </h3>
-                        <p>PLC Programming, SCADA Systems, Industrial Robotics</p>
-                    </div>
-                    <div style="padding: 1.5rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
-                        <h3 style="color: var(--primary-blue); margin-bottom: 0.8rem;">
-                            <i class="fas fa-bolt" style="color: var(--accent-orange);"></i> Electrical Components
-                        </h3>
-                        <p>Circuit Breakers, Contactors, Relays, Switchgear</p>
-                    </div>
-                    <div style="padding: 1.5rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
-                        <h3 style="color: var(--primary-blue); margin-bottom: 0.8rem;">
-                            <i class="fas fa-cogs" style="color: var(--accent-orange);"></i> Technical Support
-                        </h3>
-                        <p>Installation, Commissioning, Maintenance Services</p>
-                    </div>
-                </div>
             </div>
         </section>
         
@@ -860,6 +860,8 @@
                             <img id="productImagePreview" class="preview-image" alt="Product Image Preview">
                         </div>
                         
+                        <div class="upload-status" id="productUploadStatus"></div>
+                        
                         <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
                             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
                                 <input type="checkbox" id="newProductFeatured" style="width: 18px; height: 18px;">
@@ -869,21 +871,6 @@
                         
                         <button class="btn btn-secondary" onclick="addProduct()">
                             <i class="fas fa-plus"></i> Add Product
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Category Management (Admin Only) -->
-                <div class="category-management" id="categoryManagementPanel" style="display: none;">
-                    <h3><i class="fas fa-tags"></i> Manage Categories</h3>
-                    <p>Add, edit, or remove product categories</p>
-                    <div class="categories-list" id="categoriesList">
-                        <!-- Categories will be loaded here -->
-                    </div>
-                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                        <input type="text" id="addCategoryInput" placeholder="New category name" style="flex: 1; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: var(--radius);">
-                        <button class="btn btn-success" onclick="addCategory()">
-                            <i class="fas fa-plus"></i> Add Category
                         </button>
                     </div>
                 </div>
@@ -913,6 +900,8 @@
                             </label>
                             <img id="brandImagePreview" class="preview-image" alt="Brand Logo Preview">
                         </div>
+                        
+                        <div class="upload-status" id="brandUploadStatus"></div>
                         
                         <button class="btn btn-secondary" onclick="addBrand()">
                             <i class="fas fa-plus"></i> Add Brand
@@ -946,6 +935,8 @@
                             <img id="galleryImagePreview" class="preview-image" alt="Gallery Image Preview">
                         </div>
                         
+                        <div class="upload-status" id="galleryUploadStatus"></div>
+                        
                         <button class="btn btn-secondary" onclick="addGalleryItem()">
                             <i class="fas fa-plus"></i> Add Image
                         </button>
@@ -958,16 +949,6 @@
         <section id="contact" class="section">
             <div class="card">
                 <h2 class="section-title">Contact Us</h2>
-                
-                <!-- Facebook Link -->
-                <div style="margin-bottom: 1.5rem; padding: 1.2rem; background: rgba(59, 89, 152, 0.1); border-radius: var(--radius);">
-                    <h3 style="color: #1877F2; margin-bottom: 0.8rem;">
-                        <i class="fab fa-facebook"></i> Facebook Page
-                    </h3>
-                    <button class="btn" onclick="window.open('https://web.facebook.com/profile.php?id=61574697974139')" style="background: #1877F2;">
-                        <i class="fab fa-facebook"></i> Visit Facebook Page
-                    </button>
-                </div>
                 
                 <!-- Contact Info -->
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.2rem; margin: 1.5rem 0;">
@@ -1001,22 +982,6 @@
                 <div class="map-container">
                     <div id="map"></div>
                 </div>
-                
-                <!-- Business Hours -->
-                <div style="margin-top: 1.5rem; padding: 1.2rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
-                    <h4><i class="fas fa-clock"></i> Business Hours</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                        <div>
-                            <p><strong>Saturday - Thursday:</strong></p>
-                            <p>9:00 AM - 7:00 PM</p>
-                        </div>
-                        <div>
-                            <p><strong>Friday:</strong></p>
-                            <p>9:00 AM - 12:00 PM</p>
-                            <p>3:00 PM - 7:00 PM</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
     </main>
@@ -1028,30 +993,12 @@
                 <div>
                     <h3 style="color: var(--accent-orange); margin-bottom: 1rem;">SHAFA ABID AUTOMATION BD</h3>
                     <p>Industrial Electrical and Electronics Solutions</p>
-                    <p style="margin-top: 0.8rem; font-size: 0.9rem;">
-                        <i class="fas fa-certificate"></i> Trusted Supplier Since 2017
-                    </p>
-                </div>
-                
-                <div>
-                    <h3 style="color: var(--accent-orange); margin-bottom: 1rem;">Quick Links</h3>
-                    <p><a href="#" onclick="showSection('products')" style="color: white; text-decoration: none; display: block; margin-bottom: 0.5rem;">Products</a></p>
-                    <p><a href="#" onclick="showSection('brands')" style="color: white; text-decoration: none; display: block; margin-bottom: 0.5rem;">Brands</a></p>
-                    <p><a href="#" onclick="showSection('contact')" style="color: white; text-decoration: none; display: block; margin-bottom: 0.5rem;">Contact</a></p>
                 </div>
                 
                 <div>
                     <h3 style="color: var(--accent-orange); margin-bottom: 1rem;">Contact</h3>
                     <p>+880 1869-552775</p>
                     <p>shafaabidautomation.bd@gmail.com</p>
-                    <div style="display: flex; gap: 0.8rem; margin-top: 1rem;">
-                        <a href="#" onclick="window.open('https://facebook.com')" style="color: white; font-size: 1.2rem;">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="#" onclick="window.open('https://wa.me/8801406503242')" style="color: white; font-size: 1.2rem;">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                    </div>
                 </div>
             </div>
             
@@ -1066,13 +1013,24 @@
     
     <script>
         // ============================================
+        // GITHUB CONFIGURATION
+        // ============================================
+        // আপনার GitHub username এবং repository name এখানে দিন
+        const GITHUB_USERNAME = 'shafaabidautomationbd'; // আপনার GitHub username
+        const GITHUB_REPO = 'shafa-abid-automation-bd'; // আপনার repository name
+        const GITHUB_TOKEN = ''; // Optional: যদি private repo হয়
+        
+        // Base URL for GitHub images
+        const GITHUB_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/main/images`;
+        
+        // ============================================
         // DATA STORAGE SYSTEM
         // ============================================
-        const ADMIN_PASSWORD = "admin123"; // Change this password
+        const ADMIN_PASSWORD = "admin123";
         
         let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
         
-        // Load or initialize data
+        // Load or initialize data with GitHub URLs
         let productsData = JSON.parse(localStorage.getItem('productsData')) || [
             {
                 id: 1,
@@ -1081,7 +1039,7 @@
                 price: "Contact for quote",
                 category: "automation",
                 description: "Programmable Logic Controller for industrial automation",
-                image: "",
+                image: `${GITHUB_BASE_URL}/products/plc.jpg`,
                 featured: true
             },
             {
@@ -1091,47 +1049,23 @@
                 price: "৳ 85,000",
                 category: "drives",
                 description: "Variable Frequency Drive for motor control",
-                image: "",
+                image: `${GITHUB_BASE_URL}/products/vfd.jpg`,
                 featured: true
-            },
-            {
-                id: 3,
-                name: "Omron Proximity Sensor",
-                model: "E2E-X5ME1",
-                price: "৳ 3,500",
-                category: "sensors",
-                description: "Inductive proximity sensor with 5mm sensing distance",
-                image: "",
-                featured: false
-            },
-            {
-                id: 4,
-                name: "Schneider Circuit Breaker",
-                model: "IC60N 32A",
-                price: "৳ 2,800",
-                category: "electrical",
-                description: "Miniature circuit breaker for electrical protection",
-                image: "",
-                featured: false
             }
         ];
         
         let brandsData = JSON.parse(localStorage.getItem('brandsData')) || [
-            { id: 1, name: "Siemens", image: "" },
-            { id: 2, name: "ABB", image: "" },
-            { id: 3, name: "Omron", image: "" },
-            { id: 4, name: "Schneider", image: "" },
-            { id: 5, name: "Delta", image: "" },
-            { id: 6, name: "Mitsubishi", image: "" }
+            { id: 1, name: "Siemens", image: `${GITHUB_BASE_URL}/brands/siemens.png` },
+            { id: 2, name: "ABB", image: `${GITHUB_BASE_URL}/brands/abb.png` },
+            { id: 3, name: "Omron", image: `${GITHUB_BASE_URL}/brands/omron.png` }
         ];
         
         let galleryData = JSON.parse(localStorage.getItem('galleryData')) || [
-            { id: 1, title: "Control Panel Design", image: "" },
-            { id: 2, title: "Factory Setup", image: "" },
-            { id: 3, title: "Product Installation", image: "" }
+            { id: 1, title: "Control Panel Design", image: `${GITHUB_BASE_URL}/gallery/panel1.jpg` },
+            { id: 2, title: "Factory Setup", image: `${GITHUB_BASE_URL}/gallery/panel2.jpg` }
         ];
         
-        // Load categories from localStorage or initialize with default categories
+        // Load categories
         let categories = JSON.parse(localStorage.getItem('productCategories')) || [
             "automation",
             "electrical",
@@ -1140,6 +1074,26 @@
             "control",
             "instruments"
         ];
+        
+        // ============================================
+        // IMAGE HANDLING FUNCTIONS
+        // ============================================
+        
+        function getImageUrl(type, filename) {
+            // Returns GitHub URL for images
+            return `${GITHUB_BASE_URL}/${type}/${filename}`;
+        }
+        
+        function setDefaultImages() {
+            // Update logo to use GitHub URL
+            const logoElement = document.getElementById('companyLogo');
+            const githubLogoUrl = `${GITHUB_BASE_URL}/logo.png`;
+            
+            logoElement.src = githubLogoUrl;
+            logoElement.onerror = function() {
+                this.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%232c3e50%22/%3E%3Ctext x=%2250%22 y=%2250%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22white%22 text-anchor=%22middle%22 dy=%22.3em%22%3ESA%3C/text%3E%3C/svg%3E';
+            };
+        }
         
         // ============================================
         // NAVIGATION SYSTEM
@@ -1157,7 +1111,6 @@
             document.getElementById(sectionId).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Initialize map when contact section is shown
             if (sectionId === 'contact' && !window.mapInitialized) {
                 setTimeout(initializeMap, 100);
             }
@@ -1199,7 +1152,6 @@
             document.getElementById('adminProductPanel').style.display = 'block';
             document.getElementById('adminBrandPanel').style.display = 'block';
             document.getElementById('adminGalleryPanel').style.display = 'block';
-            document.getElementById('categoryManagementPanel').style.display = 'block';
             document.getElementById('adminControls').style.display = 'flex';
             
             // Add logout button to header
@@ -1211,7 +1163,6 @@
             logoutBtn.id = 'logoutBtn';
             header.appendChild(logoutBtn);
             
-            // Update all product cards with admin controls
             loadProducts();
             loadBrands();
             loadGallery();
@@ -1222,14 +1173,11 @@
             document.getElementById('adminProductPanel').style.display = 'none';
             document.getElementById('adminBrandPanel').style.display = 'none';
             document.getElementById('adminGalleryPanel').style.display = 'none';
-            document.getElementById('categoryManagementPanel').style.display = 'none';
             document.getElementById('adminControls').style.display = 'none';
             
-            // Remove logout button
             const logoutBtn = document.getElementById('logoutBtn');
             if (logoutBtn) logoutBtn.remove();
             
-            // Update all product cards without admin controls
             loadProducts();
             loadBrands();
             loadGallery();
@@ -1237,19 +1185,19 @@
         }
         
         // ============================================
-        // LOGO MANAGEMENT
+        // LOGO MANAGEMENT (GitHub Compatible)
         // ============================================
         function showLogoUpload() {
             document.getElementById('logoUploadModal').style.display = 'flex';
             document.getElementById('logoPreview').style.display = 'none';
             document.getElementById('logoFileInput').value = '';
+            document.getElementById('logoUploadStatus').style.display = 'none';
         }
         
         function closeLogoUpload() {
             document.getElementById('logoUploadModal').style.display = 'none';
         }
         
-        // Preview logo before upload
         document.getElementById('logoFileInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -1265,7 +1213,7 @@
         function uploadLogo() {
             const fileInput = document.getElementById('logoFileInput');
             if (!fileInput.files[0]) {
-                alert('Please select a logo image');
+                showUploadStatus('logoUploadStatus', 'Please select a logo image', 'error');
                 return;
             }
             
@@ -1273,80 +1221,445 @@
             const reader = new FileReader();
             
             reader.onload = function(e) {
-                // Store logo in localStorage
+                // Store in localStorage (temporary solution)
                 localStorage.setItem('companyLogo', e.target.result);
                 
                 // Update logo on page
                 document.getElementById('companyLogo').src = e.target.result;
                 
-                closeLogoUpload();
-                alert('Logo updated successfully!');
+                showUploadStatus('logoUploadStatus', 'Logo updated successfully! Note: For permanent storage, upload to GitHub images folder.', 'success');
+                
+                setTimeout(() => {
+                    closeLogoUpload();
+                }, 2000);
             }
             
             reader.readAsDataURL(file);
         }
         
         // ============================================
-        // FEATURED PRODUCTS MANAGEMENT
+        // PRODUCTS SYSTEM
         // ============================================
-        function showFeaturedModal() {
-            loadFeaturedProductsList();
-            document.getElementById('featuredModal').style.display = 'flex';
-        }
-        
-        function closeFeaturedModal() {
-            document.getElementById('featuredModal').style.display = 'none';
-            loadProducts(); // Reload to show updated featured status
-        }
-        
-        function loadFeaturedProductsList() {
-            const container = document.getElementById('featuredProductsList');
-            container.innerHTML = '';
+        function loadProducts() {
+            const container = document.getElementById('productsContainer');
+            const featuredContainer = document.getElementById('featuredProducts');
             
-            productsData.forEach(product => {
-                const productDiv = document.createElement('div');
-                productDiv.className = 'product-featured-item';
-                productDiv.style.cssText = `
-                    padding: 1rem;
-                    border: 1px solid var(--border-color);
-                    border-radius: var(--radius);
-                    margin-bottom: 0.8rem;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                `;
-                
-                productDiv.innerHTML = `
-                    <div>
-                        <strong>${product.name}</strong>
-                        <div style="font-size: 0.9rem; color: #666;">${product.model} (${product.category})</div>
+            // All products
+            container.innerHTML = productsData.map(product => {
+                const imageUrl = product.image || `${GITHUB_BASE_URL}/products/default.jpg`;
+                return `
+                <div class="product-card" data-category="${product.category}" data-search="${product.name.toLowerCase()} ${product.model.toLowerCase()} ${product.description.toLowerCase()}">
+                    <div class="product-img">
+                        <img src="${imageUrl}" alt="${product.name}" 
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image';">
                     </div>
-                    <div>
-                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                            <input type="checkbox" ${product.featured ? 'checked' : ''} 
-                                   onchange="toggleFeatured(${product.id}, this.checked)"
-                                   style="width: 20px; height: 20px;">
-                            Featured
-                        </label>
+                    <div class="product-body">
+                        <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">${product.name}</h3>
+                        ${product.model ? `<p><strong>Model:</strong> ${product.model}</p>` : ''}
+                        <p><strong>Category:</strong> ${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</p>
+                        ${product.description ? `<p style="margin-top: 0.5rem; font-size: 0.9rem;">${product.description}</p>` : ''}
+                        ${product.price ? `<p style="margin-top: 0.5rem; color: var(--accent-orange); font-weight: bold; font-size: 1.1rem;">${product.price}</p>` : ''}
+                        <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801869552775?text=Interested in ${encodeURIComponent(product.name)} - Model: ${encodeURIComponent(product.model)}')" style="margin-top: 0.8rem; width: 100%;">
+                            <i class="fab fa-whatsapp"></i> Inquire Now
+                        </button>
+                        ${isAdminLoggedIn ? `
+                            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                                <button class="btn" onclick="deleteProduct(${product.id})" style="flex: 1; background: #e74c3c;">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                                ${product.featured ? `
+                                    <button class="btn" style="flex: 1; background: #f39c12;" title="Featured Product">
+                                        <i class="fas fa-star"></i> Featured
+                                    </button>
+                                ` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `}).join('');
+            
+            // Featured products
+            const featuredProducts = productsData.filter(p => p.featured);
+            if (featuredProducts.length > 0) {
+                featuredContainer.innerHTML = featuredProducts.map(product => {
+                    const imageUrl = product.image || `${GITHUB_BASE_URL}/products/default.jpg`;
+                    return `
+                    <div class="product-card">
+                        <div class="product-img">
+                            <img src="${imageUrl}" alt="${product.name}" 
+                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image';">
+                        </div>
+                        <div class="product-body">
+                            <h3 style="color: var(--primary-blue);">${product.name}</h3>
+                            <p><strong>Model:</strong> ${product.model}</p>
+                            ${product.price ? `<p style="color: var(--accent-orange); font-weight: bold;">${product.price}</p>` : ''}
+                            <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801869552775?text=Interested in ${encodeURIComponent(product.name)}')" style="margin-top: 0.8rem; width: 100%;">
+                                <i class="fab fa-whatsapp"></i> Inquire Now
+                            </button>
+                        </div>
+                    </div>
+                `}).join('');
+            } else {
+                featuredContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-star"></i>
+                        <h3>No Featured Products Yet</h3>
+                        <p>Admin can mark products as featured from the admin controls</p>
                     </div>
                 `;
-                
-                container.appendChild(productDiv);
-            });
+            }
         }
         
-        function toggleFeatured(productId, isFeatured) {
-            const productIndex = productsData.findIndex(p => p.id === productId);
-            if (productIndex !== -1) {
-                productsData[productIndex].featured = isFeatured;
+        function searchProducts() {
+            const searchTerm = document.getElementById('productSearch').value.toLowerCase();
+            const products = document.querySelectorAll('#productsContainer .product-card');
+            const noResults = document.getElementById('noResults');
+            let visibleCount = 0;
+            
+            products.forEach(product => {
+                const searchData = product.getAttribute('data-search');
+                if (searchData.includes(searchTerm)) {
+                    product.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+            
+            if (visibleCount === 0 && searchTerm.length > 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        }
+        
+        function filterProducts(category) {
+            const products = document.querySelectorAll('#productsContainer .product-card');
+            const searchTerm = document.getElementById('productSearch').value.toLowerCase();
+            const noResults = document.getElementById('noResults');
+            let visibleCount = 0;
+            
+            products.forEach(product => {
+                const productCategory = product.getAttribute('data-category');
+                const searchData = product.getAttribute('data-search');
+                
+                if ((category === 'all' || productCategory === category) && 
+                    searchData.includes(searchTerm)) {
+                    product.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+            
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        }
+        
+        function showUploadStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `upload-status ${type}`;
+            element.style.display = 'block';
+        }
+        
+        document.getElementById('productImageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('productImagePreview').src = e.target.result;
+                    document.getElementById('productImagePreview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        function addProduct() {
+            const name = document.getElementById('newProductName').value;
+            const model = document.getElementById('newProductModel').value;
+            const price = document.getElementById('newProductPrice').value;
+            const category = document.getElementById('newProductCategory').value;
+            const description = document.getElementById('newProductDescription').value;
+            const featured = document.getElementById('newProductFeatured').checked;
+            const imageFile = document.getElementById('productImageFile').files[0];
+            
+            if (!name) {
+                showUploadStatus('productUploadStatus', 'Product name is required', 'error');
+                return;
+            }
+            
+            if (!category) {
+                showUploadStatus('productUploadStatus', 'Please select a category', 'error');
+                return;
+            }
+            
+            let imageData = '';
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imageData = e.target.result;
+                    saveNewProduct(name, model, price, category, description, imageData, featured);
+                }
+                reader.readAsDataURL(imageFile);
+            } else {
+                // Use default GitHub image
+                imageData = `${GITHUB_BASE_URL}/products/default.jpg`;
+                saveNewProduct(name, model, price, category, description, imageData, featured);
+            }
+        }
+        
+        function saveNewProduct(name, model, price, category, description, imageData, featured) {
+            const newProduct = {
+                id: Date.now(),
+                name: name,
+                model: model,
+                price: price,
+                category: category,
+                description: description,
+                image: imageData,
+                featured: featured
+            };
+            
+            productsData.push(newProduct);
+            saveData();
+            loadProducts();
+            
+            // Clear form
+            document.getElementById('newProductName').value = '';
+            document.getElementById('newProductModel').value = '';
+            document.getElementById('newProductPrice').value = '';
+            document.getElementById('newProductDescription').value = '';
+            document.getElementById('newProductFeatured').checked = false;
+            document.getElementById('productImageFile').value = '';
+            document.getElementById('productImagePreview').style.display = 'none';
+            
+            showUploadStatus('productUploadStatus', 'Product added successfully! Note: For permanent image storage, upload to GitHub images/products folder.', 'success');
+        }
+        
+        function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                productsData = productsData.filter(p => p.id !== id);
                 saveData();
-                loadProducts(); // Update the display
+                loadProducts();
             }
         }
         
         // ============================================
-        // CATEGORY MANAGEMENT SYSTEM
+        // BRANDS SYSTEM
         // ============================================
+        function loadBrands() {
+            const container = document.getElementById('brandsContainer');
+            container.innerHTML = brandsData.map(brand => {
+                const imageUrl = brand.image || `${GITHUB_BASE_URL}/brands/default.png`;
+                return `
+                <div class="brand-card">
+                    <div class="brand-logo">
+                        <img src="${imageUrl}" alt="${brand.name}" 
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/100x50?text=${encodeURIComponent(brand.name)}';">
+                    </div>
+                    <p>${brand.name}</p>
+                    ${isAdminLoggedIn ? `
+                        <button class="btn" onclick="deleteBrand(${brand.id})" style="margin-top: 0.5rem; width: 100%; padding: 0.5rem; background: #e74c3c;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    ` : ''}
+                </div>
+            `}).join('');
+        }
+        
+        document.getElementById('brandImageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('brandImagePreview').src = e.target.result;
+                    document.getElementById('brandImagePreview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        function addBrand() {
+            const name = document.getElementById('newBrandName').value;
+            const imageFile = document.getElementById('brandImageFile').files[0];
+            
+            if (!name) {
+                showUploadStatus('brandUploadStatus', 'Brand name is required', 'error');
+                return;
+            }
+            
+            let imageData = '';
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imageData = e.target.result;
+                    saveNewBrand(name, imageData);
+                }
+                reader.readAsDataURL(imageFile);
+            } else {
+                imageData = `${GITHUB_BASE_URL}/brands/default.png`;
+                saveNewBrand(name, imageData);
+            }
+        }
+        
+        function saveNewBrand(name, imageData) {
+            const newBrand = {
+                id: Date.now(),
+                name: name,
+                image: imageData
+            };
+            
+            brandsData.push(newBrand);
+            saveData();
+            loadBrands();
+            
+            document.getElementById('newBrandName').value = '';
+            document.getElementById('brandImageFile').value = '';
+            document.getElementById('brandImagePreview').style.display = 'none';
+            
+            showUploadStatus('brandUploadStatus', 'Brand added successfully! Note: For permanent logo storage, upload to GitHub images/brands folder.', 'success');
+        }
+        
+        function deleteBrand(id) {
+            if (confirm('Are you sure you want to delete this brand?')) {
+                brandsData = brandsData.filter(b => b.id !== id);
+                saveData();
+                loadBrands();
+            }
+        }
+        
+        // ============================================
+        // GALLERY SYSTEM
+        // ============================================
+        function loadGallery() {
+            const container = document.getElementById('galleryContainer');
+            container.innerHTML = galleryData.map(item => {
+                const imageUrl = item.image || `${GITHUB_BASE_URL}/gallery/default.jpg`;
+                return `
+                <div class="gallery-item">
+                    <img src="${imageUrl}" alt="${item.title}" class="gallery-img"
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=${encodeURIComponent(item.title)}';">
+                    ${isAdminLoggedIn ? `
+                        <div style="padding: 1rem; text-align: center;">
+                            <p>${item.title}</p>
+                            <button class="btn" onclick="deleteGalleryItem(${item.id})" style="margin-top: 0.5rem; width: 100%; background: #e74c3c;">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `}).join('');
+        }
+        
+        document.getElementById('galleryImageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('galleryImagePreview').src = e.target.result;
+                    document.getElementById('galleryImagePreview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        function addGalleryItem() {
+            const title = document.getElementById('newGalleryTitle').value;
+            const imageFile = document.getElementById('galleryImageFile').files[0];
+            
+            if (!title) {
+                showUploadStatus('galleryUploadStatus', 'Title is required', 'error');
+                return;
+            }
+            
+            let imageData = '';
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imageData = e.target.result;
+                    saveGalleryItem(title, imageData);
+                }
+                reader.readAsDataURL(imageFile);
+            } else {
+                imageData = `${GITHUB_BASE_URL}/gallery/default.jpg`;
+                saveGalleryItem(title, imageData);
+            }
+        }
+        
+        function saveGalleryItem(title, imageData) {
+            const newItem = {
+                id: Date.now(),
+                title: title,
+                image: imageData
+            };
+            
+            galleryData.push(newItem);
+            saveData();
+            loadGallery();
+            
+            document.getElementById('newGalleryTitle').value = '';
+            document.getElementById('galleryImageFile').value = '';
+            document.getElementById('galleryImagePreview').style.display = 'none';
+            
+            showUploadStatus('galleryUploadStatus', 'Gallery image added successfully! Note: For permanent storage, upload to GitHub images/gallery folder.', 'success');
+        }
+        
+        function deleteGalleryItem(id) {
+            if (confirm('Are you sure you want to delete this image?')) {
+                galleryData = galleryData.filter(g => g.id !== id);
+                saveData();
+                loadGallery();
+            }
+        }
+        
+        // ============================================
+        // CATEGORY MANAGEMENT
+        // ============================================
+        function loadCategories() {
+            const filterContainer = document.getElementById('categoryFilter');
+            const select = document.getElementById('newProductCategory');
+            
+            if (!filterContainer || !select) return;
+            
+            filterContainer.innerHTML = '';
+            select.innerHTML = '';
+            
+            // Add "All" button
+            const allButton = document.createElement('button');
+            allButton.className = 'category-btn active';
+            allButton.textContent = 'All Products';
+            allButton.onclick = () => {
+                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                allButton.classList.add('active');
+                filterProducts('all');
+            };
+            filterContainer.appendChild(allButton);
+            
+            // Add category buttons and options
+            categories.forEach(category => {
+                // Filter buttons
+                const categoryBtn = document.createElement('button');
+                categoryBtn.className = 'category-btn';
+                categoryBtn.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                categoryBtn.onclick = () => {
+                    document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                    categoryBtn.classList.add('active');
+                    filterProducts(category);
+                };
+                filterContainer.appendChild(categoryBtn);
+                
+                // Select options
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                select.appendChild(option);
+            });
+        }
+        
         function showCategoryModal() {
             loadCategoriesList();
             document.getElementById('categoryModal').style.display = 'flex';
@@ -1389,8 +1702,7 @@
             categories.push(newCategory);
             saveCategories();
             loadCategoriesList();
-            loadCategories(); // Update category filter
-            updateCategorySelect(); // Update category dropdown in add product form
+            loadCategories();
             
             document.getElementById('newCategoryName').value = '';
             alert('Category added successfully!');
@@ -1401,434 +1713,13 @@
                 categories = categories.filter(cat => cat !== categoryToRemove);
                 saveCategories();
                 loadCategoriesList();
-                loadCategories(); // Update category filter
-                updateCategorySelect(); // Update category dropdown in add product form
+                loadCategories();
                 alert('Category removed successfully!');
             }
         }
         
-        function loadCategories() {
-            const filterContainer = document.getElementById('categoryFilter');
-            const categoriesList = document.getElementById('categoriesList');
-            
-            // Clear existing content
-            filterContainer.innerHTML = '';
-            if (categoriesList) categoriesList.innerHTML = '';
-            
-            // Add "All" button
-            const allButton = document.createElement('button');
-            allButton.className = 'category-btn active';
-            allButton.textContent = 'All Products';
-            allButton.onclick = () => {
-                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-                allButton.classList.add('active');
-                filterProducts('all');
-            };
-            filterContainer.appendChild(allButton);
-            
-            // Add category buttons
-            categories.forEach(category => {
-                // Category filter buttons
-                const categoryBtn = document.createElement('button');
-                categoryBtn.className = 'category-btn';
-                categoryBtn.textContent = category.charAt(0).toUpperCase() + category.slice(1);
-                categoryBtn.onclick = () => {
-                    document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-                    categoryBtn.classList.add('active');
-                    filterProducts(category);
-                };
-                filterContainer.appendChild(categoryBtn);
-                
-                // Categories list for admin panel
-                if (categoriesList) {
-                    const categoryTag = document.createElement('div');
-                    categoryTag.className = 'category-tag';
-                    categoryTag.innerHTML = `
-                        ${category}
-                        ${isAdminLoggedIn ? `
-                            <button class="remove-category" onclick="removeCategory('${category}')">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        ` : ''}
-                    `;
-                    categoriesList.appendChild(categoryTag);
-                }
-            });
-        }
-        
-        function updateCategorySelect() {
-            const select = document.getElementById('newProductCategory');
-            if (!select) return;
-            
-            select.innerHTML = '';
-            categories.forEach(category => {
-                const option = document.createElement('option');
-                option.value = category;
-                option.textContent = category.charAt(0).toUpperCase() + category.slice(1);
-                select.appendChild(option);
-            });
-        }
-        
         function saveCategories() {
             localStorage.setItem('productCategories', JSON.stringify(categories));
-        }
-        
-        // ============================================
-        // PRODUCTS SYSTEM WITH SEARCH
-        // ============================================
-        function loadProducts() {
-            const container = document.getElementById('productsContainer');
-            const featuredContainer = document.getElementById('featuredProducts');
-            
-            // All products
-            container.innerHTML = productsData.map(product => `
-                <div class="product-card" data-category="${product.category}" data-search="${product.name.toLowerCase()} ${product.model.toLowerCase()} ${product.description.toLowerCase()}">
-                    <div class="product-img">
-                        ${product.image ? `<img src="${product.image}" alt="${product.name}" />` : '<i class="fas fa-box"></i>'}
-                    </div>
-                    <div class="product-body">
-                        <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">${product.name}</h3>
-                        ${product.model ? `<p><strong>Model:</strong> ${product.model}</p>` : ''}
-                        <p><strong>Category:</strong> ${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</p>
-                        ${product.description ? `<p style="margin-top: 0.5rem; font-size: 0.9rem;">${product.description}</p>` : ''}
-                        ${product.price ? `<p style="margin-top: 0.5rem; color: var(--accent-orange); font-weight: bold; font-size: 1.1rem;">${product.price}</p>` : ''}
-                        <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801406503242?text=Interested in ${encodeURIComponent(product.name)} - Model: ${encodeURIComponent(product.model)}')" style="margin-top: 0.8rem; width: 100%;">
-                            <i class="fab fa-whatsapp"></i> Inquire Now
-                        </button>
-                        ${isAdminLoggedIn ? `
-                            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-                                <button class="btn" onclick="deleteProduct(${product.id})" style="flex: 1; background: #e74c3c;">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                                ${product.featured ? `
-                                    <button class="btn" style="flex: 1; background: #f39c12;" title="Featured Product">
-                                        <i class="fas fa-star"></i> Featured
-                                    </button>
-                                ` : ''}
-                            </div>
-                        ` : ''}
-                    </div>
-                </div>
-            `).join('');
-            
-            // Featured products
-            const featuredProducts = productsData.filter(p => p.featured);
-            if (featuredProducts.length > 0) {
-                featuredContainer.innerHTML = featuredProducts.map(product => `
-                    <div class="product-card">
-                        <div class="product-img">
-                            ${product.image ? `<img src="${product.image}" alt="${product.name}" />` : '<i class="fas fa-box"></i>'}
-                        </div>
-                        <div class="product-body">
-                            <h3 style="color: var(--primary-blue);">${product.name}</h3>
-                            <p><strong>Model:</strong> ${product.model}</p>
-                            ${product.price ? `<p style="color: var(--accent-orange); font-weight: bold;">${product.price}</p>` : ''}
-                            <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801406503242?text=Interested in ${encodeURIComponent(product.name)}')" style="margin-top: 0.8rem; width: 100%;">
-                                <i class="fab fa-whatsapp"></i> Inquire Now
-                            </button>
-                        </div>
-                    </div>
-                `).join('');
-            } else {
-                featuredContainer.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-star"></i>
-                        <h3>No Featured Products Yet</h3>
-                        <p>Admin can mark products as featured from the admin controls</p>
-                    </div>
-                `;
-            }
-        }
-        
-        function searchProducts() {
-            const searchTerm = document.getElementById('productSearch').value.toLowerCase();
-            const products = document.querySelectorAll('#productsContainer .product-card');
-            const noResults = document.getElementById('noResults');
-            let visibleCount = 0;
-            
-            products.forEach(product => {
-                const searchData = product.getAttribute('data-search');
-                if (searchData.includes(searchTerm)) {
-                    product.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    product.style.display = 'none';
-                }
-            });
-            
-            // Show/hide no results message
-            if (visibleCount === 0 && searchTerm.length > 0) {
-                noResults.style.display = 'block';
-            } else {
-                noResults.style.display = 'none';
-            }
-        }
-        
-        function filterProducts(category) {
-            const products = document.querySelectorAll('#productsContainer .product-card');
-            const searchTerm = document.getElementById('productSearch').value.toLowerCase();
-            const noResults = document.getElementById('noResults');
-            let visibleCount = 0;
-            
-            products.forEach(product => {
-                const productCategory = product.getAttribute('data-category');
-                const searchData = product.getAttribute('data-search');
-                
-                if ((category === 'all' || productCategory === category) && 
-                    searchData.includes(searchTerm)) {
-                    product.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    product.style.display = 'none';
-                }
-            });
-            
-            // Show/hide no results message
-            if (visibleCount === 0) {
-                noResults.style.display = 'block';
-            } else {
-                noResults.style.display = 'none';
-            }
-        }
-        
-        // Preview product image
-        document.getElementById('productImageFile').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('productImagePreview').src = e.target.result;
-                    document.getElementById('productImagePreview').style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        function addProduct() {
-            const name = document.getElementById('newProductName').value;
-            const model = document.getElementById('newProductModel').value;
-            const price = document.getElementById('newProductPrice').value;
-            const category = document.getElementById('newProductCategory').value;
-            const description = document.getElementById('newProductDescription').value;
-            const featured = document.getElementById('newProductFeatured').checked;
-            const imageFile = document.getElementById('productImageFile').files[0];
-            
-            if (!name) {
-                alert('Product name is required');
-                return;
-            }
-            
-            if (!category) {
-                alert('Please select a category');
-                return;
-            }
-            
-            let imageData = '';
-            if (imageFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imageData = e.target.result;
-                    saveNewProduct(name, model, price, category, description, imageData, featured);
-                }
-                reader.readAsDataURL(imageFile);
-            } else {
-                saveNewProduct(name, model, price, category, description, '', featured);
-            }
-        }
-        
-        function saveNewProduct(name, model, price, category, description, imageData, featured) {
-            const newProduct = {
-                id: Date.now(),
-                name: name,
-                model: model,
-                price: price,
-                category: category,
-                description: description,
-                image: imageData,
-                featured: featured
-            };
-            
-            productsData.push(newProduct);
-            saveData();
-            loadProducts();
-            
-            // Clear form
-            document.getElementById('newProductName').value = '';
-            document.getElementById('newProductModel').value = '';
-            document.getElementById('newProductPrice').value = '';
-            document.getElementById('newProductDescription').value = '';
-            document.getElementById('newProductFeatured').checked = false;
-            document.getElementById('productImageFile').value = '';
-            document.getElementById('productImagePreview').style.display = 'none';
-            
-            alert('Product added successfully!');
-        }
-        
-        function deleteProduct(id) {
-            if (confirm('Are you sure you want to delete this product?')) {
-                productsData = productsData.filter(p => p.id !== id);
-                saveData();
-                loadProducts();
-            }
-        }
-        
-        // ============================================
-        // BRANDS SYSTEM
-        // ============================================
-        function loadBrands() {
-            const container = document.getElementById('brandsContainer');
-            container.innerHTML = brandsData.map(brand => `
-                <div class="brand-card">
-                    <div class="brand-logo">
-                        ${brand.image ? `<img src="${brand.image}" alt="${brand.name}" />` : '<i class="fas fa-tag"></i>'}
-                    </div>
-                    <p>${brand.name}</p>
-                    ${isAdminLoggedIn ? `
-                        <button class="btn" onclick="deleteBrand(${brand.id})" style="margin-top: 0.5rem; width: 100%; padding: 0.5rem; background: #e74c3c;">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    ` : ''}
-                </div>
-            `).join('');
-        }
-        
-        // Preview brand image
-        document.getElementById('brandImageFile').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('brandImagePreview').src = e.target.result;
-                    document.getElementById('brandImagePreview').style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        function addBrand() {
-            const name = document.getElementById('newBrandName').value;
-            const imageFile = document.getElementById('brandImageFile').files[0];
-            
-            if (!name) {
-                alert('Brand name is required');
-                return;
-            }
-            
-            let imageData = '';
-            if (imageFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imageData = e.target.result;
-                    saveNewBrand(name, imageData);
-                }
-                reader.readAsDataURL(imageFile);
-            } else {
-                saveNewBrand(name, '');
-            }
-        }
-        
-        function saveNewBrand(name, imageData) {
-            const newBrand = {
-                id: Date.now(),
-                name: name,
-                image: imageData
-            };
-            
-            brandsData.push(newBrand);
-            saveData();
-            loadBrands();
-            
-            // Clear form
-            document.getElementById('newBrandName').value = '';
-            document.getElementById('brandImageFile').value = '';
-            document.getElementById('brandImagePreview').style.display = 'none';
-            
-            alert('Brand added successfully!');
-        }
-        
-        function deleteBrand(id) {
-            if (confirm('Are you sure you want to delete this brand?')) {
-                brandsData = brandsData.filter(b => b.id !== id);
-                saveData();
-                loadBrands();
-            }
-        }
-        
-        // ============================================
-        // GALLERY SYSTEM
-        // ============================================
-        function loadGallery() {
-            const container = document.getElementById('galleryContainer');
-            container.innerHTML = galleryData.map(item => `
-                <div class="gallery-item">
-                    <img src="${item.image || 'https://via.placeholder.com/300x200?text=Gallery+Image'}" alt="${item.title}" class="gallery-img">
-                    ${isAdminLoggedIn ? `
-                        <div style="padding: 1rem; text-align: center;">
-                            <p>${item.title}</p>
-                            <button class="btn" onclick="deleteGalleryItem(${item.id})" style="margin-top: 0.5rem; width: 100%; background: #e74c3c;">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    ` : ''}
-                </div>
-            `).join('');
-        }
-        
-        // Preview gallery image
-        document.getElementById('galleryImageFile').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('galleryImagePreview').src = e.target.result;
-                    document.getElementById('galleryImagePreview').style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        function addGalleryItem() {
-            const title = document.getElementById('newGalleryTitle').value;
-            const imageFile = document.getElementById('galleryImageFile').files[0];
-            
-            if (!title) {
-                alert('Title is required');
-                return;
-            }
-            
-            if (!imageFile) {
-                alert('Please select an image');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const newItem = {
-                    id: Date.now(),
-                    title: title,
-                    image: e.target.result
-                };
-                
-                galleryData.push(newItem);
-                saveData();
-                loadGallery();
-                
-                // Clear form
-                document.getElementById('newGalleryTitle').value = '';
-                document.getElementById('galleryImageFile').value = '';
-                document.getElementById('galleryImagePreview').style.display = 'none';
-                
-                alert('Gallery image added successfully!');
-            }
-            reader.readAsDataURL(imageFile);
-        }
-        
-        function deleteGalleryItem(id) {
-            if (confirm('Are you sure you want to delete this image?')) {
-                galleryData = galleryData.filter(g => g.id !== id);
-                saveData();
-                loadGallery();
-            }
         }
         
         // ============================================
@@ -1840,18 +1731,14 @@
         function initializeMap() {
             if (window.mapInitialized) return;
             
-            // Your company location (Kumira, Sitakunda, Chittagong)
             const companyLocation = [22.5019, 91.7119];
             
-            // Initialize map
             map = L.map('map').setView(companyLocation, 15);
             
-            // Add OpenStreetMap tiles
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
             
-            // Add marker
             const marker = L.marker(companyLocation).addTo(map);
             marker.bindPopup(`
                 <b>SHAFA ABID AUTOMATION BD</b><br>
@@ -1880,25 +1767,19 @@
         // INITIALIZE
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Load logo from localStorage if exists
-            const savedLogo = localStorage.getItem('companyLogo');
-            if (savedLogo) {
-                document.getElementById('companyLogo').src = savedLogo;
+            // Update these variables with your GitHub info
+            if (GITHUB_USERNAME === 'YOUR_GITHUB_USERNAME') {
+                alert('Please update GitHub username and repository name in the code!');
             }
             
+            setDefaultImages();
             loadCategories();
-            updateCategorySelect();
             loadProducts();
             loadBrands();
             loadGallery();
             
             if (isAdminLoggedIn) {
                 showAdminPanels();
-            }
-            
-            // Initialize map if on contact page
-            if (window.location.hash === '#contact') {
-                setTimeout(initializeMap, 500);
             }
         });
     </script>
