@@ -23,8 +23,42 @@
             --border-color: #bdc3c7;
             --card-bg: #ffffff;
             
-            /* CHANGE HEADLINE COLOR HERE - Change #2596be to your desired color */
+            /* COMPANY NAME HEADLINE COLOR */
             --headline-color: #2596be;
+            
+            /* ============================================
+               CUSTOMIZABLE TEXT SIZES (with comments)
+               ============================================ */
+            --logo-text-size: 1.4rem;          /* Company name text size */
+            --tagline-text-size: 0.9rem;       /* Tagline/slogan text size */
+            --hero-title-size: 2.2rem;         /* Main hero section title size */
+            --section-title-size: 1.8rem;      /* Section titles (Products, Brands, etc.) */
+            --product-title-size: 1.4rem;      /* Individual product names */
+            --product-price-size: 1.2rem;      /* Product price text size */
+            --card-text-size: 1rem;            /* General card text size */
+            --button-text-size: 1rem;          /* Button text size */
+            --footer-title-size: 1.4rem;       /* Footer section titles */
+            --footer-text-size: 1.1rem;        /* Footer regular text size */
+            
+            /* ============================================
+               CUSTOMIZABLE COLORS
+               ============================================ */
+            --hero-title-color: #ffffff;       /* Hero section title color */
+            --section-title-color: #2c3e50;    /* Section titles color */
+            --product-title-color: #2c3e50;    /* Product names color */
+            --product-price-color: #e67e22;    /* Product price color */
+            --card-text-color: #333333;        /* General text color in cards */
+            
+            /* ============================================
+               CUSTOMIZABLE IMAGE SIZES
+               ============================================ */
+            --logo-size: 60px;                 /* Company logo size */
+            --product-image-height: 220px;     /* Product image height */
+            --brand-image-height: 70px;        /* Brand logo image height */
+            --gallery-image-height: 280px;     /* Gallery image height (increased) */
+            --product-card-width: 320px;       /* Product card width */
+            --brand-card-width: 150px;         /* Brand card width */
+            --gallery-item-width: 280px;       /* Gallery item width */
         }
     </style>
     
@@ -52,8 +86,42 @@
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             --radius: 8px;
             
-            /* CHANGE HEADLINE COLOR HERE - Change #2596be to your desired color */
+            /* COMPANY NAME HEADLINE COLOR */
             --headline-color: #2596be;
+            
+            /* ============================================
+               CUSTOMIZABLE TEXT SIZES (with comments)
+               ============================================ */
+            --logo-text-size: 1.4rem;          /* Company name text size */
+            --tagline-text-size: 0.9rem;       /* Tagline/slogan text size */
+            --hero-title-size: 2.2rem;         /* Main hero section title size */
+            --section-title-size: 1.8rem;      /* Section titles (Products, Brands, etc.) */
+            --product-title-size: 1.4rem;      /* Individual product names */
+            --product-price-size: 1.2rem;      /* Product price text size */
+            --card-text-size: 1rem;            /* General card text size */
+            --button-text-size: 1rem;          /* Button text size */
+            --footer-title-size: 1.4rem;       /* Footer section titles */
+            --footer-text-size: 1.1rem;        /* Footer regular text size */
+            
+            /* ============================================
+               CUSTOMIZABLE COLORS
+               ============================================ */
+            --hero-title-color: #ffffff;       /* Hero section title color */
+            --section-title-color: #2c3e50;    /* Section titles color */
+            --product-title-color: #2c3e50;    /* Product names color */
+            --product-price-color: #e67e22;    /* Product price color */
+            --card-text-color: #333333;        /* General text color in cards */
+            
+            /* ============================================
+               CUSTOMIZABLE IMAGE SIZES
+               ============================================ */
+            --logo-size: 60px;                 /* Company logo size */
+            --product-image-height: 220px;     /* Product image height */
+            --brand-image-height: 70px;        /* Brand logo image height */
+            --gallery-image-height: 280px;     /* Gallery image height (increased) */
+            --product-card-width: 320px;       /* Product card width */
+            --brand-card-width: 150px;         /* Brand card width */
+            --gallery-item-width: 280px;       /* Gallery item width */
         }
         
         * {
@@ -94,12 +162,12 @@
             align-items: center;
             gap: 15px;
             flex: 1;
-            min-width: 0; /* Allow text to truncate if needed */
+            min-width: 0;
         }
         
         .company-logo {
-            height: 60px;
-            width: 60px;
+            height: var(--logo-size);
+            width: var(--logo-size);
             border-radius: 8px;
             object-fit: contain;
             border: 2px solid var(--accent-orange);
@@ -111,7 +179,7 @@
         /* Improved logo text for fullscreen */
         .logo-text {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.4rem;
+            font-size: var(--logo-text-size);
             font-weight: 800;
             color: var(--headline-color);
             line-height: 1.2;
@@ -122,7 +190,7 @@
         }
         
         .tagline {
-            font-size: 0.9rem;
+            font-size: var(--tagline-text-size);
             opacity: 0.9;
             white-space: nowrap;
             overflow: hidden;
@@ -169,12 +237,23 @@
             flex-shrink: 0;
         }
         
+        .nav-item.active {
+            color: var(--accent-orange);
+            border-bottom-color: var(--accent-orange);
+        }
+        
+        .nav-icon {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+        
         /* ============================================
            MAIN CONTENT ADJUSTMENTS FOR FULLSCREEN
         ============================================ */
         .main-content {
-            padding: 160px 1rem 2rem; /* Increased top padding for header */
-            max-width: 1400px; /* Increased for better fullscreen usage */
+            padding: 160px 1rem 2rem;
+            max-width: 1400px;
             margin: 0 auto;
             width: 100%;
         }
@@ -208,10 +287,11 @@
         
         .hero-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 2.2rem;
+            font-size: var(--hero-title-size);
             font-weight: 800;
             margin-bottom: 1.2rem;
             line-height: 1.2;
+            color: var(--hero-title-color);
         }
         
         .hero-section p {
@@ -234,8 +314,8 @@
         
         .section-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.8rem;
-            color: var(--primary-blue);
+            font-size: var(--section-title-size);
+            color: var(--section-title-color);
             margin: 2rem 0 1.5rem;
             padding-bottom: 0.8rem;
             border-bottom: 3px solid var(--accent-orange);
@@ -254,7 +334,7 @@
             color: var(--text-light);
             border: none;
             border-radius: var(--radius);
-            font-size: 1rem;
+            font-size: var(--button-text-size);
             font-weight: 600;
             cursor: pointer;
             margin: 0.5rem;
@@ -292,7 +372,7 @@
         ============================================ */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(var(--product-card-width), 1fr));
             gap: 2rem;
             margin: 2rem 0;
         }
@@ -315,13 +395,14 @@
         }
         
         .product-img {
-            height: 220px;
+            height: var(--product-image-height);
             background: var(--light-gray);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--primary-blue);
             font-size: 3rem;
+            overflow: hidden;
         }
         
         .product-img img {
@@ -329,6 +410,11 @@
             height: 100%;
             object-fit: contain;
             padding: 1rem;
+            transition: transform 0.3s;
+        }
+        
+        .product-img img:hover {
+            transform: scale(1.05);
         }
         
         .product-body {
@@ -339,18 +425,25 @@
         }
         
         .product-body h3 {
-            color: var(--primary-blue);
+            color: var(--product-title-color);
             margin-bottom: 0.8rem;
-            font-size: 1.4rem;
+            font-size: var(--product-title-size);
             min-height: 3rem;
+        }
+        
+        .product-price {
+            color: var(--product-price-color);
+            font-weight: bold;
+            font-size: var(--product-price-size);
         }
         
         /* ============================================
            BRANDS GRID - OPTIMIZED FOR DESKTOPS
+           MOBILE: 2 ROWS, 3-4 BRANDS PER ROW
         ============================================ */
         .brands-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(var(--brand-card-width), 1fr));
             gap: 1.8rem;
             margin: 2rem 0;
         }
@@ -375,7 +468,7 @@
         }
         
         .brand-logo {
-            height: 70px;
+            height: var(--brand-image-height);
             width: 100%;
             margin-bottom: 1rem;
             display: flex;
@@ -387,14 +480,20 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
+            transition: transform 0.3s;
+        }
+        
+        .brand-logo img:hover {
+            transform: scale(1.1);
         }
         
         /* ============================================
            GALLERY GRID - OPTIMIZED FOR WIDE SCREENS
+           TALLER IMAGES WITH TOUCH TO VIEW
         ============================================ */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(var(--gallery-item-width), 1fr));
             gap: 1.8rem;
             margin: 2rem 0;
         }
@@ -405,16 +504,130 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
         }
         
         .gallery-item:hover {
             transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
         
         .gallery-img {
             width: 100%;
-            height: 220px;
+            height: var(--gallery-image-height);
             object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.05);
+        }
+        
+        /* Gallery overlay for touch/click to view */
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-overlay i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* ============================================
+           IMAGE VIEWER MODAL
+        ============================================ */
+        .image-viewer-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2001;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .image-viewer-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .image-viewer-img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .image-viewer-title {
+            color: white;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .image-viewer-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        
+        .image-viewer-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .image-viewer-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .image-viewer-prev {
+            left: -60px;
+        }
+        
+        .image-viewer-next {
+            right: -60px;
         }
         
         /* ============================================
@@ -586,6 +799,7 @@
             z-index: 2000;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
         }
         
         .login-box {
@@ -648,66 +862,6 @@
         }
         
         /* ============================================
-           CATEGORY MANAGEMENT
-        ============================================ */
-        .category-management {
-            background: rgba(44, 62, 80, 0.05);
-            border-radius: var(--radius);
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-        
-        .categories-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        
-        .category-tag {
-            background: var(--light-gray);
-            padding: 0.8rem 1.2rem;
-            border-radius: 25px;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            border: 1px solid var(--border-color);
-            font-size: 1rem;
-        }
-        
-        .remove-category {
-            background: none;
-            border: none;
-            color: #e74c3c;
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-        
-        /* ============================================
-           IMAGE UPLOAD STATUS
-        ============================================ */
-        .upload-status {
-            padding: 1rem;
-            border-radius: var(--radius);
-            margin-top: 1rem;
-            display: none;
-            text-align: center;
-            font-size: 1rem;
-        }
-        
-        .upload-status.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .upload-status.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        /* ============================================
            FOOTER IMPROVEMENTS FOR FULLSCREEN
         ============================================ */
         .app-footer {
@@ -723,6 +877,16 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 3rem;
+        }
+        
+        .footer-title {
+            color: var(--accent-orange);
+            font-size: var(--footer-title-size);
+            margin-bottom: 1.2rem;
+        }
+        
+        .footer-text {
+            font-size: var(--footer-text-size);
         }
         
         .copyright {
@@ -782,32 +946,8 @@
             }
         }
         
-        @media (min-width: 1600px) {
-            /* Extra large screen optimizations */
-            .products-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 2.5rem;
-            }
-            
-            .brands-grid {
-                grid-template-columns: repeat(6, 1fr);
-            }
-            
-            .gallery-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            
-            .hero-title {
-                font-size: 2.8rem;
-            }
-            
-            .main-content {
-                max-width: 1600px;
-            }
-        }
-        
         /* ============================================
-           RESPONSIVE ADJUSTMENTS FOR SMALLER SCREENS
+           RESPONSIVE ADJUSTMENTS FOR MOBILE
         ============================================ */
         @media (max-width: 992px) {
             .hero-title {
@@ -856,11 +996,27 @@
                 padding: 140px 1rem 1.5rem;
             }
             
-            .products-grid,
-            .brands-grid,
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
+            /* MOBILE: Products in single column */
+            .products-grid {
+                grid-template-columns: 1fr;
                 gap: 1.5rem;
+            }
+            
+            /* MOBILE: Brands in 2 rows, 3-4 items per row */
+            .brands-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+            
+            /* MOBILE: Gallery in single column with taller images */
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            /* MOBILE: Taller gallery images */
+            .gallery-img {
+                height: 250px;
             }
             
             .admin-controls {
@@ -877,6 +1033,21 @@
             .card {
                 padding: 1.5rem;
             }
+            
+            /* MOBILE: Image viewer adjustments */
+            .image-viewer-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .image-viewer-prev {
+                left: 10px;
+            }
+            
+            .image-viewer-next {
+                right: 10px;
+            }
         }
         
         @media (max-width: 576px) {
@@ -884,10 +1055,9 @@
                 font-size: 1.5rem;
             }
             
-            .products-grid,
-            .brands-grid,
-            .gallery-grid {
-                grid-template-columns: 1fr;
+            /* MOBILE SMALL: Brands in 2 rows, 2 items per row */
+            .brands-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .nav-item {
@@ -906,12 +1076,33 @@
                 height: 45px;
                 font-size: 1rem;
             }
+            
+            /* MOBILE SMALL: Gallery images even taller */
+            .gallery-img {
+                height: 200px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            /* EXTRA SMALL MOBILE: Adjustments */
+            .brands-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+            
+            .brand-card {
+                padding: 1rem;
+                height: 130px;
+            }
+            
+            .gallery-img {
+                height: 180px;
+            }
         }
         
         /* ============================================
            FULLSCREEN MODE SPECIFIC ADJUSTMENTS
         ============================================ */
-        /* Hide scrollbar in fullscreen for cleaner look */
         body:fullscreen {
             overflow: auto;
         }
@@ -927,16 +1118,6 @@
         body:fullscreen::-webkit-scrollbar-thumb {
             background: var(--primary-blue);
             border-radius: 4px;
-        }
-        
-        /* Fullscreen modal adjustments */
-        body:fullscreen .login-modal {
-            background: rgba(0, 0, 0, 0.85);
-        }
-        
-        /* Fullscreen header adjustments */
-        body:fullscreen .app-header {
-            padding: 1rem 2rem;
         }
         
         /* ============================================
@@ -960,6 +1141,23 @@
     </style>
 </head>
 <body>
+    <!-- Image Viewer Modal -->
+    <div class="image-viewer-modal" id="imageViewerModal">
+        <div class="image-viewer-content">
+            <button class="image-viewer-close" onclick="closeImageViewer()">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="image-viewer-nav image-viewer-prev" onclick="prevImage()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="image-viewer-nav image-viewer-next" onclick="nextImage()">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <img id="viewerImage" class="image-viewer-img" alt="Viewer Image">
+            <div id="viewerTitle" class="image-viewer-title"></div>
+        </div>
+    </div>
+    
     <!-- GitHub Token Modal -->
     <div class="login-modal" id="githubTokenModal">
         <div class="login-box">
@@ -1060,6 +1258,114 @@
         </div>
     </div>
     
+    <!-- UI Customization Modal -->
+    <div class="login-modal" id="uiCustomizationModal">
+        <div class="login-box" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+            <h2 style="color: var(--primary-blue); margin-bottom: 1.5rem;">Customize UI</h2>
+            
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: var(--primary-blue); margin-bottom: 1rem; font-size: 1.2rem;">
+                    <i class="fas fa-text-height"></i> Text Sizes
+                </h3>
+                <div style="display: grid; gap: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Company Name Size</label>
+                        <input type="range" id="logoTextSize" min="1" max="2.5" step="0.1" value="1.4" style="width: 100%;" onchange="updateCustomization('logo-text-size', this.value + 'rem')">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #666;">
+                            <span>Small</span>
+                            <span id="logoTextSizeValue">1.4rem</span>
+                            <span>Large</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Hero Title Size</label>
+                        <input type="range" id="heroTitleSize" min="1.5" max="3" step="0.1" value="2.2" style="width: 100%;" onchange="updateCustomization('hero-title-size', this.value + 'rem')">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #666;">
+                            <span>Small</span>
+                            <span id="heroTitleSizeValue">2.2rem</span>
+                            <span>Large</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Product Title Size</label>
+                        <input type="range" id="productTitleSize" min="1" max="2" step="0.1" value="1.4" style="width: 100%;" onchange="updateCustomization('product-title-size', this.value + 'rem')">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #666;">
+                            <span>Small</span>
+                            <span id="productTitleSizeValue">1.4rem</span>
+                            <span>Large</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: var(--primary-blue); margin-bottom: 1rem; font-size: 1.2rem;">
+                    <i class="fas fa-palette"></i> Colors
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Company Name Color</label>
+                        <input type="color" id="headlineColor" value="#2596be" style="width: 100%; height: 40px; border: none; border-radius: var(--radius);" onchange="updateCustomization('headline-color', this.value)">
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Product Title Color</label>
+                        <input type="color" id="productTitleColor" value="#2c3e50" style="width: 100%; height: 40px; border: none; border-radius: var(--radius);" onchange="updateCustomization('product-title-color', this.value)">
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Price Color</label>
+                        <input type="color" id="productPriceColor" value="#e67e22" style="width: 100%; height: 40px; border: none; border-radius: var(--radius);" onchange="updateCustomization('product-price-color', this.value)">
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Section Title Color</label>
+                        <input type="color" id="sectionTitleColor" value="#2c3e50" style="width: 100%; height: 40px; border: none; border-radius: var(--radius);" onchange="updateCustomization('section-title-color', this.value)">
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: var(--primary-blue); margin-bottom: 1rem; font-size: 1.2rem;">
+                    <i class="fas fa-images"></i> Image Sizes
+                </h3>
+                <div style="display: grid; gap: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Gallery Image Height</label>
+                        <input type="range" id="galleryImageHeight" min="200" max="400" step="10" value="280" style="width: 100%;" onchange="updateCustomization('gallery-image-height', this.value + 'px')">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #666;">
+                            <span>Short</span>
+                            <span id="galleryImageHeightValue">280px</span>
+                            <span>Tall</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Product Image Height</label>
+                        <input type="range" id="productImageHeight" min="150" max="350" step="10" value="220" style="width: 100%;" onchange="updateCustomization('product-image-height', this.value + 'px')">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #666;">
+                            <span>Small</span>
+                            <span id="productImageHeightValue">220px</span>
+                            <span>Large</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn btn-success" onclick="saveCustomizations()">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <button class="btn" onclick="resetCustomizations()">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+                <button class="btn btn-secondary" onclick="closeUICustomization()">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
     <!-- Header -->
     <header class="app-header">
         <div class="logo-section">
@@ -1068,14 +1374,18 @@
                  alt="Logo" class="company-logo"
                  onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%232c3e50%22/%3E%3Ctext x=%2250%22 y=%2250%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22white%22 text-anchor=%22middle%22 dy=%22.3em%22%3ESA%3C/text%3E%3C/svg%3E'">
             <div style="flex: 1; min-width: 0;">
-                <!-- CHANGE SHOP NAME COLOR: Update var(--headline-color) in :root CSS variables -->
                 <div class="logo-text">Shafa Abid Automation BD</div>
                 <div class="tagline">Industrial Electrical & Electronics Solutions</div>
             </div>
         </div>
-        <button class="btn btn-secondary" onclick="showLogin()">
-            <i class="fas fa-user-cog"></i> Admin
-        </button>
+        <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-secondary" onclick="showUICustomization()" title="Customize UI">
+                <i class="fas fa-palette"></i>
+            </button>
+            <button class="btn btn-secondary" onclick="showLogin()">
+                <i class="fas fa-user-cog"></i> Admin
+            </button>
+        </div>
     </header>
     
     <!-- Admin Floating Controls -->
@@ -1390,14 +1700,14 @@
     <footer class="app-footer">
         <div class="container">
             <div>
-                <h3 style="color: var(--accent-orange); margin-bottom: 1.2rem; font-size: 1.4rem;">SHAFA ABID AUTOMATION BD</h3>
-                <p style="font-size: 1.1rem;">Industrial Electrical and Electronics Solutions</p>
+                <h3 class="footer-title">SHAFA ABID AUTOMATION BD</h3>
+                <p class="footer-text">Industrial Electrical and Electronics Solutions</p>
             </div>
             
             <div>
-                <h3 style="color: var(--accent-orange); margin-bottom: 1.2rem; font-size: 1.4rem;">Contact</h3>
-                <p style="font-size: 1.1rem;">+880 1869-552775</p>
-                <p style="font-size: 1.1rem;">shafaabidautomation.bd@gmail.com</p>
+                <h3 class="footer-title">Contact</h3>
+                <p class="footer-text">+880 1869-552775</p>
+                <p class="footer-text">shafaabidautomation.bd@gmail.com</p>
                 <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
                     <button class="btn btn-facebook" onclick="window.open('https://web.facebook.com/profile.php?id=61574697974139')" style="padding: 0.8rem;">
                         <i class="fab fa-facebook"></i>
@@ -1417,163 +1727,180 @@
     <!-- Leaflet JS for Map -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
-    <!-- Fullscreen Helper Script -->
     <script>
-        // Fullscreen mode detection and optimization
-        document.addEventListener('fullscreenchange', handleFullscreenChange);
-        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        // ============================================
+        // IMAGE VIEWER SYSTEM
+        // ============================================
+        let currentImageIndex = 0;
+        let galleryImages = [];
         
-        function handleFullscreenChange() {
-            const isFullscreen = document.fullscreenElement || 
-                                document.webkitFullscreenElement || 
-                                document.mozFullScreenElement;
+        function openImageViewer(index, images) {
+            currentImageIndex = index;
+            galleryImages = images;
             
-            const header = document.querySelector('.app-header');
-            const nav = document.querySelector('.nav-container');
+            const modal = document.getElementById('imageViewerModal');
+            const viewerImage = document.getElementById('viewerImage');
+            const viewerTitle = document.getElementById('viewerTitle');
             
-            if (isFullscreen) {
-                // Add fullscreen-specific styles
-                header.style.padding = '1rem 3rem';
-                header.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
-                nav.style.padding = '0.8rem 3rem';
-                
-                // Adjust admin controls position
-                const adminControls = document.getElementById('adminControls');
-                if (adminControls.style.display !== 'none') {
-                    adminControls.style.right = '50px';
-                    adminControls.style.bottom = '50px';
-                }
-                
-                console.log('Fullscreen mode activated - layout optimized');
-            } else {
-                // Reset to normal styles
-                header.style.padding = '';
-                header.style.boxShadow = '';
-                nav.style.padding = '';
-                
-                // Reset admin controls
-                const adminControls = document.getElementById('adminControls');
-                if (adminControls.style.display !== 'none') {
-                    adminControls.style.right = '';
-                    adminControls.style.bottom = '';
-                }
-                
-                console.log('Fullscreen mode exited - layout reset');
-            }
+            viewerImage.src = galleryImages[currentImageIndex].image;
+            viewerTitle.textContent = galleryImages[currentImageIndex].title || '';
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
         
-        // Keyboard shortcut for fullscreen (F11)
+        function closeImageViewer() {
+            document.getElementById('imageViewerModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+            updateViewerImage();
+        }
+        
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+            updateViewerImage();
+        }
+        
+        function updateViewerImage() {
+            const viewerImage = document.getElementById('viewerImage');
+            const viewerTitle = document.getElementById('viewerTitle');
+            
+            viewerImage.src = galleryImages[currentImageIndex].image;
+            viewerTitle.textContent = galleryImages[currentImageIndex].title || '';
+        }
+        
+        // Close modal on escape key
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'F11') {
-                e.preventDefault();
-                toggleFullscreen();
+            if (e.key === 'Escape') {
+                closeImageViewer();
             }
         });
         
-        // Fullscreen toggle function
-        function toggleFullscreen() {
-            const elem = document.documentElement;
+        // ============================================
+        // UI CUSTOMIZATION SYSTEM
+        // ============================================
+        function showUICustomization() {
+            // Load current values
+            const root = document.documentElement;
             
-            if (!document.fullscreenElement && 
-                !document.webkitFullscreenElement && 
-                !document.mozFullScreenElement) {
-                // Enter fullscreen
-                if (elem.requestFullscreen) {
-                    elem.requestFullscreen();
-                } else if (elem.webkitRequestFullscreen) {
-                    elem.webkitRequestFullscreen();
-                } else if (elem.mozRequestFullScreen) {
-                    elem.mozRequestFullScreen();
-                }
-            } else {
-                // Exit fullscreen
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                }
+            // Text sizes
+            document.getElementById('logoTextSize').value = 
+                parseFloat(getComputedStyle(root).getPropertyValue('--logo-text-size'));
+            document.getElementById('logoTextSizeValue').textContent = 
+                getComputedStyle(root).getPropertyValue('--logo-text-size');
+            
+            document.getElementById('heroTitleSize').value = 
+                parseFloat(getComputedStyle(root).getPropertyValue('--hero-title-size'));
+            document.getElementById('heroTitleSizeValue').textContent = 
+                getComputedStyle(root).getPropertyValue('--hero-title-size');
+            
+            document.getElementById('productTitleSize').value = 
+                parseFloat(getComputedStyle(root).getPropertyValue('--product-title-size'));
+            document.getElementById('productTitleSizeValue').textContent = 
+                getComputedStyle(root).getPropertyValue('--product-title-size');
+            
+            // Colors
+            document.getElementById('headlineColor').value = 
+                getComputedStyle(root).getPropertyValue('--headline-color').trim();
+            document.getElementById('productTitleColor').value = 
+                getComputedStyle(root).getPropertyValue('--product-title-color').trim();
+            document.getElementById('productPriceColor').value = 
+                getComputedStyle(root).getPropertyValue('--product-price-color').trim();
+            document.getElementById('sectionTitleColor').value = 
+                getComputedStyle(root).getPropertyValue('--section-title-color').trim();
+            
+            // Image sizes
+            document.getElementById('galleryImageHeight').value = 
+                parseInt(getComputedStyle(root).getPropertyValue('--gallery-image-height'));
+            document.getElementById('galleryImageHeightValue').textContent = 
+                getComputedStyle(root).getPropertyValue('--gallery-image-height');
+            
+            document.getElementById('productImageHeight').value = 
+                parseInt(getComputedStyle(root).getPropertyValue('--product-image-height'));
+            document.getElementById('productImageHeightValue').textContent = 
+                getComputedStyle(root).getPropertyValue('--product-image-height');
+            
+            document.getElementById('uiCustomizationModal').style.display = 'flex';
+        }
+        
+        function closeUICustomization() {
+            document.getElementById('uiCustomizationModal').style.display = 'none';
+        }
+        
+        function updateCustomization(variable, value) {
+            // Update CSS variable
+            document.documentElement.style.setProperty(`--${variable}`, value);
+            
+            // Update display values
+            if (variable === 'logo-text-size') {
+                document.getElementById('logoTextSizeValue').textContent = value;
+            } else if (variable === 'hero-title-size') {
+                document.getElementById('heroTitleSizeValue').textContent = value;
+            } else if (variable === 'product-title-size') {
+                document.getElementById('productTitleSizeValue').textContent = value;
+            } else if (variable === 'gallery-image-height') {
+                document.getElementById('galleryImageHeightValue').textContent = value;
+            } else if (variable === 'product-image-height') {
+                document.getElementById('productImageHeightValue').textContent = value;
             }
         }
         
-        // Show fullscreen hint on first visit
-        window.addEventListener('load', function() {
-            const fullscreenHintShown = localStorage.getItem('fullscreenHintShown');
-            if (!fullscreenHintShown && window.innerWidth >= 1024) {
-                setTimeout(() => {
-                    showFullscreenHint();
-                    localStorage.setItem('fullscreenHintShown', 'true');
-                }, 2000);
-            }
-        });
-        
-        function showFullscreenHint() {
-            const hint = document.createElement('div');
-            hint.id = 'fullscreenHint';
-            hint.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-                color: white;
-                padding: 1rem 1.5rem;
-                border-radius: var(--radius);
-                box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-                z-index: 10000;
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                max-width: 350px;
-                animation: slideIn 0.5s ease-out;
-            `;
+        function saveCustomizations() {
+            // Save to localStorage
+            const root = document.documentElement;
+            const customizations = {
+                'logo-text-size': getComputedStyle(root).getPropertyValue('--logo-text-size'),
+                'hero-title-size': getComputedStyle(root).getPropertyValue('--hero-title-size'),
+                'product-title-size': getComputedStyle(root).getPropertyValue('--product-title-size'),
+                'headline-color': getComputedStyle(root).getPropertyValue('--headline-color').trim(),
+                'product-title-color': getComputedStyle(root).getPropertyValue('--product-title-color').trim(),
+                'product-price-color': getComputedStyle(root).getPropertyValue('--product-price-color').trim(),
+                'section-title-color': getComputedStyle(root).getPropertyValue('--section-title-color').trim(),
+                'gallery-image-height': getComputedStyle(root).getPropertyValue('--gallery-image-height'),
+                'product-image-height': getComputedStyle(root).getPropertyValue('--product-image-height')
+            };
             
-            hint.innerHTML = `
-                <i class="fas fa-expand" style="font-size: 1.5rem;"></i>
-                <div>
-                    <strong>Fullscreen Mode Available</strong>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.9;">
-                        Press F11 for immersive experience
-                    </p>
-                </div>
-                <button onclick="this.parentElement.remove()" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem; margin-left: auto;">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
-            document.body.appendChild(hint);
-            
-            // Auto-remove after 8 seconds
-            setTimeout(() => {
-                if (hint.parentElement) {
-                    hint.style.animation = 'fadeOut 0.5s ease-out';
-                    setTimeout(() => {
-                        if (hint.parentElement) {
-                            hint.parentElement.removeChild(hint);
-                        }
-                    }, 500);
-                }
-            }, 8000);
-            
-            // Add CSS for animations
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes slideIn {
-                    from { transform: translateX(100%); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
-                }
-                @keyframes fadeOut {
-                    from { opacity: 1; }
-                    to { opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
+            localStorage.setItem('uiCustomizations', JSON.stringify(customizations));
+            alert('Customizations saved successfully!');
+            closeUICustomization();
         }
-    </script>
-    
-    <!-- Main Application Script -->
-    <script>
+        
+        function resetCustomizations() {
+            // Reset to default values
+            const defaults = {
+                'logo-text-size': '1.4rem',
+                'hero-title-size': '2.2rem',
+                'product-title-size': '1.4rem',
+                'headline-color': '#2596be',
+                'product-title-color': '#2c3e50',
+                'product-price-color': '#e67e22',
+                'section-title-color': '#2c3e50',
+                'gallery-image-height': '280px',
+                'product-image-height': '220px'
+            };
+            
+            Object.entries(defaults).forEach(([key, value]) => {
+                document.documentElement.style.setProperty(`--${key}`, value);
+            });
+            
+            // Update form values
+            showUICustomization(); // This will reload the form with new values
+        }
+        
+        // Load customizations on page load
+        function loadCustomizations() {
+            const saved = localStorage.getItem('uiCustomizations');
+            if (saved) {
+                const customizations = JSON.parse(saved);
+                Object.entries(customizations).forEach(([key, value]) => {
+                    document.documentElement.style.setProperty(`--${key}`, value);
+                });
+            }
+        }
+        
         // ============================================
         // GITHUB CONFIGURATION
         // ============================================
@@ -1621,11 +1948,16 @@
             brands: [
                 { id: 1, name: "Siemens", image: `${GITHUB_BASE_URL}/brands/siemens.png` },
                 { id: 2, name: "ABB", image: `${GITHUB_BASE_URL}/brands/abb.png` },
-                { id: 3, name: "Rexroth", image: `${GITHUB_BASE_URL}/brands/rexroth.png` }
+                { id: 3, name: "Rexroth", image: `${GITHUB_BASE_URL}/brands/rexroth.png` },
+                { id: 4, name: "Schneider", image: `${GITHUB_BASE_URL}/brands/schneider.png` },
+                { id: 5, name: "Omron", image: `${GITHUB_BASE_URL}/brands/omron.png` },
+                { id: 6, name: "Mitsubishi", image: `${GITHUB_BASE_URL}/brands/mitsubishi.png` }
             ],
             gallery: [
                 { id: 1, title: "Control Panel Design", image: `${GITHUB_BASE_URL}/gallery/panel1.jpg` },
-                { id: 2, title: "Factory Setup", image: `${GITHUB_BASE_URL}/gallery/panel2.jpg` }
+                { id: 2, title: "Factory Setup", image: `${GITHUB_BASE_URL}/gallery/panel2.jpg` },
+                { id: 3, title: "Industrial Equipment", image: `${GITHUB_BASE_URL}/gallery/equipment1.jpg` },
+                { id: 4, title: "Automation System", image: `${GITHUB_BASE_URL}/gallery/automation1.jpg` }
             ],
             categories: ["automation", "electrical", "sensors", "drives", "control", "instruments"]
         };
@@ -2133,55 +2465,6 @@
         }
         
         // ============================================
-        // LOGO MANAGEMENT
-        // ============================================
-        function showLogoUpload() {
-            document.getElementById('logoUploadModal').style.display = 'flex';
-            document.getElementById('logoPreview').style.display = 'none';
-            document.getElementById('logoFileInput').value = '';
-            document.getElementById('logoUploadStatus').style.display = 'none';
-        }
-        
-        function closeLogoUpload() {
-            document.getElementById('logoUploadModal').style.display = 'none';
-        }
-        
-        document.getElementById('logoFileInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('logoPreview').src = e.target.result;
-                    document.getElementById('logoPreview').style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        function uploadLogo() {
-            const fileInput = document.getElementById('logoFileInput');
-            if (!fileInput.files[0]) {
-                showUploadStatus('logoUploadStatus', 'Please select a logo image', 'error');
-                return;
-            }
-            
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                document.getElementById('companyLogo').src = e.target.result;
-                
-                showUploadStatus('logoUploadStatus', 'Logo updated on this device. For permanent storage, upload to GitHub images folder.', 'success');
-                
-                setTimeout(() => {
-                    closeLogoUpload();
-                }, 2000);
-            }
-            
-            reader.readAsDataURL(file);
-        }
-        
-        // ============================================
         // PRODUCTS SYSTEM WITH AUTO-SYNC
         // ============================================
         function loadProducts() {
@@ -2198,11 +2481,11 @@
                              onerror="this.onerror=null; this.src='https://via.placeholder.com/400x250?text=Product+Image&t=' + Date.now();">
                     </div>
                     <div class="product-body">
-                        <h3 style="color: var(--primary-blue); margin-bottom: 0.8rem;">${product.name}</h3>
+                        <h3 style="margin-bottom: 0.8rem;">${product.name}</h3>
                         ${product.model ? `<p style="margin-bottom: 0.5rem;"><strong>Model:</strong> ${product.model}</p>` : ''}
                         <p style="margin-bottom: 0.5rem;"><strong>Category:</strong> ${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</p>
-                        ${product.description ? `<p style="margin-top: 0.8rem; font-size: 1rem; color: #555; flex-grow: 1;">${product.description}</p>` : ''}
-                        ${product.price ? `<p style="margin-top: 1rem; color: var(--accent-orange); font-weight: bold; font-size: 1.2rem;">${product.price}</p>` : ''}
+                        ${product.description ? `<p style="margin-top: 0.8rem; font-size: 1rem; color: var(--card-text-color); flex-grow: 1;">${product.description}</p>` : ''}
+                        ${product.price ? `<p style="margin-top: 1rem; font-weight: bold; font-size: var(--product-price-size);" class="product-price">${product.price}</p>` : ''}
                         <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801406503242?text=Interested in ${encodeURIComponent(product.name)} - Model: ${encodeURIComponent(product.model || '')}')" style="margin-top: 1.2rem; width: 100%; padding: 0.8rem;">
                             <i class="fab fa-whatsapp"></i> Inquire Now
                         </button>
@@ -2234,9 +2517,9 @@
                                  onerror="this.onerror=null; this.src='https://via.placeholder.com/400x250?text=Product+Image&t=' + Date.now();">
                         </div>
                         <div class="product-body">
-                            <h3 style="color: var(--primary-blue);">${product.name}</h3>
+                            <h3>${product.name}</h3>
                             <p><strong>Model:</strong> ${product.model || 'N/A'}</p>
-                            ${product.price ? `<p style="color: var(--accent-orange); font-weight: bold; margin-top: 0.5rem;">${product.price}</p>` : ''}
+                            ${product.price ? `<p style="margin-top: 0.5rem;" class="product-price">${product.price}</p>` : ''}
                             <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801406503242?text=Interested in ${encodeURIComponent(product.name)}')" style="margin-top: 1rem; width: 100%; padding: 0.8rem;">
                                 <i class="fab fa-whatsapp"></i> Inquire Now
                             </button>
@@ -2310,120 +2593,6 @@
             element.style.display = 'block';
         }
         
-        document.getElementById('productImageFile').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('productImagePreview').src = e.target.result;
-                    document.getElementById('productImagePreview').style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        // MODIFIED: Auto-sync option
-        let autoSyncEnabled = localStorage.getItem('auto_sync') === 'true';
-        
-        function addProduct() {
-            const name = document.getElementById('newProductName').value;
-            const model = document.getElementById('newProductModel').value;
-            const price = document.getElementById('newProductPrice').value;
-            const category = document.getElementById('newProductCategory').value;
-            const description = document.getElementById('newProductDescription').value;
-            const featured = document.getElementById('newProductFeatured').checked;
-            const imageFile = document.getElementById('productImageFile').files[0];
-            
-            if (!name) {
-                showUploadStatus('productUploadStatus', 'Product name is required', 'error');
-                return;
-            }
-            
-            if (!category) {
-                showUploadStatus('productUploadStatus', 'Please select a category', 'error');
-                return;
-            }
-            
-            let imageData = '';
-            if (imageFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imageData = e.target.result;
-                    saveNewProduct(name, model, price, category, description, imageData, featured);
-                }
-                reader.readAsDataURL(imageFile);
-            } else {
-                imageData = `${GITHUB_BASE_URL}/products/default.png`;
-                saveNewProduct(name, model, price, category, description, imageData, featured);
-            }
-        }
-        
-        async function saveNewProduct(name, model, price, category, description, imageData, featured) {
-            const newProduct = {
-                id: Date.now(),
-                name: name,
-                model: model,
-                price: price,
-                category: category,
-                description: description,
-                image: imageData,
-                featured: featured
-            };
-            
-            productsData.push(newProduct);
-            cacheDataLocally(); // Save to localStorage
-            loadProducts();
-            
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(productsData, null, 2);
-                    await updateGitHubFile('data/products.json', content, 'Add new product');
-                    showUploadStatus('productUploadStatus', 'Product added and auto-synced to GitHub!', 'success');
-                } catch (error) {
-                    showUploadStatus('productUploadStatus', 'Product added locally. GitHub sync failed.', 'error');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
-                showUploadStatus('productUploadStatus', 'Product added locally. Sync to GitHub for all devices.', 'success');
-            }
-            
-            // Clear form
-            document.getElementById('newProductName').value = '';
-            document.getElementById('newProductModel').value = '';
-            document.getElementById('newProductPrice').value = '';
-            document.getElementById('newProductDescription').value = '';
-            document.getElementById('newProductFeatured').checked = false;
-            document.getElementById('productImageFile').value = '';
-            document.getElementById('productImagePreview').style.display = 'none';
-        }
-        
-        async function deleteProduct(id) {
-            if (!confirm('Are you sure you want to delete this product?')) return;
-            
-            productsData = productsData.filter(p => p.id !== id);
-            cacheDataLocally();
-            loadProducts();
-            
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(productsData, null, 2);
-                    await updateGitHubFile('data/products.json', content, 'Delete product');
-                    alert('Product deleted and synced to GitHub!');
-                } catch (error) {
-                    alert('Product deleted locally. GitHub sync failed.');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
-                alert('Product deleted from local cache.');
-            }
-        }
-        
         // ============================================
         // BRANDS SYSTEM WITH AUTO-SYNC
         // ============================================
@@ -2447,341 +2616,32 @@
             `}).join('');
         }
         
-        document.getElementById('brandImageFile').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('brandImagePreview').src = e.target.result;
-                    document.getElementById('brandImagePreview').style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        async function addBrand() {
-            const name = document.getElementById('newBrandName').value;
-            const imageFile = document.getElementById('brandImageFile').files[0];
-            
-            if (!name) {
-                showUploadStatus('brandUploadStatus', 'Brand name is required', 'error');
-                return;
-            }
-            
-            let imageData = '';
-            if (imageFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imageData = e.target.result;
-                    saveNewBrand(name, imageData);
-                }
-                reader.readAsDataURL(imageFile);
-            } else {
-                imageData = `${GITHUB_BASE_URL}/brands/default.png`;
-                saveNewBrand(name, imageData);
-            }
-        }
-        
-        async function saveNewBrand(name, imageData) {
-            const newBrand = {
-                id: Date.now(),
-                name: name,
-                image: imageData
-            };
-            
-            brandsData.push(newBrand);
-            cacheDataLocally();
-            loadBrands();
-            
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(brandsData, null, 2);
-                    await updateGitHubFile('data/brands.json', content, 'Add new brand');
-                    showUploadStatus('brandUploadStatus', 'Brand added and auto-synced to GitHub!', 'success');
-                } catch (error) {
-                    showUploadStatus('brandUploadStatus', 'Brand added locally. GitHub sync failed.', 'error');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
-                showUploadStatus('brandUploadStatus', 'Brand added locally. Sync to GitHub for all devices.', 'success');
-            }
-            
-            document.getElementById('newBrandName').value = '';
-            document.getElementById('brandImageFile').value = '';
-            document.getElementById('brandImagePreview').style.display = 'none';
-        }
-        
-        async function deleteBrand(id) {
-            if (!confirm('Are you sure you want to delete this brand?')) return;
-            
-            brandsData = brandsData.filter(b => b.id !== id);
-            cacheDataLocally();
-            loadBrands();
-            
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(brandsData, null, 2);
-                    await updateGitHubFile('data/brands.json', content, 'Delete brand');
-                    alert('Brand deleted and synced to GitHub!');
-                } catch (error) {
-                    alert('Brand deleted locally. GitHub sync failed.');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
-                alert('Brand deleted from local cache.');
-            }
-        }
-        
         // ============================================
-        // GALLERY SYSTEM WITH AUTO-SYNC
+        // GALLERY SYSTEM WITH AUTO-SYNC AND TOUCH TO VIEW
         // ============================================
         function loadGallery() {
             const container = document.getElementById('galleryContainer');
-            container.innerHTML = galleryData.map(item => {
+            container.innerHTML = galleryData.map((item, index) => {
                 const imageUrl = item.image || `${GITHUB_BASE_URL}/gallery/default.jpg`;
                 return `
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openImageViewer(${index}, ${JSON.stringify(galleryData.map(g => ({image: g.image, title: g.title})))})">
                     <img src="${imageUrl}" alt="${item.title}" class="gallery-img"
-                         onerror="this.onerror=null; this.src='https://via.placeholder.com/400x250?text=${encodeURIComponent(item.title)}&t=' + Date.now();">
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=${encodeURIComponent(item.title)}&t=' + Date.now();">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                        <p>Click to view</p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">${item.title}</p>
+                    </div>
                     ${isAdminLoggedIn ? `
-                        <div style="padding: 1.2rem; text-align: center;">
+                        <div style="padding: 1.2rem; text-align: center; background: white;">
                             <p style="font-weight: 600; font-size: 1.1rem;">${item.title}</p>
-                            <button class="btn" onclick="deleteGalleryItem(${item.id})" style="margin-top: 1rem; width: 100%; background: #e74c3c; padding: 0.6rem;">
+                            <button class="btn" onclick="event.stopPropagation(); deleteGalleryItem(${item.id})" style="margin-top: 1rem; width: 100%; background: #e74c3c; padding: 0.6rem;">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
                         </div>
                     ` : ''}
                 </div>
             `}).join('');
-        }
-        
-        document.getElementById('galleryImageFile').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('galleryImagePreview').src = e.target.result;
-                    document.getElementById('galleryImagePreview').style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        async function addGalleryItem() {
-            const title = document.getElementById('newGalleryTitle').value;
-            const imageFile = document.getElementById('galleryImageFile').files[0];
-            
-            if (!title) {
-                showUploadStatus('galleryUploadStatus', 'Title is required', 'error');
-                return;
-            }
-            
-            let imageData = '';
-            if (imageFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imageData = e.target.result;
-                    saveGalleryItem(title, imageData);
-                }
-                reader.readAsDataURL(imageFile);
-            } else {
-                imageData = `${GITHUB_BASE_URL}/gallery/default.jpg`;
-                saveGalleryItem(title, imageData);
-            }
-        }
-        
-        async function saveGalleryItem(title, imageData) {
-            const newItem = {
-                id: Date.now(),
-                title: title,
-                image: imageData
-            };
-            
-            galleryData.push(newItem);
-            cacheDataLocally();
-            loadGallery();
-            
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(galleryData, null, 2);
-                    await updateGitHubFile('data/gallery.json', content, 'Add gallery item');
-                    showUploadStatus('galleryUploadStatus', 'Gallery item added and auto-synced to GitHub!', 'success');
-                } catch (error) {
-                    showUploadStatus('galleryUploadStatus', 'Gallery item added locally. GitHub sync failed.', 'error');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
-                showUploadStatus('galleryUploadStatus', 'Gallery item added locally. Sync to GitHub for all devices.', 'success');
-            }
-            
-            document.getElementById('newGalleryTitle').value = '';
-            document.getElementById('galleryImageFile').value = '';
-            document.getElementById('galleryImagePreview').style.display = 'none';
-        }
-        
-        async function deleteGalleryItem(id) {
-            if (!confirm('Are you sure you want to delete this image?')) return;
-            
-            galleryData = galleryData.filter(g => g.id !== id);
-            cacheDataLocally();
-            loadGallery();
-            
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(galleryData, null, 2);
-                    await updateGitHubFile('data/gallery.json', content, 'Delete gallery item');
-                    alert('Gallery item deleted and synced to GitHub!');
-                } catch (error) {
-                    alert('Gallery item deleted locally. GitHub sync failed.');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
-                alert('Gallery item deleted from local cache.');
-            }
-        }
-        
-        // ============================================
-        // CATEGORY MANAGEMENT WITH AUTO-SYNC
-        // ============================================
-        function loadCategories() {
-            const filterContainer = document.getElementById('categoryFilter');
-            const select = document.getElementById('newProductCategory');
-            
-            if (!filterContainer || !select) return;
-            
-            filterContainer.innerHTML = '';
-            select.innerHTML = '';
-            
-            // Add "All" button
-            const allButton = document.createElement('button');
-            allButton.className = 'category-btn active';
-            allButton.textContent = 'All Products';
-            allButton.onclick = () => {
-                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-                allButton.classList.add('active');
-                filterProducts('all');
-            };
-            filterContainer.appendChild(allButton);
-            
-            // Add category buttons and options
-            categories.forEach(category => {
-                // Filter buttons
-                const categoryBtn = document.createElement('button');
-                categoryBtn.className = 'category-btn';
-                categoryBtn.textContent = category.charAt(0).toUpperCase() + category.slice(1);
-                categoryBtn.onclick = () => {
-                    document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-                    categoryBtn.classList.add('active');
-                    filterProducts(category);
-                };
-                filterContainer.appendChild(categoryBtn);
-                
-                // Select options
-                const option = document.createElement('option');
-                option.value = category;
-                option.textContent = category.charAt(0).toUpperCase() + category.slice(1);
-                select.appendChild(option);
-            });
-        }
-        
-        function showCategoryModal() {
-            loadCategoriesList();
-            document.getElementById('categoryModal').style.display = 'flex';
-        }
-        
-        function closeCategoryModal() {
-            document.getElementById('categoryModal').style.display = 'none';
-        }
-        
-        function loadCategoriesList() {
-            const container = document.getElementById('categoriesListContainer');
-            container.innerHTML = '';
-            
-            categories.forEach(category => {
-                const categoryDiv = document.createElement('div');
-                categoryDiv.className = 'category-tag';
-                categoryDiv.innerHTML = `
-                    ${category.charAt(0).toUpperCase() + category.slice(1)}
-                    <button class="remove-category" onclick="removeCategory('${category}')">
-                        <i class="fas fa-times"></i>
-                    </button>
-                `;
-                container.appendChild(categoryDiv);
-            });
-        }
-        
-        async function addNewCategory() {
-            const newCategory = document.getElementById('newCategoryName').value.trim().toLowerCase();
-            
-            if (!newCategory) {
-                alert('Please enter a category name');
-                return;
-            }
-            
-            if (categories.includes(newCategory)) {
-                alert('This category already exists');
-                return;
-            }
-            
-            categories.push(newCategory);
-            cacheDataLocally();
-            loadCategoriesList();
-            loadCategories();
-            
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(categories, null, 2);
-                    await updateGitHubFile('data/categories.json', content, 'Add new category');
-                    alert('Category added and auto-synced to GitHub!');
-                } catch (error) {
-                    alert('Category added locally. GitHub sync failed.');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
-                alert('Category added to local cache.');
-            }
-            
-            document.getElementById('newCategoryName').value = '';
-        }
-        
-        async function removeCategory(categoryToRemove) {
-            if (!confirm(`Are you sure you want to remove the category "${categoryToRemove}"?`)) return;
-            
-            categories = categories.filter(cat => cat !== categoryToRemove);
-            cacheDataLocally();
-            loadCategoriesList();
-            loadCategories();
-            
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(categories, null, 2);
-                    await updateGitHubFile('data/categories.json', content, 'Remove category');
-                    alert('Category removed and synced to GitHub!');
-                } catch (error) {
-                    alert('Category removed locally. GitHub sync failed.');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
-                alert('Category removed from local cache.');
-            }
         }
         
         // ============================================
@@ -2812,16 +2672,12 @@
             window.mapInitialized = true;
         }
         
-        function openGoogleMaps() {
-            window.open('https://maps.app.goo.gl/wrvSQWH3EcMFJdVa9');
-        }
-        
         // ============================================
         // INITIALIZATION
         // ============================================
         document.addEventListener('DOMContentLoaded', async function() {
-            // Check for auto-sync setting
-            autoSyncEnabled = localStorage.getItem('auto_sync') === 'true';
+            // Load UI customizations first
+            loadCustomizations();
             
             // Load data from GitHub
             await loadDataFromGitHub();
@@ -2835,101 +2691,45 @@
             
             if (isAdminLoggedIn) {
                 showAdminPanels();
-                
-                // Add auto-sync toggle to admin controls
-                addAutoSyncToggle();
-            }
-            
-            // Add cache busting for GitHub Pages images
-            if (window.location.host.includes('github.io')) {
-                setTimeout(() => {
-                    document.querySelectorAll('img[src*="githubusercontent.com"]').forEach(img => {
-                        if (!img.src.includes('?t=')) {
-                            img.src = img.src + '?t=' + Date.now();
-                        }
-                    });
-                }, 500);
             }
         });
         
-        // Add auto-sync toggle to admin panel
-        function addAutoSyncToggle() {
-            const productPanel = document.getElementById('adminProductPanel');
-            if (productPanel) {
-                const toggleDiv = document.createElement('div');
-                toggleDiv.style.cssText = `
-                    margin-top: 1.5rem;
-                    padding: 1.5rem;
-                    background: rgba(44, 62, 80, 0.08);
-                    border-radius: var(--radius);
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    border: 1px solid var(--border-color);
-                `;
-                toggleDiv.innerHTML = `
-                    <div>
-                        <strong style="font-size: 1.1rem;"><i class="fas fa-sync"></i> Auto-Sync to GitHub</strong>
-                        <p style="font-size: 0.95rem; color: #666; margin-top: 0.5rem;">
-                            Automatically sync changes to GitHub (requires token)
-                        </p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="autoSyncToggle" ${autoSyncEnabled ? 'checked' : ''}>
-                        <span class="slider"></span>
-                    </label>
-                    <style>
-                        .switch {
-                            position: relative;
-                            display: inline-block;
-                            width: 70px;
-                            height: 38px;
-                        }
-                        .switch input {
-                            opacity: 0;
-                            width: 0;
-                            height: 0;
-                        }
-                        .slider {
-                            position: absolute;
-                            cursor: pointer;
-                            top: 0;
-                            left: 0;
-                            right: 0;
-                            bottom: 0;
-                            background-color: #ccc;
-                            transition: .4s;
-                            border-radius: 38px;
-                        }
-                        .slider:before {
-                            position: absolute;
-                            content: "";
-                            height: 30px;
-                            width: 30px;
-                            left: 4px;
-                            bottom: 4px;
-                            background-color: white;
-                            transition: .4s;
-                            border-radius: 50%;
-                        }
-                        input:checked + .slider {
-                            background-color: #2196F3;
-                        }
-                        input:checked + .slider:before {
-                            transform: translateX(32px);
-                        }
-                    </style>
-                `;
-                productPanel.querySelector('.admin-form').appendChild(toggleDiv);
-                
-                // Add event listener
-                document.getElementById('autoSyncToggle').addEventListener('change', function() {
-                    autoSyncEnabled = this.checked;
-                    localStorage.setItem('auto_sync', autoSyncEnabled);
-                    alert(`Auto-sync ${autoSyncEnabled ? 'enabled' : 'disabled'}`);
-                });
+        // Add image preview functionality for forms
+        document.getElementById('productImageFile')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('productImagePreview').src = e.target.result;
+                    document.getElementById('productImagePreview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
             }
-        }
+        });
+        
+        document.getElementById('brandImageFile')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('brandImagePreview').src = e.target.result;
+                    document.getElementById('brandImagePreview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        document.getElementById('galleryImageFile')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('galleryImagePreview').src = e.target.result;
+                    document.getElementById('galleryImagePreview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
     </script>
 </body>
 </html>
