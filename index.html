@@ -9,7 +9,6 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <meta http-equiv="refresh" content="300">
     
     <!-- PDF থিমের Colors -->
     <style>
@@ -759,9 +758,11 @@
         <button class="admin-control-btn" onclick="showCategoryModal()" title="Manage Categories">
             <i class="fas fa-tags"></i>
         </button>
-        <!-- Cache Refresh Button -->
         <button class="admin-control-btn" onclick="refreshCache()" title="Refresh Cache" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
             <i class="fas fa-sync-alt"></i>
+        </button>
+        <button class="admin-control-btn" onclick="exportData()" title="Export Data" style="background: linear-gradient(135deg, #1abc9c, #16a085);">
+            <i class="fas fa-download"></i>
         </button>
     </div>
     
@@ -895,6 +896,11 @@
                         <button class="btn btn-secondary" onclick="addProduct()">
                             <i class="fas fa-plus"></i> Add Product
                         </button>
+                        
+                        <!-- Export Button -->
+                        <button class="btn btn-success" onclick="exportProductsData()" style="margin-top: 1rem;">
+                            <i class="fas fa-download"></i> Export Products Data
+                        </button>
                     </div>
                 </div>
             </div>
@@ -929,6 +935,11 @@
                         <button class="btn btn-secondary" onclick="addBrand()">
                             <i class="fas fa-plus"></i> Add Brand
                         </button>
+                        
+                        <!-- Export Button -->
+                        <button class="btn btn-success" onclick="exportBrandsData()" style="margin-top: 1rem;">
+                            <i class="fas fa-download"></i> Export Brands Data
+                        </button>
                     </div>
                 </div>
             </div>
@@ -962,6 +973,11 @@
                         
                         <button class="btn btn-secondary" onclick="addGalleryItem()">
                             <i class="fas fa-plus"></i> Add Image
+                        </button>
+                        
+                        <!-- Export Button -->
+                        <button class="btn btn-success" onclick="exportGalleryData()" style="margin-top: 1rem;">
+                            <i class="fas fa-download"></i> Export Gallery Data
                         </button>
                     </div>
                 </div>
@@ -1071,196 +1087,288 @@
     
     <script>
         // ============================================
-        // AUTOMATIC CACHE BUSTING SYSTEM
-        // ============================================
-        (function() {
-            // Check if we're on GitHub Pages
-            if (window.location.host.includes('github.io')) {
-                // Don't use clear_cache=true - use automatic cache busting
-                if (window.location.search.includes('clear_cache=true')) {
-                    // Clear all storage
-                    localStorage.clear();
-                    sessionStorage.clear();
-                    
-                    // Clear browser cache
-                    if ('caches' in window) {
-                        caches.keys().then(names => {
-                            names.forEach(name => caches.delete(name));
-                        });
-                    }
-                    
-                    // Remove the parameter and reload
-                    const newUrl = window.location.pathname + '?nocache=' + Date.now();
-                    window.history.replaceState({}, document.title, newUrl);
-                    location.reload(true);
-                    return;
-                }
-                
-                // Add cache busting to all GitHub image URLs
-                function bustCacheForGitHubImages() {
-                    const cacheBuster = 'nocache=' + Date.now();
-                    
-                    // Update all existing images
-                    document.querySelectorAll('img[src*="githubusercontent.com"]').forEach(img => {
-                        const src = img.src;
-                        if (!src.includes('nocache=')) {
-                            const separator = src.includes('?') ? '&' : '?';
-                            img.src = src + separator + cacheBuster;
-                        }
-                    });
-                    
-                    // Also update the logo specifically
-                    const logo = document.getElementById('companyLogo');
-                    if (logo && logo.src.includes('githubusercontent.com') && !logo.src.includes('nocache=')) {
-                        const separator = logo.src.includes('?') ? '&' : '?';
-                        logo.src = logo.src + separator + cacheBuster;
-                    }
-                    
-                    console.log('GitHub Pages cache busting applied');
-                }
-                
-                // Run on DOM ready
-                document.addEventListener('DOMContentLoaded', function() {
-                    setTimeout(bustCacheForGitHubImages, 100);
-                });
-                
-                // Also update data URLs in localStorage
-                function updateDataUrlsWithCacheBust() {
-                    try {
-                        const products = JSON.parse(localStorage.getItem('productsData') || '[]');
-                        const brands = JSON.parse(localStorage.getItem('brandsData') || '[]');
-                        const gallery = JSON.parse(localStorage.getItem('galleryData') || '[]');
-                        
-                        const cacheBuster = 'nocache=' + Date.now();
-                        
-                        // Update product images
-                        products.forEach(p => {
-                            if (p.image && p.image.includes('githubusercontent.com') && !p.image.includes('nocache=')) {
-                                const separator = p.image.includes('?') ? '&' : '?';
-                                p.image = p.image + separator + cacheBuster;
-                            }
-                        });
-                        
-                        // Update brand images
-                        brands.forEach(b => {
-                            if (b.image && b.image.includes('githubusercontent.com') && !b.image.includes('nocache=')) {
-                                const separator = b.image.includes('?') ? '&' : '?';
-                                b.image = b.image + separator + cacheBuster;
-                            }
-                        });
-                        
-                        // Update gallery images
-                        gallery.forEach(g => {
-                            if (g.image && g.image.includes('githubusercontent.com') && !g.image.includes('nocache=')) {
-                                const separator = g.image.includes('?') ? '&' : '?';
-                                g.image = g.image + separator + cacheBuster;
-                            }
-                        });
-                        
-                        // Save back to localStorage
-                        localStorage.setItem('productsData', JSON.stringify(products));
-                        localStorage.setItem('brandsData', JSON.stringify(brands));
-                        localStorage.setItem('galleryData', JSON.stringify(gallery));
-                    } catch (e) {
-                        console.log('Error updating cache:', e);
-                    }
-                }
-                
-                // Update localStorage data
-                updateDataUrlsWithCacheBust();
-            }
-        })();
-        
-        // ============================================
         // GITHUB CONFIGURATION
         // ============================================
-        // আপনার GitHub username এবং repository name এখানে দিন
-        const GITHUB_USERNAME = 'shafaabidautomationbd'; // আপনার GitHub username
-        const GITHUB_REPO = 'shafa-abid-automation-bd'; // আপনার repository name
-        const GITHUB_TOKEN = ''; // Optional: যদি private repo হয়
-        
-        // Base URL for GitHub images
+        const GITHUB_USERNAME = 'shafaabidautomationbd';
+        const GITHUB_REPO = 'shafa-abid-automation-bd';
         const GITHUB_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/main/images`;
         
+        // GitHub Data Files
+        const DATA_FILES = {
+            products: `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/main/data/products.json`,
+            brands: `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/main/data/brands.json`,
+            gallery: `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/main/data/gallery.json`,
+            categories: `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/main/data/categories.json`
+        };
+        
         // ============================================
-        // DATA STORAGE SYSTEM
+        // DEFAULT DATA (Fallback)
+        // ============================================
+        const DEFAULT_DATA = {
+            products: [
+                {
+                    id: 1,
+                    name: "Siemens PLC S7-1200",
+                    model: "6ES7214-1HG40-0XB0",
+                    price: "Contact for quote",
+                    category: "automation",
+                    description: "Programmable Logic Controller for industrial automation",
+                    image: `${GITHUB_BASE_URL}/products/plc.png`,
+                    featured: true
+                },
+                {
+                    id: 2,
+                    name: "TIGER ALARM",
+                    model: "BC-8",
+                    price: "Contact for quote",
+                    category: "drives",
+                    description: "Variable Frequency Drive for motor control",
+                    image: `${GITHUB_BASE_URL}/products/alarm.jpg`,
+                    featured: true
+                }
+            ],
+            brands: [
+                { id: 1, name: "Siemens", image: `${GITHUB_BASE_URL}/brands/siemens.png` },
+                { id: 2, name: "ABB", image: `${GITHUB_BASE_URL}/brands/abb.png` },
+                { id: 3, name: "Rexroth", image: `${GITHUB_BASE_URL}/brands/rexroth.png` }
+            ],
+            gallery: [
+                { id: 1, title: "Control Panel Design", image: `${GITHUB_BASE_URL}/gallery/panel1.jpg` },
+                { id: 2, title: "Factory Setup", image: `${GITHUB_BASE_URL}/gallery/panel2.jpg` }
+            ],
+            categories: ["automation", "electrical", "sensors", "drives", "control", "instruments"]
+        };
+        
+        // ============================================
+        // GLOBAL VARIABLES
         // ============================================
         const ADMIN_PASSWORD = "admin123";
-        
         let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
         
-        // Function to get image URL with automatic cache busting on GitHub Pages
-        function getImageUrl(type, filename) {
-            let url = `${GITHUB_BASE_URL}/${type}/${filename}`;
-            
-            // Add cache busting for GitHub Pages
-            if (window.location.host.includes('github.io')) {
-                url += '?t=' + Date.now();
+        let productsData = [];
+        let brandsData = [];
+        let galleryData = [];
+        let categories = [];
+        
+        // ============================================
+        // DATA LOADING FUNCTIONS
+        // ============================================
+        
+        // Function to load data from GitHub with cache busting
+        async function loadDataFromGitHub() {
+            try {
+                // Add cache busting parameter
+                const cacheBuster = `?t=${Date.now()}`;
+                
+                // Load products data
+                const productsResponse = await fetch(DATA_FILES.products + cacheBuster);
+                if (productsResponse.ok) {
+                    productsData = await productsResponse.json();
+                    console.log('Products loaded from GitHub');
+                } else {
+                    throw new Error('Failed to load products');
+                }
+                
+                // Load brands data
+                const brandsResponse = await fetch(DATA_FILES.brands + cacheBuster);
+                if (brandsResponse.ok) {
+                    brandsData = await brandsResponse.json();
+                    console.log('Brands loaded from GitHub');
+                } else {
+                    throw new Error('Failed to load brands');
+                }
+                
+                // Load gallery data
+                const galleryResponse = await fetch(DATA_FILES.gallery + cacheBuster);
+                if (galleryResponse.ok) {
+                    galleryData = await galleryResponse.json();
+                    console.log('Gallery loaded from GitHub');
+                } else {
+                    throw new Error('Failed to load gallery');
+                }
+                
+                // Load categories data
+                const categoriesResponse = await fetch(DATA_FILES.categories + cacheBuster);
+                if (categoriesResponse.ok) {
+                    categories = await categoriesResponse.json();
+                    console.log('Categories loaded from GitHub');
+                } else {
+                    throw new Error('Failed to load categories');
+                }
+                
+                // Cache data in localStorage for offline use
+                cacheDataLocally();
+                
+                return true;
+                
+            } catch (error) {
+                console.error('Error loading data from GitHub:', error);
+                
+                // Try to load from localStorage cache
+                return loadFromLocalStorage();
             }
-            
-            return url;
         }
         
-        // Load or initialize data with GitHub URLs
-        let productsData = JSON.parse(localStorage.getItem('productsData')) || [
-            {
-                id: 1,
-                name: "Siemens PLC S7-1200",
-                model: "6ES7214-1HG40-0XB0",
-                price: "Contact for quote",
-                category: "automation",
-                description: "Programmable Logic Controller for industrial automation",
-                image: getImageUrl('products', 'plc.png'),
-                featured: true
-            },
-            {
-                id: 2,
-                name: "TIGER ALARM",
-                model: "BC-8",
-                price: "Contact for quote",
-                category: "drives",
-                description: "Variable Frequency Drive for motor control",
-                image: getImageUrl('products', 'alarm.jpg'),
-                featured: true
+        // Cache data in localStorage
+        function cacheDataLocally() {
+            try {
+                localStorage.setItem('cached_productsData', JSON.stringify(productsData));
+                localStorage.setItem('cached_brandsData', JSON.stringify(brandsData));
+                localStorage.setItem('cached_galleryData', JSON.stringify(galleryData));
+                localStorage.setItem('cached_categories', JSON.stringify(categories));
+                localStorage.setItem('cache_timestamp', Date.now().toString());
+                console.log('Data cached locally');
+            } catch (e) {
+                console.warn('Could not cache data locally:', e);
             }
-        ];
+        }
         
-        let brandsData = JSON.parse(localStorage.getItem('brandsData')) || [
-            { id: 1, name: "Siemens", image: getImageUrl('brands', 'siemens.png') },
-            { id: 2, name: "ABB", image: getImageUrl('brands', 'abb.png') },
-            { id: 3, name: "Rexroth", image: getImageUrl('brands', 'rexroth.png') }
-        ];
-        
-        let galleryData = JSON.parse(localStorage.getItem('galleryData')) || [
-            { id: 1, title: "Control Panel Design", image: getImageUrl('gallery', 'panel1.jpg') },
-            { id: 2, title: "Factory Setup", image: getImageUrl('gallery', 'panel2.jpg') }
-        ];
-        
-        // Load categories
-        let categories = JSON.parse(localStorage.getItem('productCategories')) || [
-            "automation",
-            "electrical",
-            "sensors",
-            "drives",
-            "control",
-            "instruments"
-        ];
+        // Load data from localStorage cache
+        function loadFromLocalStorage() {
+            try {
+                const cacheTime = localStorage.getItem('cache_timestamp');
+                const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000);
+                
+                // Use cache if less than 1 day old
+                if (cacheTime && parseInt(cacheTime) > oneDayAgo) {
+                    productsData = JSON.parse(localStorage.getItem('cached_productsData') || '[]');
+                    brandsData = JSON.parse(localStorage.getItem('cached_brandsData') || '[]');
+                    galleryData = JSON.parse(localStorage.getItem('cached_galleryData') || '[]');
+                    categories = JSON.parse(localStorage.getItem('cached_categories') || '[]');
+                    
+                    if (productsData.length > 0) {
+                        console.log('Data loaded from localStorage cache');
+                        return true;
+                    }
+                }
+                
+                // Use default data
+                console.log('Using default data');
+                productsData = DEFAULT_DATA.products;
+                brandsData = DEFAULT_DATA.brands;
+                galleryData = DEFAULT_DATA.gallery;
+                categories = DEFAULT_DATA.categories;
+                
+                return true;
+                
+            } catch (e) {
+                console.error('Error loading from localStorage:', e);
+                
+                // Use default data
+                productsData = DEFAULT_DATA.products;
+                brandsData = DEFAULT_DATA.brands;
+                galleryData = DEFAULT_DATA.gallery;
+                categories = DEFAULT_DATA.categories;
+                
+                return true;
+            }
+        }
         
         // ============================================
-        // IMAGE HANDLING FUNCTIONS
+        // CACHE MANAGEMENT
         // ============================================
+        function refreshCache() {
+            // Clear only image cache, not data
+            if ('caches' in window) {
+                caches.keys().then(names => {
+                    names.forEach(name => {
+                        // Only delete image caches, not data
+                        if (name.includes('image') || name.includes('github')) {
+                            caches.delete(name);
+                        }
+                    });
+                });
+            }
+            
+            // Reload page with cache busting
+            window.location.href = window.location.pathname + '?refresh=' + Date.now();
+        }
+        
+        // ============================================
+        // DATA EXPORT FUNCTIONS
+        // ============================================
+        function exportProductsData() {
+            const dataStr = JSON.stringify(productsData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'products_data.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            alert('Products data exported! Copy this JSON to /data/products.json in your GitHub repository.');
+        }
+        
+        function exportBrandsData() {
+            const dataStr = JSON.stringify(brandsData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'brands_data.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            alert('Brands data exported! Copy this JSON to /data/brands.json in your GitHub repository.');
+        }
+        
+        function exportGalleryData() {
+            const dataStr = JSON.stringify(galleryData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'gallery_data.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            alert('Gallery data exported! Copy this JSON to /data/gallery.json in your GitHub repository.');
+        }
+        
+        function exportData() {
+            const allData = {
+                products: productsData,
+                brands: brandsData,
+                gallery: galleryData,
+                categories: categories,
+                export_date: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(allData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'shafa_abid_data_export.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            alert('All data exported! You can use this backup file.');
+        }
+        
+        // ============================================
+        // IMAGE HANDLING
+        // ============================================
+        function getImageUrl(type, filename) {
+            return `${GITHUB_BASE_URL}/${type}/${filename}`;
+        }
         
         function setDefaultImages() {
-            // Update logo to use GitHub URL with cache busting
             const logoElement = document.getElementById('companyLogo');
-            let githubLogoUrl = `${GITHUB_BASE_URL}/logo.png`;
+            const githubLogoUrl = `${GITHUB_BASE_URL}/logo.png`;
             
             // Add cache busting for GitHub Pages
             if (window.location.host.includes('github.io')) {
-                githubLogoUrl += '?t=' + Date.now();
+                logoElement.src = githubLogoUrl + '?t=' + Date.now();
+            } else {
+                logoElement.src = githubLogoUrl;
             }
             
-            logoElement.src = githubLogoUrl;
             logoElement.onerror = function() {
                 this.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%232c3e50%22/%3E%3Ctext x=%2250%22 y=%2250%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22white%22 text-anchor=%22middle%22 dy=%22.3em%22%3ESA%3C/text%3E%3C/svg%3E';
             };
@@ -1334,10 +1442,10 @@
             logoutBtn.id = 'logoutBtn';
             header.appendChild(logoutBtn);
             
+            loadCategories();
             loadProducts();
             loadBrands();
             loadGallery();
-            loadCategories();
         }
         
         function hideAdminPanels() {
@@ -1356,7 +1464,7 @@
         }
         
         // ============================================
-        // LOGO MANAGEMENT (GitHub Compatible)
+        // LOGO MANAGEMENT
         // ============================================
         function showLogoUpload() {
             document.getElementById('logoUploadModal').style.display = 'flex';
@@ -1392,13 +1500,10 @@
             const reader = new FileReader();
             
             reader.onload = function(e) {
-                // Store in localStorage (temporary solution)
-                localStorage.setItem('companyLogo', e.target.result);
-                
                 // Update logo on page
                 document.getElementById('companyLogo').src = e.target.result;
                 
-                showUploadStatus('logoUploadStatus', 'Logo updated successfully! Note: For permanent storage, upload to GitHub images folder.', 'success');
+                showUploadStatus('logoUploadStatus', 'Logo updated on this device. For permanent storage, upload to GitHub images folder.', 'success');
                 
                 setTimeout(() => {
                     closeLogoUpload();
@@ -1406,23 +1511,6 @@
             }
             
             reader.readAsDataURL(file);
-        }
-        
-        // ============================================
-        // CACHE REFRESH FUNCTION
-        // ============================================
-        function refreshCache() {
-            alert('Refreshing cache... Page will reload.');
-            
-            // Clear localStorage
-            localStorage.clear();
-            
-            // Force hard reload
-            if (window.location.host.includes('github.io')) {
-                window.location.href = window.location.pathname + '?clear_cache=true&t=' + Date.now();
-            } else {
-                location.reload(true);
-            }
         }
         
         // ============================================
@@ -1434,12 +1522,12 @@
             
             // All products
             container.innerHTML = productsData.map(product => {
-                const imageUrl = product.image || getImageUrl('products', 'default.png');
+                const imageUrl = product.image || `${GITHUB_BASE_URL}/products/default.png`;
                 return `
-                <div class="product-card" data-category="${product.category}" data-search="${product.name.toLowerCase()} ${product.model.toLowerCase()} ${product.description.toLowerCase()}">
+                <div class="product-card" data-category="${product.category}" data-search="${product.name.toLowerCase()} ${product.model ? product.model.toLowerCase() : ''} ${product.description ? product.description.toLowerCase() : ''}">
                     <div class="product-img">
                         <img src="${imageUrl}" alt="${product.name}" 
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image' + '&t=' + Date.now();">
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image&t=' + Date.now();">
                     </div>
                     <div class="product-body">
                         <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">${product.name}</h3>
@@ -1447,7 +1535,7 @@
                         <p><strong>Category:</strong> ${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</p>
                         ${product.description ? `<p style="margin-top: 0.5rem; font-size: 0.9rem;">${product.description}</p>` : ''}
                         ${product.price ? `<p style="margin-top: 0.5rem; color: var(--accent-orange); font-weight: bold; font-size: 1.1rem;">${product.price}</p>` : ''}
-                        <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801406503242?text=Interested in ${encodeURIComponent(product.name)} - Model: ${encodeURIComponent(product.model)}')" style="margin-top: 0.8rem; width: 100%;">
+                        <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801406503242?text=Interested in ${encodeURIComponent(product.name)} - Model: ${encodeURIComponent(product.model || '')}')" style="margin-top: 0.8rem; width: 100%;">
                             <i class="fab fa-whatsapp"></i> Inquire Now
                         </button>
                         ${isAdminLoggedIn ? `
@@ -1470,16 +1558,16 @@
             const featuredProducts = productsData.filter(p => p.featured);
             if (featuredProducts.length > 0) {
                 featuredContainer.innerHTML = featuredProducts.map(product => {
-                    const imageUrl = product.image || getImageUrl('products', 'default.png');
+                    const imageUrl = product.image || `${GITHUB_BASE_URL}/products/default.png`;
                     return `
                     <div class="product-card">
                         <div class="product-img">
                             <img src="${imageUrl}" alt="${product.name}" 
-                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image' + '&t=' + Date.now();">
+                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image&t=' + Date.now();">
                         </div>
                         <div class="product-body">
                             <h3 style="color: var(--primary-blue);">${product.name}</h3>
-                            <p><strong>Model:</strong> ${product.model}</p>
+                            <p><strong>Model:</strong> ${product.model || 'N/A'}</p>
                             ${product.price ? `<p style="color: var(--accent-orange); font-weight: bold;">${product.price}</p>` : ''}
                             <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801406503242?text=Interested in ${encodeURIComponent(product.name)}')" style="margin-top: 0.8rem; width: 100%;">
                                 <i class="fab fa-whatsapp"></i> Inquire Now
@@ -1492,7 +1580,7 @@
                     <div class="no-results">
                         <i class="fas fa-star"></i>
                         <h3>No Featured Products Yet</h3>
-                        <p>Admin can mark products as featured from the admin controls</p>
+                        <p>Admin can mark products as featured</p>
                     </div>
                 `;
             }
@@ -1594,8 +1682,8 @@
                 }
                 reader.readAsDataURL(imageFile);
             } else {
-                // Use default GitHub image
-                imageData = getImageUrl('products', 'default.png');
+                // Use default image
+                imageData = `${GITHUB_BASE_URL}/products/default.png`;
                 saveNewProduct(name, model, price, category, description, imageData, featured);
             }
         }
@@ -1613,7 +1701,7 @@
             };
             
             productsData.push(newProduct);
-            saveData();
+            cacheDataLocally(); // Cache locally
             loadProducts();
             
             // Clear form
@@ -1625,14 +1713,15 @@
             document.getElementById('productImageFile').value = '';
             document.getElementById('productImagePreview').style.display = 'none';
             
-            showUploadStatus('productUploadStatus', 'Product added successfully! Note: For permanent image storage, upload to GitHub images/products folder.', 'success');
+            showUploadStatus('productUploadStatus', 'Product added to local cache. Export and upload to GitHub for permanent storage.', 'success');
         }
         
         function deleteProduct(id) {
             if (confirm('Are you sure you want to delete this product?')) {
                 productsData = productsData.filter(p => p.id !== id);
-                saveData();
+                cacheDataLocally();
                 loadProducts();
+                alert('Product deleted from local cache.');
             }
         }
         
@@ -1642,12 +1731,12 @@
         function loadBrands() {
             const container = document.getElementById('brandsContainer');
             container.innerHTML = brandsData.map(brand => {
-                const imageUrl = brand.image || getImageUrl('brands', 'default.png');
+                const imageUrl = brand.image || `${GITHUB_BASE_URL}/brands/default.png`;
                 return `
                 <div class="brand-card">
                     <div class="brand-logo">
                         <img src="${imageUrl}" alt="${brand.name}" 
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/100x50?text=${encodeURIComponent(brand.name)}' + '&t=' + Date.now();">
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/100x50?text=${encodeURIComponent(brand.name)}&t=' + Date.now();">
                     </div>
                     <p>${brand.name}</p>
                     ${isAdminLoggedIn ? `
@@ -1689,7 +1778,7 @@
                 }
                 reader.readAsDataURL(imageFile);
             } else {
-                imageData = getImageUrl('brands', 'default.png');
+                imageData = `${GITHUB_BASE_URL}/brands/default.png`;
                 saveNewBrand(name, imageData);
             }
         }
@@ -1702,21 +1791,22 @@
             };
             
             brandsData.push(newBrand);
-            saveData();
+            cacheDataLocally();
             loadBrands();
             
             document.getElementById('newBrandName').value = '';
             document.getElementById('brandImageFile').value = '';
             document.getElementById('brandImagePreview').style.display = 'none';
             
-            showUploadStatus('brandUploadStatus', 'Brand added successfully! Note: For permanent logo storage, upload to GitHub images/brands folder.', 'success');
+            showUploadStatus('brandUploadStatus', 'Brand added to local cache. Export and upload to GitHub for permanent storage.', 'success');
         }
         
         function deleteBrand(id) {
             if (confirm('Are you sure you want to delete this brand?')) {
                 brandsData = brandsData.filter(b => b.id !== id);
-                saveData();
+                cacheDataLocally();
                 loadBrands();
+                alert('Brand deleted from local cache.');
             }
         }
         
@@ -1726,11 +1816,11 @@
         function loadGallery() {
             const container = document.getElementById('galleryContainer');
             container.innerHTML = galleryData.map(item => {
-                const imageUrl = item.image || getImageUrl('gallery', 'default.jpg');
+                const imageUrl = item.image || `${GITHUB_BASE_URL}/gallery/default.jpg`;
                 return `
                 <div class="gallery-item">
                     <img src="${imageUrl}" alt="${item.title}" class="gallery-img"
-                         onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=${encodeURIComponent(item.title)}' + '&t=' + Date.now();">
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=${encodeURIComponent(item.title)}&t=' + Date.now();">
                     ${isAdminLoggedIn ? `
                         <div style="padding: 1rem; text-align: center;">
                             <p>${item.title}</p>
@@ -1773,7 +1863,7 @@
                 }
                 reader.readAsDataURL(imageFile);
             } else {
-                imageData = getImageUrl('gallery', 'default.jpg');
+                imageData = `${GITHUB_BASE_URL}/gallery/default.jpg`;
                 saveGalleryItem(title, imageData);
             }
         }
@@ -1786,21 +1876,22 @@
             };
             
             galleryData.push(newItem);
-            saveData();
+            cacheDataLocally();
             loadGallery();
             
             document.getElementById('newGalleryTitle').value = '';
             document.getElementById('galleryImageFile').value = '';
             document.getElementById('galleryImagePreview').style.display = 'none';
             
-            showUploadStatus('galleryUploadStatus', 'Gallery image added successfully! Note: For permanent storage, upload to GitHub images/gallery folder.', 'success');
+            showUploadStatus('galleryUploadStatus', 'Gallery image added to local cache. Export and upload to GitHub for permanent storage.', 'success');
         }
         
         function deleteGalleryItem(id) {
             if (confirm('Are you sure you want to delete this image?')) {
                 galleryData = galleryData.filter(g => g.id !== id);
-                saveData();
+                cacheDataLocally();
                 loadGallery();
+                alert('Gallery item deleted from local cache.');
             }
         }
         
@@ -1888,26 +1979,22 @@
             }
             
             categories.push(newCategory);
-            saveCategories();
+            cacheDataLocally();
             loadCategoriesList();
             loadCategories();
             
             document.getElementById('newCategoryName').value = '';
-            alert('Category added successfully!');
+            alert('Category added to local cache.');
         }
         
         function removeCategory(categoryToRemove) {
             if (confirm(`Are you sure you want to remove the category "${categoryToRemove}"?`)) {
                 categories = categories.filter(cat => cat !== categoryToRemove);
-                saveCategories();
+                cacheDataLocally();
                 loadCategoriesList();
                 loadCategories();
-                alert('Category removed successfully!');
+                alert('Category removed from local cache.');
             }
-        }
-        
-        function saveCategories() {
-            localStorage.setItem('productCategories', JSON.stringify(categories));
         }
         
         // ============================================
@@ -1943,18 +2030,13 @@
         }
         
         // ============================================
-        // DATA SAVE/LOAD
+        // INITIALIZATION
         // ============================================
-        function saveData() {
-            localStorage.setItem('productsData', JSON.stringify(productsData));
-            localStorage.setItem('brandsData', JSON.stringify(brandsData));
-            localStorage.setItem('galleryData', JSON.stringify(galleryData));
-        }
-        
-        // ============================================
-        // INITIALIZE
-        // ============================================
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Load data from GitHub
+            await loadDataFromGitHub();
+            
+            // Initialize UI
             setDefaultImages();
             loadCategories();
             loadProducts();
@@ -1963,6 +2045,17 @@
             
             if (isAdminLoggedIn) {
                 showAdminPanels();
+            }
+            
+            // Add cache busting for GitHub Pages images
+            if (window.location.host.includes('github.io')) {
+                setTimeout(() => {
+                    document.querySelectorAll('img[src*="githubusercontent.com"]').forEach(img => {
+                        if (!img.src.includes('?t=')) {
+                            img.src = img.src + '?t=' + Date.now();
+                        }
+                    });
+                }, 500);
             }
         });
     </script>
