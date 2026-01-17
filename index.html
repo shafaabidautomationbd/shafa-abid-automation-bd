@@ -17,6 +17,9 @@
             --text-light: #ffffff;
             --border-color: #bdc3c7;
             --card-bg: #ffffff;
+            
+            /* CHANGE HEADLINE COLOR HERE - Change #2596be to your desired color */
+            --headline-color: #2596be;
         }
     </style>
     
@@ -43,6 +46,9 @@
             --card-bg: #ffffff;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             --radius: 8px;
+            
+            /* CHANGE HEADLINE COLOR HERE - Change #2596be to your desired color */
+            --headline-color: #2596be;
         }
         
         * {
@@ -89,10 +95,12 @@
             padding: 3px;
         }
         
+        /* CHANGE SHOP NAME COLOR HERE */
         .logo-text {
             font-family: 'Montserrat', sans-serif;
             font-size: 1.1rem;
             font-weight: 800;
+            color: var(--headline-color); /* This uses the headline color variable */
         }
         
         .tagline {
@@ -231,6 +239,10 @@
         
         .btn-success {
             background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+        
+        .btn-facebook {
+            background: linear-gradient(135deg, #1877F2, #0D5FD9);
         }
         
         /* Products Grid */
@@ -720,6 +732,7 @@
                  alt="Logo" class="company-logo"
                  onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%232c3e50%22/%3E%3Ctext x=%2250%22 y=%2250%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22white%22 text-anchor=%22middle%22 dy=%22.3em%22%3ESA%3C/text%3E%3C/svg%3E'">
             <div>
+                <!-- CHANGE SHOP NAME COLOR: Update var(--headline-color) in :root CSS variables -->
                 <div class="logo-text">Shafa Abid Automation BD</div>
                 <div class="tagline">Industrial Electrical & Electronics Solutions</div>
             </div>
@@ -950,6 +963,17 @@
             <div class="card">
                 <h2 class="section-title">Contact Us</h2>
                 
+                <!-- Facebook Page Section - ADDED -->
+                <div style="margin-bottom: 1.5rem; padding: 1.2rem; background: rgba(59, 89, 152, 0.1); border-radius: var(--radius);">
+                    <h3 style="color: #1877F2; margin-bottom: 0.8rem;">
+                        <i class="fab fa-facebook"></i> Facebook Page
+                    </h3>
+                    <p style="margin-bottom: 1rem;">Follow us on Facebook for updates and offers</p>
+                    <button class="btn btn-facebook" onclick="window.open('https://web.facebook.com/profile.php?id=61574697974139')">
+                        <i class="fab fa-facebook"></i> Visit Facebook Page
+                    </button>
+                </div>
+                
                 <!-- Contact Info -->
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.2rem; margin: 1.5rem 0;">
                     <div style="padding: 1.2rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
@@ -982,6 +1006,22 @@
                 <div class="map-container">
                     <div id="map"></div>
                 </div>
+                
+                <!-- Business Hours -->
+                <div style="margin-top: 1.5rem; padding: 1.2rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
+                    <h4><i class="fas fa-clock"></i> Business Hours</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <div>
+                            <p><strong>Saturday - Thursday:</strong></p>
+                            <p>9:00 AM - 7:00 PM</p>
+                        </div>
+                        <div>
+                            <p><strong>Friday:</strong></p>
+                            <p>9:00 AM - 12:00 PM</p>
+                            <p>3:00 PM - 7:00 PM</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -999,6 +1039,14 @@
                     <h3 style="color: var(--accent-orange); margin-bottom: 1rem;">Contact</h3>
                     <p>+880 1869-552775</p>
                     <p>shafaabidautomation.bd@gmail.com</p>
+                    <div style="display: flex; gap: 0.8rem; margin-top: 1rem;">
+                        <button class="btn btn-facebook" onclick="window.open('https://web.facebook.com/profile.php?id=61574697974139')" style="padding: 0.5rem;">
+                            <i class="fab fa-facebook"></i>
+                        </button>
+                        <button class="btn btn-whatsapp" onclick="window.open('https://wa.me/8801406503242')" style="padding: 0.5rem;">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             
@@ -1047,8 +1095,8 @@
                 name: "TIGER ALARM",
                 model: "BC-8",
                 price: "Contact for quote",
-                category: "Electrical",
-                description: "Sefty Device",
+                category: "drives",
+                description: "Variable Frequency Drive for motor control",
                 image: `${GITHUB_BASE_URL}/products/alarm.jpg`,
                 featured: true
             }
@@ -1246,7 +1294,7 @@
             
             // All products
             container.innerHTML = productsData.map(product => {
-                const imageUrl = product.image || `${GITHUB_BASE_URL}/products/default.jpg`;
+                const imageUrl = product.image || `${GITHUB_BASE_URL}/products/default.png`;
                 return `
                 <div class="product-card" data-category="${product.category}" data-search="${product.name.toLowerCase()} ${product.model.toLowerCase()} ${product.description.toLowerCase()}">
                     <div class="product-img">
@@ -1282,7 +1330,7 @@
             const featuredProducts = productsData.filter(p => p.featured);
             if (featuredProducts.length > 0) {
                 featuredContainer.innerHTML = featuredProducts.map(product => {
-                    const imageUrl = product.image || `${GITHUB_BASE_URL}/products/default.jpg`;
+                    const imageUrl = product.image || `${GITHUB_BASE_URL}/products/default.png`;
                     return `
                     <div class="product-card">
                         <div class="product-img">
@@ -1407,7 +1455,7 @@
                 reader.readAsDataURL(imageFile);
             } else {
                 // Use default GitHub image
-                imageData = `${GITHUB_BASE_URL}/products/default.jpg`;
+                imageData = `${GITHUB_BASE_URL}/products/default.png`;
                 saveNewProduct(name, model, price, category, description, imageData, featured);
             }
         }
