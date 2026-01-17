@@ -78,7 +78,7 @@
         
         .company-logo {
             height: 50px;
-            width: 85px;
+            width: 50px;
             border-radius: 8px;
             object-fit: contain;
             border: 2px solid var(--accent-orange);
@@ -216,6 +216,10 @@
             background: linear-gradient(135deg, #25D366, #128C7E);
         }
         
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
         /* Products Grid */
         .products-grid {
             display: grid;
@@ -323,11 +327,53 @@
         
         .admin-form input,
         .admin-form textarea,
-        .admin-form select {
+        .admin-form select,
+        .admin-form .file-input {
             padding: 0.8rem;
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
             font-size: 0.9rem;
+            width: 100%;
+        }
+        
+        .file-input-container {
+            position: relative;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .file-input-label {
+            display: block;
+            padding: 0.8rem;
+            background: var(--light-gray);
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-input-label:hover {
+            background: #e3e6e8;
+            border-color: var(--accent-orange);
+        }
+        
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 150px;
+            margin-top: 1rem;
+            border-radius: var(--radius);
+            display: none;
         }
         
         /* Footer */
@@ -390,12 +436,54 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
         
+        /* Admin Controls */
+        .admin-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .admin-control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .admin-control-btn:hover {
+            transform: scale(1.1);
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .products-grid,
             .brands-grid,
             .gallery-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .admin-controls {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .admin-control-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
             }
         }
         
@@ -404,6 +492,11 @@
             .brands-grid,
             .gallery-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .admin-controls {
+                bottom: 5px;
+                right: 5px;
             }
         }
     </style>
@@ -423,13 +516,46 @@
         </div>
     </div>
     
+    <!-- Logo Upload Modal -->
+    <div class="login-modal" id="logoUploadModal">
+        <div class="login-box">
+            <h2 style="color: var(--primary-blue); margin-bottom: 1.5rem;">Change Company Logo</h2>
+            <div style="display: grid; gap: 1rem;">
+                <div class="file-input-container">
+                    <label class="file-input-label">
+                        <i class="fas fa-cloud-upload-alt"></i> Choose Logo Image
+                        <input type="file" id="logoFileInput" class="file-input" accept="image/*">
+                    </label>
+                    <img id="logoPreview" class="preview-image" alt="Logo Preview">
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn" onclick="uploadLogo()">Upload Logo</button>
+                    <button class="btn btn-secondary" onclick="closeLogoUpload()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Featured Products Modal -->
+    <div class="login-modal" id="featuredModal">
+        <div class="login-box" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+            <h2 style="color: var(--primary-blue); margin-bottom: 1.5rem;">Manage Featured Products</h2>
+            <div id="featuredProductsList" style="margin-bottom: 1.5rem;">
+                <!-- Featured products will be loaded here -->
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-secondary" onclick="closeFeaturedModal()">Done</button>
+            </div>
+        </div>
+    </div>
+    
     <!-- Header -->
     <header class="app-header">
         <div class="logo-section">
-            <!-- YOUR LOGO PATH HERE -->
-            <img src="images" alt="Logo" class="company-logo">
+            <!-- Logo will be loaded from localStorage -->
+            <img id="companyLogo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%232c3e50'/%3E%3Ctext x='50' y='50' font-family='Arial' font-size='14' fill='white' text-anchor='middle' dy='.3em'%3ESA%3C/text%3E%3C/svg%3E" alt="Logo" class="company-logo">
             <div>
-                <div class="logo-text">Shafa Abid Automation BD</div>
+                <div class="logo-text">SHAFA ABID AUTOMATION BD</div>
                 <div class="tagline">Industrial Electrical & Electronics Solutions</div>
             </div>
         </div>
@@ -437,6 +563,16 @@
             <i class="fas fa-user-cog"></i> Admin
         </button>
     </header>
+    
+    <!-- Admin Floating Controls -->
+    <div class="admin-controls" id="adminControls" style="display: none;">
+        <button class="admin-control-btn" onclick="showLogoUpload()" title="Change Logo">
+            <i class="fas fa-image"></i>
+        </button>
+        <button class="admin-control-btn" onclick="showFeaturedModal()" title="Featured Products">
+            <i class="fas fa-star"></i>
+        </button>
+    </div>
     
     <!-- Navigation -->
     <nav class="nav-container">
@@ -532,7 +668,16 @@
                             <option value="drives">Drives</option>
                         </select>
                         <textarea id="newProductDescription" placeholder="Description" rows="3"></textarea>
-                        <input type="text" id="newProductImage" placeholder="Image URL (or path)">
+                        
+                        <!-- File Upload for Product Image -->
+                        <div class="file-input-container">
+                            <label class="file-input-label">
+                                <i class="fas fa-cloud-upload-alt"></i> Upload Product Image
+                                <input type="file" id="productImageFile" class="file-input" accept="image/*">
+                            </label>
+                            <img id="productImagePreview" class="preview-image" alt="Product Image Preview">
+                        </div>
+                        
                         <button class="btn btn-secondary" onclick="addProduct()">
                             <i class="fas fa-plus"></i> Add Product
                         </button>
@@ -555,7 +700,16 @@
                     <h3><i class="fas fa-plus"></i> Add New Brand</h3>
                     <div class="admin-form">
                         <input type="text" id="newBrandName" placeholder="Brand Name">
-                        <input type="text" id="newBrandImage" placeholder="Logo URL (or path)">
+                        
+                        <!-- File Upload for Brand Logo -->
+                        <div class="file-input-container">
+                            <label class="file-input-label">
+                                <i class="fas fa-cloud-upload-alt"></i> Upload Brand Logo
+                                <input type="file" id="brandImageFile" class="file-input" accept="image/*">
+                            </label>
+                            <img id="brandImagePreview" class="preview-image" alt="Brand Logo Preview">
+                        </div>
+                        
                         <button class="btn btn-secondary" onclick="addBrand()">
                             <i class="fas fa-plus"></i> Add Brand
                         </button>
@@ -578,7 +732,16 @@
                     <h3><i class="fas fa-plus"></i> Add Gallery Image</h3>
                     <div class="admin-form">
                         <input type="text" id="newGalleryTitle" placeholder="Image Title">
-                        <input type="text" id="newGalleryImage" placeholder="Image URL (or path)">
+                        
+                        <!-- File Upload for Gallery Image -->
+                        <div class="file-input-container">
+                            <label class="file-input-label">
+                                <i class="fas fa-cloud-upload-alt"></i> Upload Gallery Image
+                                <input type="file" id="galleryImageFile" class="file-input" accept="image/*">
+                            </label>
+                            <img id="galleryImagePreview" class="preview-image" alt="Gallery Image Preview">
+                        </div>
+                        
                         <button class="btn btn-secondary" onclick="addGalleryItem()">
                             <i class="fas fa-plus"></i> Add Image
                         </button>
@@ -598,7 +761,7 @@
                         <i class="fab fa-facebook"></i> Facebook Page
                     </h3>
                     <!-- YOUR FACEBOOK LINK HERE -->
-                    <button class="btn" onclick="window.open('YOUR_FACEBOOK_LINK')" style="background: #1877F2;">
+                    <button class="btn" onclick="window.open('https://web.facebook.com/profile.php?id=61574697974139')" style="background: #1877F2;">
                         <i class="fab fa-facebook"></i> Visit Facebook Page
                     </button>
                 </div>
@@ -628,7 +791,7 @@
                         <i class="fas fa-map-marker-alt" style="font-size: 3rem; color: var(--primary-blue); margin-bottom: 1rem;"></i>
                         <h3>Our Location</h3>
                         <!-- YOUR MAP LINK HERE -->
-                        <button class="btn" onclick="window.open('YOUR_GOOGLE_MAPS_LINK')" style="margin-top: 1rem;">
+                        <button class="btn" onclick="window.open('https://maps.app.goo.gl/wrvSQWH3EcMFJdVa9')" style="margin-top: 1rem;">
                             <i class="fas fa-directions"></i> Open in Google Maps
                         </button>
                     </div>
@@ -676,7 +839,7 @@
                 price: "Contact for quote",
                 category: "automation",
                 description: "Programmable Logic Controller",
-                image: "images/products/plc",
+                image: "",
                 featured: true
             },
             {
@@ -686,20 +849,20 @@
                 price: "Contact for quote",
                 category: "drives",
                 description: "Variable Frequency Drive",
-                image: "images/products/p1.png",
+                image: "",
                 featured: true
             }
         ];
         
         let brandsData = JSON.parse(localStorage.getItem('brandsData')) || [
-            { id: 1, name: "Siemens", image: "images/brands/siemens" },
-            { id: 2, name: "ABB", image: "images/brands/abb.png" },
-            { id: 3, name: "Omron", image: "images/brands/omron.png" }
+            { id: 1, name: "Siemens", image: "" },
+            { id: 2, name: "ABB", image: "" },
+            { id: 3, name: "Omron", image: "" }
         ];
         
         let galleryData = JSON.parse(localStorage.getItem('galleryData')) || [
-            { id: 1, title: "Control Panel Design", image: "images/products/p1" },
-            { id: 2, title: "Factory Setup", image: "images/gallery/panel2.jpg" }
+            { id: 1, title: "Control Panel Design", image: "" },
+            { id: 2, title: "Factory Setup", image: "" }
         ];
         
         // ============================================
@@ -755,25 +918,145 @@
             document.getElementById('adminProductPanel').style.display = 'block';
             document.getElementById('adminBrandPanel').style.display = 'block';
             document.getElementById('adminGalleryPanel').style.display = 'block';
+            document.getElementById('adminControls').style.display = 'flex';
             
             // Add logout button to header
             const header = document.querySelector('.app-header');
             const logoutBtn = document.createElement('button');
-            logoutBtn.className = 'btn btn-secondary';
+            logoutBtn.className = 'btn btn-danger';
             logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
             logoutBtn.onclick = logoutAdmin;
             logoutBtn.id = 'logoutBtn';
             header.appendChild(logoutBtn);
+            
+            // Update all product cards with admin controls
+            loadProducts();
+            loadBrands();
+            loadGallery();
         }
         
         function hideAdminPanels() {
             document.getElementById('adminProductPanel').style.display = 'none';
             document.getElementById('adminBrandPanel').style.display = 'none';
             document.getElementById('adminGalleryPanel').style.display = 'none';
+            document.getElementById('adminControls').style.display = 'none';
             
             // Remove logout button
             const logoutBtn = document.getElementById('logoutBtn');
             if (logoutBtn) logoutBtn.remove();
+            
+            // Update all product cards without admin controls
+            loadProducts();
+            loadBrands();
+            loadGallery();
+        }
+        
+        // ============================================
+        // LOGO MANAGEMENT
+        // ============================================
+        function showLogoUpload() {
+            document.getElementById('logoUploadModal').style.display = 'flex';
+            document.getElementById('logoPreview').style.display = 'none';
+            document.getElementById('logoFileInput').value = '';
+        }
+        
+        function closeLogoUpload() {
+            document.getElementById('logoUploadModal').style.display = 'none';
+        }
+        
+        // Preview logo before upload
+        document.getElementById('logoFileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('logoPreview').src = e.target.result;
+                    document.getElementById('logoPreview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        function uploadLogo() {
+            const fileInput = document.getElementById('logoFileInput');
+            if (!fileInput.files[0]) {
+                alert('Please select a logo image');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                // Store logo in localStorage
+                localStorage.setItem('companyLogo', e.target.result);
+                
+                // Update logo on page
+                document.getElementById('companyLogo').src = e.target.result;
+                
+                closeLogoUpload();
+                alert('Logo updated successfully!');
+            }
+            
+            reader.readAsDataURL(file);
+        }
+        
+        // ============================================
+        // FEATURED PRODUCTS MANAGEMENT
+        // ============================================
+        function showFeaturedModal() {
+            loadFeaturedProductsList();
+            document.getElementById('featuredModal').style.display = 'flex';
+        }
+        
+        function closeFeaturedModal() {
+            document.getElementById('featuredModal').style.display = 'none';
+            loadProducts(); // Reload to show updated featured status
+        }
+        
+        function loadFeaturedProductsList() {
+            const container = document.getElementById('featuredProductsList');
+            container.innerHTML = '';
+            
+            productsData.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product-featured-item';
+                productDiv.style.cssText = `
+                    padding: 1rem;
+                    border: 1px solid var(--border-color);
+                    border-radius: var(--radius);
+                    margin-bottom: 0.8rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                `;
+                
+                productDiv.innerHTML = `
+                    <div>
+                        <strong>${product.name}</strong>
+                        <div style="font-size: 0.9rem; color: #666;">${product.model}</div>
+                    </div>
+                    <div>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" ${product.featured ? 'checked' : ''} 
+                                   onchange="toggleFeatured(${product.id}, this.checked)"
+                                   style="width: 20px; height: 20px;">
+                            Featured
+                        </label>
+                    </div>
+                `;
+                
+                container.appendChild(productDiv);
+            });
+        }
+        
+        function toggleFeatured(productId, isFeatured) {
+            const productIndex = productsData.findIndex(p => p.id === productId);
+            if (productIndex !== -1) {
+                productsData[productIndex].featured = isFeatured;
+                saveData();
+                loadProducts(); // Update the display
+            }
         }
         
         // ============================================
@@ -787,7 +1070,7 @@
             container.innerHTML = productsData.map(product => `
                 <div class="product-card" data-category="${product.category}">
                     <div class="product-img">
-                        ${product.image ? `<img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-box\"></i>';" />` : '<i class="fas fa-box"></i>'}
+                        ${product.image ? `<img src="${product.image}" alt="${product.name}" />` : '<i class="fas fa-box"></i>'}
                     </div>
                     <div class="product-body">
                         <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">${product.name}</h3>
@@ -798,9 +1081,16 @@
                             <i class="fab fa-whatsapp"></i> Inquire Now
                         </button>
                         ${isAdminLoggedIn ? `
-                            <button class="btn" onclick="deleteProduct(${product.id})" style="margin-top: 0.5rem; width: 100%; background: #e74c3c;">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
+                            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                                <button class="btn" onclick="deleteProduct(${product.id})" style="flex: 1; background: #e74c3c;">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                                ${product.featured ? `
+                                    <button class="btn" style="flex: 1; background: #f39c12;" title="Featured Product">
+                                        <i class="fas fa-star"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
                         ` : ''}
                     </div>
                 </div>
@@ -808,21 +1098,44 @@
             
             // Featured products
             const featuredProducts = productsData.filter(p => p.featured);
-            featuredContainer.innerHTML = featuredProducts.map(product => `
-                <div class="product-card">
-                    <div class="product-img">
-                        ${product.image ? `<img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-box\"></i>';" />` : '<i class="fas fa-box"></i>'}
+            if (featuredProducts.length > 0) {
+                featuredContainer.innerHTML = featuredProducts.map(product => `
+                    <div class="product-card">
+                        <div class="product-img">
+                            ${product.image ? `<img src="${product.image}" alt="${product.name}" />` : '<i class="fas fa-box"></i>'}
+                        </div>
+                        <div class="product-body">
+                            <h3 style="color: var(--primary-blue);">${product.name}</h3>
+                            ${product.price ? `<p><strong>Price:</strong> ${product.price}</p>` : ''}
+                            <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801869552775?text=Interested in ${encodeURIComponent(product.name)}')" style="margin-top: 0.8rem; width: 100%;">
+                                <i class="fab fa-whatsapp"></i> Inquire Now
+                            </button>
+                        </div>
                     </div>
-                    <div class="product-body">
-                        <h3 style="color: var(--primary-blue);">${product.name}</h3>
-                        ${product.price ? `<p><strong>Price:</strong> ${product.price}</p>` : ''}
-                        <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801869552775?text=Interested in ${encodeURIComponent(product.name)}')" style="margin-top: 0.8rem; width: 100%;">
-                            <i class="fab fa-whatsapp"></i> Inquire Now
-                        </button>
+                `).join('');
+            } else {
+                featuredContainer.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                        <i class="fas fa-star" style="font-size: 3rem; color: var(--border-color); margin-bottom: 1rem;"></i>
+                        <h3>No Featured Products Yet</h3>
+                        <p>Admin can mark products as featured from the admin controls</p>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }
         }
+        
+        // Preview product image
+        document.getElementById('productImageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('productImagePreview').src = e.target.result;
+                    document.getElementById('productImagePreview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
         
         function addProduct() {
             const name = document.getElementById('newProductName').value;
@@ -830,13 +1143,27 @@
             const price = document.getElementById('newProductPrice').value;
             const category = document.getElementById('newProductCategory').value;
             const description = document.getElementById('newProductDescription').value;
-            const image = document.getElementById('newProductImage').value;
+            const imageFile = document.getElementById('productImageFile').files[0];
             
             if (!name) {
                 alert('Product name is required');
                 return;
             }
             
+            let imageData = '';
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imageData = e.target.result;
+                    saveNewProduct(name, model, price, category, description, imageData);
+                }
+                reader.readAsDataURL(imageFile);
+            } else {
+                saveNewProduct(name, model, price, category, description, '');
+            }
+        }
+        
+        function saveNewProduct(name, model, price, category, description, imageData) {
             const newProduct = {
                 id: Date.now(),
                 name: name,
@@ -844,7 +1171,7 @@
                 price: price,
                 category: category,
                 description: description,
-                image: image,
+                image: imageData,
                 featured: false
             };
             
@@ -857,7 +1184,8 @@
             document.getElementById('newProductModel').value = '';
             document.getElementById('newProductPrice').value = '';
             document.getElementById('newProductDescription').value = '';
-            document.getElementById('newProductImage').value = '';
+            document.getElementById('productImageFile').value = '';
+            document.getElementById('productImagePreview').style.display = 'none';
             
             alert('Product added successfully!');
         }
@@ -889,7 +1217,7 @@
             container.innerHTML = brandsData.map(brand => `
                 <div class="brand-card">
                     <div class="brand-logo">
-                        ${brand.image ? `<img src="${brand.image}" alt="${brand.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-tag\"></i>';" />` : '<i class="fas fa-tag"></i>'}
+                        ${brand.image ? `<img src="${brand.image}" alt="${brand.name}" />` : '<i class="fas fa-tag"></i>'}
                     </div>
                     <p>${brand.name}</p>
                     ${isAdminLoggedIn ? `
@@ -901,19 +1229,46 @@
             `).join('');
         }
         
+        // Preview brand image
+        document.getElementById('brandImageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('brandImagePreview').src = e.target.result;
+                    document.getElementById('brandImagePreview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
         function addBrand() {
             const name = document.getElementById('newBrandName').value;
-            const image = document.getElementById('newBrandImage').value;
+            const imageFile = document.getElementById('brandImageFile').files[0];
             
             if (!name) {
                 alert('Brand name is required');
                 return;
             }
             
+            let imageData = '';
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imageData = e.target.result;
+                    saveNewBrand(name, imageData);
+                }
+                reader.readAsDataURL(imageFile);
+            } else {
+                saveNewBrand(name, '');
+            }
+        }
+        
+        function saveNewBrand(name, imageData) {
             const newBrand = {
                 id: Date.now(),
                 name: name,
-                image: image
+                image: imageData
             };
             
             brandsData.push(newBrand);
@@ -922,7 +1277,8 @@
             
             // Clear form
             document.getElementById('newBrandName').value = '';
-            document.getElementById('newBrandImage').value = '';
+            document.getElementById('brandImageFile').value = '';
+            document.getElementById('brandImagePreview').style.display = 'none';
             
             alert('Brand added successfully!');
         }
@@ -942,7 +1298,7 @@
             const container = document.getElementById('galleryContainer');
             container.innerHTML = galleryData.map(item => `
                 <div class="gallery-item">
-                    <img src="${item.image}" alt="${item.title}" class="gallery-img" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+                    <img src="${item.image || 'https://via.placeholder.com/300x200?text=Gallery+Image'}" alt="${item.title}" class="gallery-img">
                     ${isAdminLoggedIn ? `
                         <div style="padding: 1rem; text-align: center;">
                             <p>${item.title}</p>
@@ -955,30 +1311,53 @@
             `).join('');
         }
         
+        // Preview gallery image
+        document.getElementById('galleryImageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('galleryImagePreview').src = e.target.result;
+                    document.getElementById('galleryImagePreview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
         function addGalleryItem() {
             const title = document.getElementById('newGalleryTitle').value;
-            const image = document.getElementById('newGalleryImage').value;
+            const imageFile = document.getElementById('galleryImageFile').files[0];
             
-            if (!title || !image) {
-                alert('Title and image are required');
+            if (!title) {
+                alert('Title is required');
                 return;
             }
             
-            const newItem = {
-                id: Date.now(),
-                title: title,
-                image: image
-            };
+            if (!imageFile) {
+                alert('Please select an image');
+                return;
+            }
             
-            galleryData.push(newItem);
-            saveData();
-            loadGallery();
-            
-            // Clear form
-            document.getElementById('newGalleryTitle').value = '';
-            document.getElementById('newGalleryImage').value = '';
-            
-            alert('Gallery image added successfully!');
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const newItem = {
+                    id: Date.now(),
+                    title: title,
+                    image: e.target.result
+                };
+                
+                galleryData.push(newItem);
+                saveData();
+                loadGallery();
+                
+                // Clear form
+                document.getElementById('newGalleryTitle').value = '';
+                document.getElementById('galleryImageFile').value = '';
+                document.getElementById('galleryImagePreview').style.display = 'none';
+                
+                alert('Gallery image added successfully!');
+            }
+            reader.readAsDataURL(imageFile);
         }
         
         function deleteGalleryItem(id) {
@@ -1002,6 +1381,12 @@
         // INITIALIZE
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
+            // Load logo from localStorage if exists
+            const savedLogo = localStorage.getItem('companyLogo');
+            if (savedLogo) {
+                document.getElementById('companyLogo').src = savedLogo;
+            }
+            
             loadProducts();
             loadBrands();
             loadGallery();
@@ -1009,22 +1394,7 @@
             if (isAdminLoggedIn) {
                 showAdminPanels();
             }
-            
-            // Check for login on page load
-            checkAutoLogin();
         });
-        
-        function checkAutoLogin() {
-            if (localStorage.getItem('adminLoggedIn') === 'true') {
-                isAdminLoggedIn = true;
-                showAdminPanels();
-            }
-        }
-        
-        // Manual URL setting function
-        function setManualURLs() {
-            alert('Replace these URLs in the code:\n\n1. YOUR_LOGO_PATH\n2. YOUR_FACEBOOK_LINK\n3. YOUR_GOOGLE_MAPS_LINK\n\nExample:\nLOGO: images/logo.png\nFACEBOOK: https://facebook.com/yourpage\nMAPS: https://maps.google.com/?q=22.5018957,91.7118761');
-        }
     </script>
 </body>
 </html>
