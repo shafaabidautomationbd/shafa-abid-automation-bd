@@ -67,9 +67,12 @@
             background: #f8f9fa;
             color: var(--text-dark);
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
-        /* Header */
+        /* ============================================
+           FIXED FULLSCREEN HEADER IMPROVEMENTS
+        ============================================ */
         .app-header {
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
             color: var(--text-light);
@@ -82,38 +85,60 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            min-height: 80px;
         }
         
+        /* Improved logo section for better fullscreen visibility */
         .logo-section {
             display: flex;
             align-items: center;
             gap: 15px;
+            flex: 1;
+            min-width: 0; /* Allow text to truncate if needed */
         }
         
         .company-logo {
-            height: 50px;
-            width: 50px;
+            height: 60px;
+            width: 60px;
             border-radius: 8px;
             object-fit: contain;
             border: 2px solid var(--accent-orange);
             background: white;
             padding: 3px;
+            flex-shrink: 0;
         }
         
-        /* CHANGE SHOP NAME COLOR HERE */
+        /* Improved logo text for fullscreen */
         .logo-text {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.4rem;
             font-weight: 800;
-            color: var(--headline-color); /* This uses the headline color variable */
+            color: var(--headline-color);
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
         
         .tagline {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             opacity: 0.9;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
         
-        /* Navigation */
+        /* Fullscreen header button adjustments */
+        .app-header .btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        
+        /* Navigation bar improvements for fullscreen */
         .nav-container {
             display: flex;
             background: var(--light-gray);
@@ -122,37 +147,36 @@
             width: 100%;
             z-index: 999;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            padding: 0.5rem 0;
+            padding: 0.5rem 1rem;
             overflow-x: auto;
+            scrollbar-width: thin;
+            -ms-overflow-style: none;
+        }
+        
+        .nav-container::-webkit-scrollbar {
+            display: none;
         }
         
         .nav-item {
-            padding: 0.8rem 1rem;
+            padding: 0.8rem 1.2rem;
             text-align: center;
             color: var(--dark-gray);
             border-bottom: 3px solid transparent;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 500;
-            min-width: 90px;
+            min-width: 100px;
             cursor: pointer;
+            flex-shrink: 0;
         }
         
-        .nav-item.active {
-            color: var(--accent-orange);
-            border-bottom-color: var(--accent-orange);
-        }
-        
-        .nav-icon {
-            display: block;
-            font-size: 1.2rem;
-            margin-bottom: 0.3rem;
-        }
-        
-        /* Main Content */
+        /* ============================================
+           MAIN CONTENT ADJUSTMENTS FOR FULLSCREEN
+        ============================================ */
         .main-content {
-            padding: 140px 1rem 2rem;
-            max-width: 1200px;
+            padding: 160px 1rem 2rem; /* Increased top padding for header */
+            max-width: 1400px; /* Increased for better fullscreen usage */
             margin: 0 auto;
+            width: 100%;
         }
         
         .section {
@@ -169,12 +193,14 @@
             to { opacity: 1; }
         }
         
-        /* Hero Section */
+        /* ============================================
+           HERO SECTION - IMPROVED FOR FULLSCREEN
+        ============================================ */
         .hero-section {
             background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9));
             color: var(--text-light);
             border-radius: var(--radius);
-            padding: 2rem;
+            padding: 2.5rem;
             margin-bottom: 2rem;
             text-align: center;
             border: 2px solid var(--accent-orange);
@@ -182,42 +208,53 @@
         
         .hero-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.2;
         }
         
-        /* Cards */
+        .hero-section p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        /* ============================================
+           CARDS - OPTIMIZED FOR LARGER SCREENS
+        ============================================ */
         .card {
             background: var(--card-bg);
             border-radius: var(--radius);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
             box-shadow: var(--shadow);
             border-left: 5px solid var(--accent-orange);
         }
         
         .section-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: var(--primary-blue);
-            margin: 1.5rem 0 1rem;
-            padding-bottom: 0.5rem;
+            margin: 2rem 0 1.5rem;
+            padding-bottom: 0.8rem;
             border-bottom: 3px solid var(--accent-orange);
         }
         
-        /* Buttons */
+        /* ============================================
+           BUTTONS - OPTIMIZED FOR DESKTOPS
+        ============================================ */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 1.8rem;
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
             color: var(--text-light);
             border: none;
             border-radius: var(--radius);
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             margin: 0.5rem;
@@ -227,7 +264,7 @@
         
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         
         .btn-secondary {
@@ -250,12 +287,14 @@
             background: linear-gradient(135deg, #1877F2, #0D5FD9);
         }
         
-        /* Products Grid */
+        /* ============================================
+           PRODUCTS GRID - OPTIMIZED FOR FULLSCREEN
+        ============================================ */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 1.5rem 0;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
         }
         
         .product-card {
@@ -265,49 +304,70 @@
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
             transition: all 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
         
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
         }
         
         .product-img {
-            height: 180px;
+            height: 220px;
             background: var(--light-gray);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--primary-blue);
-            font-size: 2.5rem;
+            font-size: 3rem;
         }
         
         .product-img img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            padding: 1rem;
         }
         
         .product-body {
-            padding: 1.5rem;
+            padding: 1.8rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
         
-        /* Brands Grid */
+        .product-body h3 {
+            color: var(--primary-blue);
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+            min-height: 3rem;
+        }
+        
+        /* ============================================
+           BRANDS GRID - OPTIMIZED FOR DESKTOPS
+        ============================================ */
         .brands-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 1.2rem;
-            margin: 1.5rem 0;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.8rem;
+            margin: 2rem 0;
         }
         
         .brand-card {
             background: var(--card-bg);
             border-radius: var(--radius);
-            padding: 1.2rem;
+            padding: 1.5rem;
             text-align: center;
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
             transition: all 0.3s;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         
         .brand-card:hover {
@@ -315,9 +375,9 @@
         }
         
         .brand-logo {
-            height: 50px;
+            height: 70px;
             width: 100%;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -329,12 +389,14 @@
             object-fit: contain;
         }
         
-        /* Gallery Grid */
+        /* ============================================
+           GALLERY GRID - OPTIMIZED FOR WIDE SCREENS
+        ============================================ */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.2rem;
-            margin: 1.5rem 0;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin: 2rem 0;
         }
         
         .gallery-item {
@@ -346,62 +408,68 @@
         }
         
         .gallery-item:hover {
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
         
         .gallery-img {
             width: 100%;
-            height: 180px;
+            height: 220px;
             object-fit: cover;
         }
         
-        /* Search Bar */
+        /* ============================================
+           SEARCH BAR - IMPROVED FOR DESKTOPS
+        ============================================ */
         .search-container {
-            margin: 1.5rem 0;
+            margin: 2rem 0;
             position: relative;
         }
         
         .search-bar {
             width: 100%;
-            padding: 1rem 1.5rem;
+            padding: 1.2rem 1.8rem;
             border: 2px solid var(--border-color);
             border-radius: var(--radius);
-            font-size: 1rem;
-            padding-left: 3rem;
+            font-size: 1.1rem;
+            padding-left: 3.5rem;
             transition: all 0.3s;
         }
         
         .search-bar:focus {
             outline: none;
             border-color: var(--accent-orange);
-            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+            box-shadow: 0 0 0 4px rgba(230, 126, 34, 0.15);
         }
         
         .search-icon {
             position: absolute;
-            left: 1rem;
+            left: 1.2rem;
             top: 50%;
             transform: translateY(-50%);
             color: var(--dark-gray);
+            font-size: 1.2rem;
         }
         
-        /* Category Filter */
+        /* ============================================
+           CATEGORY FILTER - OPTIMIZED FOR WIDE SCREENS
+        ============================================ */
         .category-filter {
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
             align-items: center;
         }
         
         .category-btn {
-            padding: 0.6rem 1.2rem;
+            padding: 0.8rem 1.5rem;
             background: var(--light-gray);
             border: 2px solid var(--border-color);
             border-radius: var(--radius);
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 500;
+            font-size: 0.95rem;
         }
         
         .category-btn:hover {
@@ -416,42 +484,44 @@
             border-color: var(--accent-orange);
         }
         
-        /* Admin Panel */
+        /* ============================================
+           ADMIN PANEL - IMPROVED FOR DESKTOPS
+        ============================================ */
         .admin-panel {
             background: var(--card-bg);
             border-radius: var(--radius);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
+            padding: 2rem;
+            margin: 2rem 0;
             box-shadow: var(--shadow);
             border: 2px solid var(--accent-orange);
         }
         
         .admin-form {
             display: grid;
-            gap: 1rem;
-            margin-top: 1rem;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
         }
         
         .admin-form input,
         .admin-form textarea,
         .admin-form select,
         .admin-form .file-input {
-            padding: 0.8rem;
+            padding: 1rem;
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
-            font-size: 0.9rem;
+            font-size: 1rem;
             width: 100%;
         }
         
         .file-input-container {
             position: relative;
             overflow: hidden;
-            margin-top: 0.5rem;
+            margin-top: 0.8rem;
         }
         
         .file-input-label {
             display: block;
-            padding: 0.8rem;
+            padding: 1.5rem;
             background: var(--light-gray);
             border: 2px dashed var(--border-color);
             border-radius: var(--radius);
@@ -477,21 +547,24 @@
         
         .preview-image {
             max-width: 100%;
-            max-height: 150px;
+            max-height: 200px;
             margin-top: 1rem;
             border-radius: var(--radius);
             display: none;
+            object-fit: contain;
         }
         
-        /* Map Container */
+        /* ============================================
+           MAP CONTAINER - IMPROVED FOR DESKTOPS
+        ============================================ */
         .map-container {
             background: var(--card-bg);
             border-radius: var(--radius);
             overflow: hidden;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
-            height: 400px;
+            height: 500px;
         }
         
         #map {
@@ -499,7 +572,9 @@
             height: 100%;
         }
         
-        /* Login Modal */
+        /* ============================================
+           MODAL WINDOWS - OPTIMIZED FOR DESKTOPS
+        ============================================ */
         .login-modal {
             display: none;
             position: fixed;
@@ -507,7 +582,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
             z-index: 2000;
             align-items: center;
             justify-content: center;
@@ -515,27 +590,29 @@
         
         .login-box {
             background: var(--card-bg);
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: var(--radius);
             width: 90%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 500px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
         }
         
-        /* Admin Controls */
+        /* ============================================
+           ADMIN CONTROLS - POSITIONED FOR DESKTOPS
+        ============================================ */
         .admin-controls {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             z-index: 1001;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
         }
         
         .admin-control-btn {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
             color: white;
@@ -543,53 +620,59 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
             transition: all 0.3s;
         }
         
         .admin-control-btn:hover {
-            transform: scale(1.1);
+            transform: scale(1.15);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
         
-        /* No Results Message */
+        /* ============================================
+           NO RESULTS MESSAGE
+        ============================================ */
         .no-results {
             grid-column: 1 / -1;
             text-align: center;
-            padding: 3rem;
+            padding: 4rem;
             color: var(--dark-gray);
         }
         
         .no-results i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
             color: var(--border-color);
         }
         
-        /* Category Management */
+        /* ============================================
+           CATEGORY MANAGEMENT
+        ============================================ */
         .category-management {
             background: rgba(44, 62, 80, 0.05);
             border-radius: var(--radius);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
+            padding: 2rem;
+            margin: 2rem 0;
         }
         
         .categories-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.8rem;
-            margin: 1rem 0;
+            gap: 1rem;
+            margin: 1.5rem 0;
         }
         
         .category-tag {
             background: var(--light-gray);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            padding: 0.8rem 1.2rem;
+            border-radius: 25px;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
             border: 1px solid var(--border-color);
+            font-size: 1rem;
         }
         
         .remove-category {
@@ -597,16 +680,19 @@
             border: none;
             color: #e74c3c;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.2rem;
         }
         
-        /* Image Upload Status */
+        /* ============================================
+           IMAGE UPLOAD STATUS
+        ============================================ */
         .upload-status {
-            padding: 0.5rem;
+            padding: 1rem;
             border-radius: var(--radius);
-            margin-top: 0.5rem;
+            margin-top: 1rem;
             display: none;
             text-align: center;
+            font-size: 1rem;
         }
         
         .upload-status.success {
@@ -621,17 +707,198 @@
             border: 1px solid #f5c6cb;
         }
         
-        /* Responsive */
+        /* ============================================
+           FOOTER IMPROVEMENTS FOR FULLSCREEN
+        ============================================ */
+        .app-footer {
+            background: var(--primary-blue);
+            color: var(--text-light);
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .app-footer .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+        
+        /* ============================================
+           FULLSCREEN OPTIMIZATIONS
+        ============================================ */
+        @media (min-width: 1200px) {
+            /* Larger grid layouts for wide screens */
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+            
+            .brands-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            }
+            
+            /* Larger font sizes for big screens */
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            /* Wider main content */
+            .main-content {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+            
+            /* Larger product images */
+            .product-img {
+                height: 250px;
+            }
+            
+            /* Improved navigation for wide screens */
+            .nav-container {
+                justify-content: center;
+            }
+            
+            .nav-item {
+                min-width: 120px;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (min-width: 1600px) {
+            /* Extra large screen optimizations */
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2.5rem;
+            }
+            
+            .brands-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .main-content {
+                max-width: 1600px;
+            }
+        }
+        
+        /* ============================================
+           RESPONSIVE ADJUSTMENTS FOR SMALLER SCREENS
+        ============================================ */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .nav-item {
+                min-width: 90px;
+                font-size: 0.85rem;
+            }
+        }
+        
         @media (max-width: 768px) {
+            .app-header {
+                padding: 0.8rem;
+                min-height: 70px;
+            }
+            
+            .company-logo {
+                height: 50px;
+                width: 50px;
+            }
+            
+            .logo-text {
+                font-size: 1.2rem;
+            }
+            
+            .tagline {
+                font-size: 0.8rem;
+            }
+            
+            .nav-container {
+                top: 70px;
+                padding: 0.5rem;
+            }
+            
+            .main-content {
+                padding: 140px 1rem 1.5rem;
+            }
+            
             .products-grid,
             .brands-grid,
             .gallery-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
             }
             
             .admin-controls {
-                bottom: 10px;
-                right: 10px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .admin-control-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 1.5rem;
+            }
+            
+            .products-grid,
+            .brands-grid,
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-item {
+                min-width: 80px;
+                padding: 0.8rem 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .admin-controls {
+                bottom: 15px;
+                right: 15px;
             }
             
             .admin-control-btn {
@@ -639,23 +906,56 @@
                 height: 45px;
                 font-size: 1rem;
             }
-            
-            .category-filter {
-                justify-content: center;
-            }
         }
         
-        @media (max-width: 480px) {
-            .products-grid,
-            .brands-grid,
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .admin-controls {
-                bottom: 5px;
-                right: 5px;
-            }
+        /* ============================================
+           FULLSCREEN MODE SPECIFIC ADJUSTMENTS
+        ============================================ */
+        /* Hide scrollbar in fullscreen for cleaner look */
+        body:fullscreen {
+            overflow: auto;
+        }
+        
+        body:fullscreen::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        body:fullscreen::-webkit-scrollbar-track {
+            background: var(--light-gray);
+        }
+        
+        body:fullscreen::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 4px;
+        }
+        
+        /* Fullscreen modal adjustments */
+        body:fullscreen .login-modal {
+            background: rgba(0, 0, 0, 0.85);
+        }
+        
+        /* Fullscreen header adjustments */
+        body:fullscreen .app-header {
+            padding: 1rem 2rem;
+        }
+        
+        /* ============================================
+           UTILITY CLASSES
+        ============================================ */
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-2 {
+            margin-top: 2rem;
+        }
+        
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+        
+        .p-3 {
+            padding: 3rem;
         }
     </style>
 </head>
@@ -728,7 +1028,7 @@
     
     <!-- Featured Products Modal -->
     <div class="login-modal" id="featuredModal">
-        <div class="login-box" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+        <div class="login-box" style="max-width: 700px; max-height: 80vh; overflow-y: auto;">
             <h2 style="color: var(--primary-blue); margin-bottom: 1.5rem;">Manage Featured Products</h2>
             <div id="featuredProductsList" style="margin-bottom: 1.5rem;">
                 <!-- Featured products will be loaded here -->
@@ -767,7 +1067,7 @@
             <img id="companyLogo" src="https://raw.githubusercontent.com/shafaabidautomationbd/shafa-abid-automation-bd/main/images/logo.png" 
                  alt="Logo" class="company-logo"
                  onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%232c3e50%22/%3E%3Ctext x=%2250%22 y=%2250%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22white%22 text-anchor=%22middle%22 dy=%22.3em%22%3ESA%3C/text%3E%3C/svg%3E'">
-            <div>
+            <div style="flex: 1; min-width: 0;">
                 <!-- CHANGE SHOP NAME COLOR: Update var(--headline-color) in :root CSS variables -->
                 <div class="logo-text">Shafa Abid Automation BD</div>
                 <div class="tagline">Industrial Electrical & Electronics Solutions</div>
@@ -831,7 +1131,7 @@
             <div class="hero-section">
                 <h1 class="hero-title">Industrial Electrical & Automation Solutions</h1>
                 <p>Established in 2017, professional suppliers across Bangladesh</p>
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+                <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
                     <button class="btn btn-secondary" onclick="showSection('products')">
                         <i class="fas fa-shopping-cart"></i> View Products
                     </button>
@@ -907,7 +1207,7 @@
                             <!-- Categories will be loaded dynamically -->
                         </select>
                         
-                        <textarea id="newProductDescription" placeholder="Description" rows="3"></textarea>
+                        <textarea id="newProductDescription" placeholder="Description" rows="4"></textarea>
                         
                         <!-- File Upload for Product Image -->
                         <div class="file-input-container">
@@ -1024,39 +1324,39 @@
                 <h2 class="section-title">Contact Us</h2>
                 
                 <!-- Facebook Page Section - ADDED -->
-                <div style="margin-bottom: 1.5rem; padding: 1.2rem; background: rgba(59, 89, 152, 0.1); border-radius: var(--radius);">
-                    <h3 style="color: #1877F2; margin-bottom: 0.8rem;">
+                <div style="margin-bottom: 2rem; padding: 1.5rem; background: rgba(59, 89, 152, 0.1); border-radius: var(--radius);">
+                    <h3 style="color: #1877F2; margin-bottom: 1rem; font-size: 1.4rem;">
                         <i class="fab fa-facebook"></i> Facebook Page
                     </h3>
-                    <p style="margin-bottom: 1rem;">Follow us on Facebook for updates and offers</p>
+                    <p style="margin-bottom: 1.2rem; font-size: 1.1rem;">Follow us on Facebook for updates and offers</p>
                     <button class="btn btn-facebook" onclick="window.open('https://web.facebook.com/profile.php?id=61574697974139')">
                         <i class="fab fa-facebook"></i> Visit Facebook Page
                     </button>
                 </div>
                 
                 <!-- Contact Info -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.2rem; margin: 1.5rem 0;">
-                    <div style="padding: 1.2rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
-                        <h4><i class="fas fa-phone-alt"></i> Phone</h4>
-                        <p>+880 1869-552775</p>
-                        <p>+880 1406-503242</p>
-                        <button class="btn btn-whatsapp" onclick="window.open('https://wa.me/8801406503242')" style="margin-top: 0.8rem; width: 100%;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.8rem; margin: 2rem 0;">
+                    <div style="padding: 1.8rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
+                        <h4 style="font-size: 1.3rem; margin-bottom: 1rem;"><i class="fas fa-phone-alt"></i> Phone</h4>
+                        <p style="font-size: 1.1rem;">+880 1869-552775</p>
+                        <p style="font-size: 1.1rem;">+880 1406-503242</p>
+                        <button class="btn btn-whatsapp" onclick="window.open('https://wa.me/8801406503242')" style="margin-top: 1.2rem; width: 100%; padding: 1rem;">
                             <i class="fab fa-whatsapp"></i> WhatsApp Chat
                         </button>
                     </div>
                     
-                    <div style="padding: 1.2rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
-                        <h4><i class="fas fa-envelope"></i> Email</h4>
-                        <p>shafaabidautomation.bd@gmail.com</p>
-                        <button class="btn" onclick="window.open('mailto:shafaabidautomation.bd@gmail.com')" style="margin-top: 0.8rem; width: 100%;">
+                    <div style="padding: 1.8rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
+                        <h4 style="font-size: 1.3rem; margin-bottom: 1rem;"><i class="fas fa-envelope"></i> Email</h4>
+                        <p style="font-size: 1.1rem;">shafaabidautomation.bd@gmail.com</p>
+                        <button class="btn" onclick="window.open('mailto:shafaabidautomation.bd@gmail.com')" style="margin-top: 1.2rem; width: 100%; padding: 1rem;">
                             <i class="fas fa-paper-plane"></i> Send Email
                         </button>
                     </div>
                     
-                    <div style="padding: 1.2rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
-                        <h4><i class="fas fa-map-marker-alt"></i> Address</h4>
-                        <p>Shop No: 01, Porir Rasta, Cort Para, Kumira-4314, Sitakunda, Chittagong</p>
-                        <button class="btn" onclick="openGoogleMaps()" style="margin-top: 0.8rem; width: 100%;">
+                    <div style="padding: 1.8rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
+                        <h4 style="font-size: 1.3rem; margin-bottom: 1rem;"><i class="fas fa-map-marker-alt"></i> Address</h4>
+                        <p style="font-size: 1.1rem;">Shop No: 01, Porir Rasta, Cort Para, Kumira-4314, Sitakunda, Chittagong</p>
+                        <button class="btn" onclick="openGoogleMaps()" style="margin-top: 1.2rem; width: 100%; padding: 1rem;">
                             <i class="fas fa-directions"></i> Get Directions
                         </button>
                     </div>
@@ -1068,17 +1368,17 @@
                 </div>
                 
                 <!-- Business Hours -->
-                <div style="margin-top: 1.5rem; padding: 1.2rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
-                    <h4><i class="fas fa-clock"></i> Business Hours</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                <div style="margin-top: 2rem; padding: 1.8rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
+                    <h4 style="font-size: 1.3rem; margin-bottom: 1.2rem;"><i class="fas fa-clock"></i> Business Hours</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
                         <div>
-                            <p><strong>Saturday - Thursday:</strong></p>
-                            <p>9:00 AM - 7:00 PM</p>
+                            <p style="font-size: 1.1rem;"><strong>Saturday - Thursday:</strong></p>
+                            <p style="font-size: 1.1rem;">9:00 AM - 7:00 PM</p>
                         </div>
                         <div>
-                            <p><strong>Friday:</strong></p>
-                            <p>9:00 AM - 12:00 PM</p>
-                            <p>3:00 PM - 7:00 PM</p>
+                            <p style="font-size: 1.1rem;"><strong>Friday:</strong></p>
+                            <p style="font-size: 1.1rem;">9:00 AM - 12:00 PM</p>
+                            <p style="font-size: 1.1rem;">3:00 PM - 7:00 PM</p>
                         </div>
                     </div>
                 </div>
@@ -1088,37 +1388,191 @@
     
     <!-- Footer -->
     <footer class="app-footer">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
-                <div>
-                    <h3 style="color: var(--accent-orange); margin-bottom: 1rem;">SHAFA ABID AUTOMATION BD</h3>
-                    <p>Industrial Electrical and Electronics Solutions</p>
-                </div>
-                
-                <div>
-                    <h3 style="color: var(--accent-orange); margin-bottom: 1rem;">Contact</h3>
-                    <p>+880 1869-552775</p>
-                    <p>shafaabidautomation.bd@gmail.com</p>
-                    <div style="display: flex; gap: 0.8rem; margin-top: 1rem;">
-                        <button class="btn btn-facebook" onclick="window.open('https://web.facebook.com/profile.php?id=61574697974139')" style="padding: 0.5rem;">
-                            <i class="fab fa-facebook"></i>
-                        </button>
-                        <button class="btn btn-whatsapp" onclick="window.open('https://wa.me/8801406503242')" style="padding: 0.5rem;">
-                            <i class="fab fa-whatsapp"></i>
-                        </button>
-                    </div>
-                </div>
+        <div class="container">
+            <div>
+                <h3 style="color: var(--accent-orange); margin-bottom: 1.2rem; font-size: 1.4rem;">SHAFA ABID AUTOMATION BD</h3>
+                <p style="font-size: 1.1rem;">Industrial Electrical and Electronics Solutions</p>
             </div>
             
-            <div class="copyright">
-                © 2017-2024 SHAFA ABID AUTOMATION BD. All Rights Reserved.
+            <div>
+                <h3 style="color: var(--accent-orange); margin-bottom: 1.2rem; font-size: 1.4rem;">Contact</h3>
+                <p style="font-size: 1.1rem;">+880 1869-552775</p>
+                <p style="font-size: 1.1rem;">shafaabidautomation.bd@gmail.com</p>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-facebook" onclick="window.open('https://web.facebook.com/profile.php?id=61574697974139')" style="padding: 0.8rem;">
+                        <i class="fab fa-facebook"></i>
+                    </button>
+                    <button class="btn btn-whatsapp" onclick="window.open('https://wa.me/8801406503242')" style="padding: 0.8rem;">
+                        <i class="fab fa-whatsapp"></i>
+                    </button>
+                </div>
             </div>
+        </div>
+        
+        <div class="copyright">
+            © 2017-2024 SHAFA ABID AUTOMATION BD. All Rights Reserved.
         </div>
     </footer>
     
     <!-- Leaflet JS for Map -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
+    <!-- Fullscreen Helper Script -->
+    <script>
+        // Fullscreen mode detection and optimization
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        
+        function handleFullscreenChange() {
+            const isFullscreen = document.fullscreenElement || 
+                                document.webkitFullscreenElement || 
+                                document.mozFullScreenElement;
+            
+            const header = document.querySelector('.app-header');
+            const nav = document.querySelector('.nav-container');
+            
+            if (isFullscreen) {
+                // Add fullscreen-specific styles
+                header.style.padding = '1rem 3rem';
+                header.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
+                nav.style.padding = '0.8rem 3rem';
+                
+                // Adjust admin controls position
+                const adminControls = document.getElementById('adminControls');
+                if (adminControls.style.display !== 'none') {
+                    adminControls.style.right = '50px';
+                    adminControls.style.bottom = '50px';
+                }
+                
+                console.log('Fullscreen mode activated - layout optimized');
+            } else {
+                // Reset to normal styles
+                header.style.padding = '';
+                header.style.boxShadow = '';
+                nav.style.padding = '';
+                
+                // Reset admin controls
+                const adminControls = document.getElementById('adminControls');
+                if (adminControls.style.display !== 'none') {
+                    adminControls.style.right = '';
+                    adminControls.style.bottom = '';
+                }
+                
+                console.log('Fullscreen mode exited - layout reset');
+            }
+        }
+        
+        // Keyboard shortcut for fullscreen (F11)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F11') {
+                e.preventDefault();
+                toggleFullscreen();
+            }
+        });
+        
+        // Fullscreen toggle function
+        function toggleFullscreen() {
+            const elem = document.documentElement;
+            
+            if (!document.fullscreenElement && 
+                !document.webkitFullscreenElement && 
+                !document.mozFullScreenElement) {
+                // Enter fullscreen
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen();
+                } else if (elem.mozRequestFullScreen) {
+                    elem.mozRequestFullScreen();
+                }
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                }
+            }
+        }
+        
+        // Show fullscreen hint on first visit
+        window.addEventListener('load', function() {
+            const fullscreenHintShown = localStorage.getItem('fullscreenHintShown');
+            if (!fullscreenHintShown && window.innerWidth >= 1024) {
+                setTimeout(() => {
+                    showFullscreenHint();
+                    localStorage.setItem('fullscreenHintShown', 'true');
+                }, 2000);
+            }
+        });
+        
+        function showFullscreenHint() {
+            const hint = document.createElement('div');
+            hint.id = 'fullscreenHint';
+            hint.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: var(--radius);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                max-width: 350px;
+                animation: slideIn 0.5s ease-out;
+            `;
+            
+            hint.innerHTML = `
+                <i class="fas fa-expand" style="font-size: 1.5rem;"></i>
+                <div>
+                    <strong>Fullscreen Mode Available</strong>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.9;">
+                        Press F11 for immersive experience
+                    </p>
+                </div>
+                <button onclick="this.parentElement.remove()" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem; margin-left: auto;">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            document.body.appendChild(hint);
+            
+            // Auto-remove after 8 seconds
+            setTimeout(() => {
+                if (hint.parentElement) {
+                    hint.style.animation = 'fadeOut 0.5s ease-out';
+                    setTimeout(() => {
+                        if (hint.parentElement) {
+                            hint.parentElement.removeChild(hint);
+                        }
+                    }, 500);
+                }
+            }, 8000);
+            
+            // Add CSS for animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes fadeOut {
+                    from { opacity: 1; }
+                    to { opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    </script>
+    
+    <!-- Main Application Script -->
     <script>
         // ============================================
         // GITHUB CONFIGURATION
@@ -1534,17 +1988,17 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(0, 0, 0, 0.7);
+                background: rgba(0, 0, 0, 0.85);
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 z-index: 9999;
                 color: white;
-                font-size: 1.2rem;
+                font-size: 1.4rem;
             `;
             loadingDiv.innerHTML = `
-                <i class="fas fa-spinner fa-spin fa-3x" style="margin-bottom: 20px;"></i>
+                <i class="fas fa-spinner fa-spin fa-4x" style="margin-bottom: 30px;"></i>
                 <div>${message}</div>
             `;
             document.body.appendChild(loadingDiv);
@@ -1741,24 +2195,24 @@
                 <div class="product-card" data-category="${product.category}" data-search="${product.name.toLowerCase()} ${product.model ? product.model.toLowerCase() : ''} ${product.description ? product.description.toLowerCase() : ''}">
                     <div class="product-img">
                         <img src="${imageUrl}" alt="${product.name}" 
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image&t=' + Date.now();">
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/400x250?text=Product+Image&t=' + Date.now();">
                     </div>
                     <div class="product-body">
-                        <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">${product.name}</h3>
-                        ${product.model ? `<p><strong>Model:</strong> ${product.model}</p>` : ''}
-                        <p><strong>Category:</strong> ${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</p>
-                        ${product.description ? `<p style="margin-top: 0.5rem; font-size: 0.9rem;">${product.description}</p>` : ''}
-                        ${product.price ? `<p style="margin-top: 0.5rem; color: var(--accent-orange); font-weight: bold; font-size: 1.1rem;">${product.price}</p>` : ''}
-                        <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801406503242?text=Interested in ${encodeURIComponent(product.name)} - Model: ${encodeURIComponent(product.model || '')}')" style="margin-top: 0.8rem; width: 100%;">
+                        <h3 style="color: var(--primary-blue); margin-bottom: 0.8rem;">${product.name}</h3>
+                        ${product.model ? `<p style="margin-bottom: 0.5rem;"><strong>Model:</strong> ${product.model}</p>` : ''}
+                        <p style="margin-bottom: 0.5rem;"><strong>Category:</strong> ${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</p>
+                        ${product.description ? `<p style="margin-top: 0.8rem; font-size: 1rem; color: #555; flex-grow: 1;">${product.description}</p>` : ''}
+                        ${product.price ? `<p style="margin-top: 1rem; color: var(--accent-orange); font-weight: bold; font-size: 1.2rem;">${product.price}</p>` : ''}
+                        <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801406503242?text=Interested in ${encodeURIComponent(product.name)} - Model: ${encodeURIComponent(product.model || '')}')" style="margin-top: 1.2rem; width: 100%; padding: 0.8rem;">
                             <i class="fab fa-whatsapp"></i> Inquire Now
                         </button>
                         ${isAdminLoggedIn ? `
-                            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-                                <button class="btn" onclick="deleteProduct(${product.id})" style="flex: 1; background: #e74c3c;">
+                            <div style="display: flex; gap: 0.8rem; margin-top: 1rem;">
+                                <button class="btn" onclick="deleteProduct(${product.id})" style="flex: 1; background: #e74c3c; padding: 0.6rem;">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
                                 ${product.featured ? `
-                                    <button class="btn" style="flex: 1; background: #f39c12;" title="Featured Product">
+                                    <button class="btn" style="flex: 1; background: #f39c12; padding: 0.6rem;" title="Featured Product">
                                         <i class="fas fa-star"></i> Featured
                                     </button>
                                 ` : ''}
@@ -1777,13 +2231,13 @@
                     <div class="product-card">
                         <div class="product-img">
                             <img src="${imageUrl}" alt="${product.name}" 
-                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image&t=' + Date.now();">
+                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/400x250?text=Product+Image&t=' + Date.now();">
                         </div>
                         <div class="product-body">
                             <h3 style="color: var(--primary-blue);">${product.name}</h3>
                             <p><strong>Model:</strong> ${product.model || 'N/A'}</p>
-                            ${product.price ? `<p style="color: var(--accent-orange); font-weight: bold;">${product.price}</p>` : ''}
-                            <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801406503242?text=Interested in ${encodeURIComponent(product.name)}')" style="margin-top: 0.8rem; width: 100%;">
+                            ${product.price ? `<p style="color: var(--accent-orange); font-weight: bold; margin-top: 0.5rem;">${product.price}</p>` : ''}
+                            <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801406503242?text=Interested in ${encodeURIComponent(product.name)}')" style="margin-top: 1rem; width: 100%; padding: 0.8rem;">
                                 <i class="fab fa-whatsapp"></i> Inquire Now
                             </button>
                         </div>
@@ -1809,7 +2263,7 @@
             products.forEach(product => {
                 const searchData = product.getAttribute('data-search');
                 if (searchData.includes(searchTerm)) {
-                    product.style.display = 'block';
+                    product.style.display = 'flex';
                     visibleCount++;
                 } else {
                     product.style.display = 'none';
@@ -1835,7 +2289,7 @@
                 
                 if ((category === 'all' || productCategory === category) && 
                     searchData.includes(searchTerm)) {
-                    product.style.display = 'block';
+                    product.style.display = 'flex';
                     visibleCount++;
                 } else {
                     product.style.display = 'none';
@@ -1981,11 +2435,11 @@
                 <div class="brand-card">
                     <div class="brand-logo">
                         <img src="${imageUrl}" alt="${brand.name}" 
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/100x50?text=${encodeURIComponent(brand.name)}&t=' + Date.now();">
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/150x80?text=${encodeURIComponent(brand.name)}&t=' + Date.now();">
                     </div>
-                    <p>${brand.name}</p>
+                    <p style="font-weight: 600; margin-top: 0.5rem;">${brand.name}</p>
                     ${isAdminLoggedIn ? `
-                        <button class="btn" onclick="deleteBrand(${brand.id})" style="margin-top: 0.5rem; width: 100%; padding: 0.5rem; background: #e74c3c;">
+                        <button class="btn" onclick="deleteBrand(${brand.id})" style="margin-top: 1rem; width: 100%; padding: 0.5rem; background: #e74c3c;">
                             <i class="fas fa-trash"></i>
                         </button>
                     ` : ''}
@@ -2094,11 +2548,11 @@
                 return `
                 <div class="gallery-item">
                     <img src="${imageUrl}" alt="${item.title}" class="gallery-img"
-                         onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=${encodeURIComponent(item.title)}&t=' + Date.now();">
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/400x250?text=${encodeURIComponent(item.title)}&t=' + Date.now();">
                     ${isAdminLoggedIn ? `
-                        <div style="padding: 1rem; text-align: center;">
-                            <p>${item.title}</p>
-                            <button class="btn" onclick="deleteGalleryItem(${item.id})" style="margin-top: 0.5rem; width: 100%; background: #e74c3c;">
+                        <div style="padding: 1.2rem; text-align: center;">
+                            <p style="font-weight: 600; font-size: 1.1rem;">${item.title}</p>
+                            <button class="btn" onclick="deleteGalleryItem(${item.id})" style="margin-top: 1rem; width: 100%; background: #e74c3c; padding: 0.6rem;">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
                         </div>
@@ -2259,7 +2713,7 @@
                 const categoryDiv = document.createElement('div');
                 categoryDiv.className = 'category-tag';
                 categoryDiv.innerHTML = `
-                    ${category}
+                    ${category.charAt(0).toUpperCase() + category.slice(1)}
                     <button class="remove-category" onclick="removeCategory('${category}')">
                         <i class="fas fa-times"></i>
                     </button>
@@ -2404,18 +2858,19 @@
             if (productPanel) {
                 const toggleDiv = document.createElement('div');
                 toggleDiv.style.cssText = `
-                    margin-top: 1rem;
-                    padding: 1rem;
-                    background: rgba(44, 62, 80, 0.05);
+                    margin-top: 1.5rem;
+                    padding: 1.5rem;
+                    background: rgba(44, 62, 80, 0.08);
                     border-radius: var(--radius);
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
+                    border: 1px solid var(--border-color);
                 `;
                 toggleDiv.innerHTML = `
                     <div>
-                        <strong><i class="fas fa-sync"></i> Auto-Sync to GitHub</strong>
-                        <p style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">
+                        <strong style="font-size: 1.1rem;"><i class="fas fa-sync"></i> Auto-Sync to GitHub</strong>
+                        <p style="font-size: 0.95rem; color: #666; margin-top: 0.5rem;">
                             Automatically sync changes to GitHub (requires token)
                         </p>
                     </div>
@@ -2427,8 +2882,8 @@
                         .switch {
                             position: relative;
                             display: inline-block;
-                            width: 60px;
-                            height: 34px;
+                            width: 70px;
+                            height: 38px;
                         }
                         .switch input {
                             opacity: 0;
@@ -2444,13 +2899,13 @@
                             bottom: 0;
                             background-color: #ccc;
                             transition: .4s;
-                            border-radius: 34px;
+                            border-radius: 38px;
                         }
                         .slider:before {
                             position: absolute;
                             content: "";
-                            height: 26px;
-                            width: 26px;
+                            height: 30px;
+                            width: 30px;
                             left: 4px;
                             bottom: 4px;
                             background-color: white;
@@ -2461,7 +2916,7 @@
                             background-color: #2196F3;
                         }
                         input:checked + .slider:before {
-                            transform: translateX(26px);
+                            transform: translateX(32px);
                         }
                     </style>
                 `;
