@@ -9,6 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <meta http-equiv="refresh" content="300">
     
     <!-- PDF থিমের Colors -->
     <style>
@@ -1070,10 +1071,105 @@
     
     <script>
         // ============================================
-        // CACHE CONTROL SYSTEM
+        // AUTOMATIC CACHE BUSTING SYSTEM
         // ============================================
-        const APP_VERSION = '2.0.1'; // Increment this when you update images
-        const CACHE_BUST = `?v=${APP_VERSION}`;
+        (function() {
+            // Check if we're on GitHub Pages
+            if (window.location.host.includes('github.io')) {
+                // Don't use clear_cache=true - use automatic cache busting
+                if (window.location.search.includes('clear_cache=true')) {
+                    // Clear all storage
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    
+                    // Clear browser cache
+                    if ('caches' in window) {
+                        caches.keys().then(names => {
+                            names.forEach(name => caches.delete(name));
+                        });
+                    }
+                    
+                    // Remove the parameter and reload
+                    const newUrl = window.location.pathname + '?nocache=' + Date.now();
+                    window.history.replaceState({}, document.title, newUrl);
+                    location.reload(true);
+                    return;
+                }
+                
+                // Add cache busting to all GitHub image URLs
+                function bustCacheForGitHubImages() {
+                    const cacheBuster = 'nocache=' + Date.now();
+                    
+                    // Update all existing images
+                    document.querySelectorAll('img[src*="githubusercontent.com"]').forEach(img => {
+                        const src = img.src;
+                        if (!src.includes('nocache=')) {
+                            const separator = src.includes('?') ? '&' : '?';
+                            img.src = src + separator + cacheBuster;
+                        }
+                    });
+                    
+                    // Also update the logo specifically
+                    const logo = document.getElementById('companyLogo');
+                    if (logo && logo.src.includes('githubusercontent.com') && !logo.src.includes('nocache=')) {
+                        const separator = logo.src.includes('?') ? '&' : '?';
+                        logo.src = logo.src + separator + cacheBuster;
+                    }
+                    
+                    console.log('GitHub Pages cache busting applied');
+                }
+                
+                // Run on DOM ready
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(bustCacheForGitHubImages, 100);
+                });
+                
+                // Also update data URLs in localStorage
+                function updateDataUrlsWithCacheBust() {
+                    try {
+                        const products = JSON.parse(localStorage.getItem('productsData') || '[]');
+                        const brands = JSON.parse(localStorage.getItem('brandsData') || '[]');
+                        const gallery = JSON.parse(localStorage.getItem('galleryData') || '[]');
+                        
+                        const cacheBuster = 'nocache=' + Date.now();
+                        
+                        // Update product images
+                        products.forEach(p => {
+                            if (p.image && p.image.includes('githubusercontent.com') && !p.image.includes('nocache=')) {
+                                const separator = p.image.includes('?') ? '&' : '?';
+                                p.image = p.image + separator + cacheBuster;
+                            }
+                        });
+                        
+                        // Update brand images
+                        brands.forEach(b => {
+                            if (b.image && b.image.includes('githubusercontent.com') && !b.image.includes('nocache=')) {
+                                const separator = b.image.includes('?') ? '&' : '?';
+                                b.image = b.image + separator + cacheBuster;
+                            }
+                        });
+                        
+                        // Update gallery images
+                        gallery.forEach(g => {
+                            if (g.image && g.image.includes('githubusercontent.com') && !g.image.includes('nocache=')) {
+                                const separator = g.image.includes('?') ? '&' : '?';
+                                g.image = g.image + separator + cacheBuster;
+                            }
+                        });
+                        
+                        // Save back to localStorage
+                        localStorage.setItem('productsData', JSON.stringify(products));
+                        localStorage.setItem('brandsData', JSON.stringify(brands));
+                        localStorage.setItem('galleryData', JSON.stringify(gallery));
+                    } catch (e) {
+                        console.log('Error updating cache:', e);
+                    }
+                }
+                
+                // Update localStorage data
+                updateDataUrlsWithCacheBust();
+            }
+        })();
         
         // ============================================
         // GITHUB CONFIGURATION
@@ -1083,7 +1179,7 @@
         const GITHUB_REPO = 'shafa-abid-automation-bd'; // আপনার repository name
         const GITHUB_TOKEN = ''; // Optional: যদি private repo হয়
         
-        // Base URL for GitHub images WITH cache busting
+        // Base URL for GitHub images
         const GITHUB_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/main/images`;
         
         // ============================================
@@ -1093,18 +1189,19 @@
         
         let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
         
-        // Function to add cache busting to GitHub URLs
+        // Function to get image URL with automatic cache busting on GitHub Pages
         function getImageUrl(type, filename) {
-            const baseUrl = `${GITHUB_BASE_URL}/${type}/${filename}`;
+            let url = `${GITHUB_BASE_URL}/${type}/${filename}`;
             
-            // Check if we're on GitHub Pages
+            // Add cache busting for GitHub Pages
             if (window.location.host.includes('github.io')) {
-                return `${baseUrl}?v=${APP_VERSION}&t=${Date.now()}`;
+                url += '?t=' + Date.now();
             }
-            return baseUrl + CACHE_BUST;
+            
+            return url;
         }
         
-        // Initialize with cache-busted URLs
+        // Load or initialize data with GitHub URLs
         let productsData = JSON.parse(localStorage.getItem('productsData')) || [
             {
                 id: 1,
@@ -1150,85 +1247,23 @@
         ];
         
         // ============================================
-        // CACHE MANAGEMENT FUNCTIONS
+        // IMAGE HANDLING FUNCTIONS
         // ============================================
         
-        function refreshCache() {
-            // Clear all caches
-            localStorage.clear();
-            sessionStorage.clear();
+        function setDefaultImages() {
+            // Update logo to use GitHub URL with cache busting
+            const logoElement = document.getElementById('companyLogo');
+            let githubLogoUrl = `${GITHUB_BASE_URL}/logo.png`;
             
-            // Clear browser cache for images
-            if ('caches' in window) {
-                caches.keys().then(names => {
-                    names.forEach(name => caches.delete(name));
-                });
+            // Add cache busting for GitHub Pages
+            if (window.location.host.includes('github.io')) {
+                githubLogoUrl += '?t=' + Date.now();
             }
             
-            // Force reload all images
-            document.querySelectorAll('img[src*="githubusercontent.com"]').forEach(img => {
-                const originalSrc = img.src.split('?')[0];
-                img.src = originalSrc + '?refresh=' + Date.now();
-            });
-            
-            // Update data with fresh cache-busted URLs
-            productsData = productsData.map(p => ({
-                ...p,
-                image: p.image?.includes('raw.githubusercontent.com') 
-                       ? getImageUrlFromPath(p.image)
-                       : p.image
-            }));
-            
-            brandsData = brandsData.map(b => ({
-                ...b,
-                image: b.image?.includes('raw.githubusercontent.com') 
-                       ? getImageUrlFromPath(b.image)
-                       : b.image
-            }));
-            
-            galleryData = galleryData.map(g => ({
-                ...g,
-                image: g.image?.includes('raw.githubusercontent.com') 
-                       ? getImageUrlFromPath(g.image)
-                       : g.image
-            }));
-            
-            // Save updated data
-            saveData();
-            
-            // Reload display
-            loadProducts();
-            loadBrands();
-            loadGallery();
-            
-            // Update logo
-            updateLogoWithCacheBust();
-            
-            alert('Cache refreshed successfully! Page will reload.');
-            setTimeout(() => location.reload(true), 1000);
-        }
-        
-        function getImageUrlFromPath(fullPath) {
-            // Extract filename from full path
-            const parts = fullPath.split('/');
-            const filename = parts.pop();
-            const folder = parts.pop();
-            return getImageUrl(folder, filename.split('?')[0]);
-        }
-        
-        function updateLogoWithCacheBust() {
-            const logoElement = document.getElementById('companyLogo');
-            const currentSrc = logoElement.src.split('?')[0];
-            logoElement.src = currentSrc + CACHE_BUST;
-            
-            // Handle error
+            logoElement.src = githubLogoUrl;
             logoElement.onerror = function() {
                 this.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%232c3e50%22/%3E%3Ctext x=%2250%22 y=%2250%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22white%22 text-anchor=%22middle%22 dy=%22.3em%22%3ESA%3C/text%3E%3C/svg%3E';
             };
-        }
-        
-        function setDefaultImages() {
-            updateLogoWithCacheBust();
         }
         
         // ============================================
@@ -1374,6 +1409,23 @@
         }
         
         // ============================================
+        // CACHE REFRESH FUNCTION
+        // ============================================
+        function refreshCache() {
+            alert('Refreshing cache... Page will reload.');
+            
+            // Clear localStorage
+            localStorage.clear();
+            
+            // Force hard reload
+            if (window.location.host.includes('github.io')) {
+                window.location.href = window.location.pathname + '?clear_cache=true&t=' + Date.now();
+            } else {
+                location.reload(true);
+            }
+        }
+        
+        // ============================================
         // PRODUCTS SYSTEM
         // ============================================
         function loadProducts() {
@@ -1387,7 +1439,7 @@
                 <div class="product-card" data-category="${product.category}" data-search="${product.name.toLowerCase()} ${product.model.toLowerCase()} ${product.description.toLowerCase()}">
                     <div class="product-img">
                         <img src="${imageUrl}" alt="${product.name}" 
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image&' + Date.now();">
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image' + '&t=' + Date.now();">
                     </div>
                     <div class="product-body">
                         <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">${product.name}</h3>
@@ -1423,7 +1475,7 @@
                     <div class="product-card">
                         <div class="product-img">
                             <img src="${imageUrl}" alt="${product.name}" 
-                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image&' + Date.now();">
+                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image' + '&t=' + Date.now();">
                         </div>
                         <div class="product-body">
                             <h3 style="color: var(--primary-blue);">${product.name}</h3>
@@ -1542,7 +1594,7 @@
                 }
                 reader.readAsDataURL(imageFile);
             } else {
-                // Use default GitHub image with cache bust
+                // Use default GitHub image
                 imageData = getImageUrl('products', 'default.png');
                 saveNewProduct(name, model, price, category, description, imageData, featured);
             }
@@ -1595,7 +1647,7 @@
                 <div class="brand-card">
                     <div class="brand-logo">
                         <img src="${imageUrl}" alt="${brand.name}" 
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/100x50?text=${encodeURIComponent(brand.name)}&' + Date.now();">
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/100x50?text=${encodeURIComponent(brand.name)}' + '&t=' + Date.now();">
                     </div>
                     <p>${brand.name}</p>
                     ${isAdminLoggedIn ? `
@@ -1678,7 +1730,7 @@
                 return `
                 <div class="gallery-item">
                     <img src="${imageUrl}" alt="${item.title}" class="gallery-img"
-                         onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=${encodeURIComponent(item.title)}&' + Date.now();">
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=${encodeURIComponent(item.title)}' + '&t=' + Date.now();">
                     ${isAdminLoggedIn ? `
                         <div style="padding: 1rem; text-align: center;">
                             <p>${item.title}</p>
@@ -1900,57 +1952,9 @@
         }
         
         // ============================================
-        // INITIALIZE WITH CACHE CONTROL
+        // INITIALIZE
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Check URL for cache clear command
-            if (window.location.search.includes('clear_cache=true')) {
-                localStorage.clear();
-                sessionStorage.clear();
-                if ('caches' in window) {
-                    caches.keys().then(names => {
-                        names.forEach(name => caches.delete(name));
-                    });
-                }
-                // Remove the parameter from URL
-                window.history.replaceState({}, document.title, window.location.pathname);
-                alert('Cache cleared! Page will reload.');
-                location.reload(true);
-                return;
-            }
-            
-            // Check app version
-            const lastVersion = localStorage.getItem('appVersion');
-            if (lastVersion !== APP_VERSION) {
-                console.log('App updated from version', lastVersion, 'to', APP_VERSION);
-                localStorage.setItem('appVersion', APP_VERSION);
-                
-                // Update all GitHub URLs with new cache bust
-                productsData = productsData.map(p => ({
-                    ...p,
-                    image: p.image?.includes('raw.githubusercontent.com') 
-                           ? p.image.split('?')[0] + CACHE_BUST
-                           : p.image
-                }));
-                
-                brandsData = brandsData.map(b => ({
-                    ...b,
-                    image: b.image?.includes('raw.githubusercontent.com') 
-                           ? b.image.split('?')[0] + CACHE_BUST
-                           : b.image
-                }));
-                
-                galleryData = galleryData.map(g => ({
-                    ...g,
-                    image: g.image?.includes('raw.githubusercontent.com') 
-                           ? g.image.split('?')[0] + CACHE_BUST
-                           : g.image
-                }));
-                
-                saveData();
-            }
-            
-            // Initialize
             setDefaultImages();
             loadCategories();
             loadProducts();
@@ -1959,18 +1963,6 @@
             
             if (isAdminLoggedIn) {
                 showAdminPanels();
-            }
-            
-            // Force image reload on GitHub Pages after 1 second
-            if (window.location.host.includes('github.io')) {
-                setTimeout(() => {
-                    document.querySelectorAll('img[src*="githubusercontent.com"]').forEach(img => {
-                        const src = img.src;
-                        if (!src.includes('?v=')) {
-                            img.src = src.split('?')[0] + CACHE_BUST;
-                        }
-                    });
-                }, 1000);
             }
         });
     </script>
