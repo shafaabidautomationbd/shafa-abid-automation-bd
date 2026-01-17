@@ -27,6 +27,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
     <style>
         :root {
             --primary-blue: #2c3e50;
@@ -206,6 +209,12 @@
             cursor: pointer;
             margin: 0.5rem;
             text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
         .btn-secondary {
@@ -218,6 +227,10 @@
         
         .btn-danger {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
         }
         
         /* Products Grid */
@@ -234,6 +247,12 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
         
         .product-img {
@@ -271,6 +290,11 @@
             text-align: center;
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        
+        .brand-card:hover {
+            transform: scale(1.05);
         }
         
         .brand-logo {
@@ -301,12 +325,78 @@
             border-radius: var(--radius);
             overflow: hidden;
             box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.02);
         }
         
         .gallery-img {
             width: 100%;
             height: 180px;
             object-fit: cover;
+        }
+        
+        /* Search Bar */
+        .search-container {
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            padding-left: 3rem;
+            transition: all 0.3s;
+        }
+        
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--dark-gray);
+        }
+        
+        /* Category Filter */
+        .category-filter {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .category-btn {
+            padding: 0.6rem 1.2rem;
+            background: var(--light-gray);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .category-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        
+        .category-btn.active {
+            background: var(--accent-orange);
+            color: white;
+            border-color: var(--accent-orange);
         }
         
         /* Admin Panel */
@@ -376,23 +466,6 @@
             display: none;
         }
         
-        /* Footer */
-        .app-footer {
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: var(--text-light);
-            padding: 2rem 1rem;
-            margin-top: 2rem;
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 1.5rem;
-            margin-top: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.7);
-            font-size: 0.85rem;
-        }
-        
         /* Map Container */
         .map-container {
             background: var(--card-bg);
@@ -401,16 +474,12 @@
             margin: 1.5rem 0;
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
+            height: 400px;
         }
         
-        .map-placeholder {
-            height: 300px;
-            background: var(--light-gray);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--dark-gray);
+        #map {
+            width: 100%;
+            height: 100%;
         }
         
         /* Login Modal */
@@ -467,6 +536,53 @@
             transform: scale(1.1);
         }
         
+        /* No Results Message */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            color: var(--dark-gray);
+        }
+        
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--border-color);
+        }
+        
+        /* Category Management */
+        .category-management {
+            background: rgba(44, 62, 80, 0.05);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .categories-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+        
+        .category-tag {
+            background: var(--light-gray);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .remove-category {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .products-grid,
@@ -484,6 +600,10 @@
                 width: 45px;
                 height: 45px;
                 font-size: 1rem;
+            }
+            
+            .category-filter {
+                justify-content: center;
             }
         }
         
@@ -549,6 +669,27 @@
         </div>
     </div>
     
+    <!-- Category Management Modal -->
+    <div class="login-modal" id="categoryModal">
+        <div class="login-box" style="max-width: 500px;">
+            <h2 style="color: var(--primary-blue); margin-bottom: 1.5rem;">Manage Categories</h2>
+            <div style="margin-bottom: 1.5rem;">
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                    <input type="text" id="newCategoryName" placeholder="New category name" style="flex: 1; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: var(--radius);">
+                    <button class="btn btn-success" onclick="addNewCategory()">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
+                </div>
+                <div class="categories-list" id="categoriesListContainer">
+                    <!-- Categories will be loaded here -->
+                </div>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-secondary" onclick="closeCategoryModal()">Done</button>
+            </div>
+        </div>
+    </div>
+    
     <!-- Header -->
     <header class="app-header">
         <div class="logo-section">
@@ -571,6 +712,9 @@
         </button>
         <button class="admin-control-btn" onclick="showFeaturedModal()" title="Featured Products">
             <i class="fas fa-star"></i>
+        </button>
+        <button class="admin-control-btn" onclick="showCategoryModal()" title="Manage Categories">
+            <i class="fas fa-tags"></i>
         </button>
     </div>
     
@@ -633,6 +777,31 @@
                 <p><strong>Capital:</strong> 1 Million BDT</p>
                 <p><strong>Products:</strong> 10+ series, 2000+ specifications</p>
                 <p><strong>Coverage:</strong> All 64 districts of Bangladesh</p>
+                <p><strong>Specialization:</strong> Industrial Automation, Electrical Components, Sensors, Drives, Control Systems</p>
+            </div>
+            
+            <div class="card">
+                <h2 class="section-title">Our Services</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+                    <div style="padding: 1.5rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
+                        <h3 style="color: var(--primary-blue); margin-bottom: 0.8rem;">
+                            <i class="fas fa-robot" style="color: var(--accent-orange);"></i> Automation Solutions
+                        </h3>
+                        <p>PLC Programming, SCADA Systems, Industrial Robotics</p>
+                    </div>
+                    <div style="padding: 1.5rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
+                        <h3 style="color: var(--primary-blue); margin-bottom: 0.8rem;">
+                            <i class="fas fa-bolt" style="color: var(--accent-orange);"></i> Electrical Components
+                        </h3>
+                        <p>Circuit Breakers, Contactors, Relays, Switchgear</p>
+                    </div>
+                    <div style="padding: 1.5rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
+                        <h3 style="color: var(--primary-blue); margin-bottom: 0.8rem;">
+                            <i class="fas fa-cogs" style="color: var(--accent-orange);"></i> Technical Support
+                        </h3>
+                        <p>Installation, Commissioning, Maintenance Services</p>
+                    </div>
+                </div>
             </div>
         </section>
         
@@ -641,12 +810,19 @@
             <div class="card">
                 <h2 class="section-title">Our Products</h2>
                 
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" 
+                           id="productSearch" 
+                           class="search-bar" 
+                           placeholder="Search products by name, model, or description..."
+                           onkeyup="searchProducts()">
+                </div>
+                
                 <!-- Product Filter -->
-                <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-                    <button class="btn" onclick="filterProducts('all')">All</button>
-                    <button class="btn" onclick="filterProducts('automation')">Automation</button>
-                    <button class="btn" onclick="filterProducts('electrical')">Electrical</button>
-                    <button class="btn" onclick="filterProducts('sensors')">Sensors</button>
+                <div class="category-filter" id="categoryFilter">
+                    <!-- Categories will be loaded dynamically -->
                 </div>
                 
                 <!-- Products Container -->
@@ -654,19 +830,25 @@
                     <!-- Products loaded by JavaScript -->
                 </div>
                 
+                <!-- No Results Message -->
+                <div class="no-results" id="noResults" style="display: none;">
+                    <i class="fas fa-search"></i>
+                    <h3>No Products Found</h3>
+                    <p>Try adjusting your search or filter criteria</p>
+                </div>
+                
                 <!-- Admin Add Product (Only visible when admin logged in) -->
                 <div class="admin-panel" id="adminProductPanel" style="display: none;">
                     <h3><i class="fas fa-plus"></i> Add New Product</h3>
                     <div class="admin-form">
-                        <input type="text" id="newProductName" placeholder="Product Name">
+                        <input type="text" id="newProductName" placeholder="Product Name *" required>
                         <input type="text" id="newProductModel" placeholder="Model Number">
                         <input type="text" id="newProductPrice" placeholder="Price">
+                        
                         <select id="newProductCategory">
-                            <option value="automation">Automation</option>
-                            <option value="electrical">Electrical</option>
-                            <option value="sensors">Sensors</option>
-                            <option value="drives">Drives</option>
+                            <!-- Categories will be loaded dynamically -->
                         </select>
+                        
                         <textarea id="newProductDescription" placeholder="Description" rows="3"></textarea>
                         
                         <!-- File Upload for Product Image -->
@@ -678,8 +860,30 @@
                             <img id="productImagePreview" class="preview-image" alt="Product Image Preview">
                         </div>
                         
+                        <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="checkbox" id="newProductFeatured" style="width: 18px; height: 18px;">
+                                Mark as Featured
+                            </label>
+                        </div>
+                        
                         <button class="btn btn-secondary" onclick="addProduct()">
                             <i class="fas fa-plus"></i> Add Product
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Category Management (Admin Only) -->
+                <div class="category-management" id="categoryManagementPanel" style="display: none;">
+                    <h3><i class="fas fa-tags"></i> Manage Categories</h3>
+                    <p>Add, edit, or remove product categories</p>
+                    <div class="categories-list" id="categoriesList">
+                        <!-- Categories will be loaded here -->
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        <input type="text" id="addCategoryInput" placeholder="New category name" style="flex: 1; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: var(--radius);">
+                        <button class="btn btn-success" onclick="addCategory()">
+                            <i class="fas fa-plus"></i> Add Category
                         </button>
                     </div>
                 </div>
@@ -699,7 +903,7 @@
                 <div class="admin-panel" id="adminBrandPanel" style="display: none;">
                     <h3><i class="fas fa-plus"></i> Add New Brand</h3>
                     <div class="admin-form">
-                        <input type="text" id="newBrandName" placeholder="Brand Name">
+                        <input type="text" id="newBrandName" placeholder="Brand Name *" required>
                         
                         <!-- File Upload for Brand Logo -->
                         <div class="file-input-container">
@@ -731,7 +935,7 @@
                 <div class="admin-panel" id="adminGalleryPanel" style="display: none;">
                     <h3><i class="fas fa-plus"></i> Add Gallery Image</h3>
                     <div class="admin-form">
-                        <input type="text" id="newGalleryTitle" placeholder="Image Title">
+                        <input type="text" id="newGalleryTitle" placeholder="Image Title *" required>
                         
                         <!-- File Upload for Gallery Image -->
                         <div class="file-input-container">
@@ -760,7 +964,6 @@
                     <h3 style="color: #1877F2; margin-bottom: 0.8rem;">
                         <i class="fab fa-facebook"></i> Facebook Page
                     </h3>
-                    <!-- YOUR FACEBOOK LINK HERE -->
                     <button class="btn" onclick="window.open('https://web.facebook.com/profile.php?id=61574697974139')" style="background: #1877F2;">
                         <i class="fab fa-facebook"></i> Visit Facebook Page
                     </button>
@@ -772,28 +975,46 @@
                         <h4><i class="fas fa-phone-alt"></i> Phone</h4>
                         <p>+880 1869-552775</p>
                         <p>+880 1406-503242</p>
+                        <button class="btn btn-whatsapp" onclick="window.open('https://wa.me/8801869552775')" style="margin-top: 0.8rem; width: 100%;">
+                            <i class="fab fa-whatsapp"></i> WhatsApp Chat
+                        </button>
                     </div>
                     
                     <div style="padding: 1.2rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
                         <h4><i class="fas fa-envelope"></i> Email</h4>
                         <p>shafaabidautomation.bd@gmail.com</p>
+                        <button class="btn" onclick="window.open('mailto:shafaabidautomation.bd@gmail.com')" style="margin-top: 0.8rem; width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Send Email
+                        </button>
                     </div>
                     
                     <div style="padding: 1.2rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
                         <h4><i class="fas fa-map-marker-alt"></i> Address</h4>
                         <p>Shop No: 01, Porir Rasta, Cort Para, Kumira-4314, Sitakunda, Chittagong</p>
+                        <button class="btn" onclick="openGoogleMaps()" style="margin-top: 0.8rem; width: 100%;">
+                            <i class="fas fa-directions"></i> Get Directions
+                        </button>
                     </div>
                 </div>
                 
-                <!-- Map -->
+                <!-- Live Map -->
                 <div class="map-container">
-                    <div class="map-placeholder">
-                        <i class="fas fa-map-marker-alt" style="font-size: 3rem; color: var(--primary-blue); margin-bottom: 1rem;"></i>
-                        <h3>Our Location</h3>
-                        <!-- YOUR MAP LINK HERE -->
-                        <button class="btn" onclick="window.open('https://maps.app.goo.gl/wrvSQWH3EcMFJdVa9')" style="margin-top: 1rem;">
-                            <i class="fas fa-directions"></i> Open in Google Maps
-                        </button>
+                    <div id="map"></div>
+                </div>
+                
+                <!-- Business Hours -->
+                <div style="margin-top: 1.5rem; padding: 1.2rem; background: rgba(44, 62, 80, 0.05); border-radius: var(--radius);">
+                    <h4><i class="fas fa-clock"></i> Business Hours</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <div>
+                            <p><strong>Saturday - Thursday:</strong></p>
+                            <p>9:00 AM - 7:00 PM</p>
+                        </div>
+                        <div>
+                            <p><strong>Friday:</strong></p>
+                            <p>9:00 AM - 12:00 PM</p>
+                            <p>3:00 PM - 7:00 PM</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -807,20 +1028,41 @@
                 <div>
                     <h3 style="color: var(--accent-orange); margin-bottom: 1rem;">SHAFA ABID AUTOMATION BD</h3>
                     <p>Industrial Electrical and Electronics Solutions</p>
+                    <p style="margin-top: 0.8rem; font-size: 0.9rem;">
+                        <i class="fas fa-certificate"></i> Trusted Supplier Since 2017
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 style="color: var(--accent-orange); margin-bottom: 1rem;">Quick Links</h3>
+                    <p><a href="#" onclick="showSection('products')" style="color: white; text-decoration: none; display: block; margin-bottom: 0.5rem;">Products</a></p>
+                    <p><a href="#" onclick="showSection('brands')" style="color: white; text-decoration: none; display: block; margin-bottom: 0.5rem;">Brands</a></p>
+                    <p><a href="#" onclick="showSection('contact')" style="color: white; text-decoration: none; display: block; margin-bottom: 0.5rem;">Contact</a></p>
                 </div>
                 
                 <div>
                     <h3 style="color: var(--accent-orange); margin-bottom: 1rem;">Contact</h3>
                     <p>+880 1869-552775</p>
                     <p>shafaabidautomation.bd@gmail.com</p>
+                    <div style="display: flex; gap: 0.8rem; margin-top: 1rem;">
+                        <a href="#" onclick="window.open('https://facebook.com')" style="color: white; font-size: 1.2rem;">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" onclick="window.open('https://wa.me/8801869552775')" style="color: white; font-size: 1.2rem;">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
             
             <div class="copyright">
-                © 2017-2023 SHAFA ABID AUTOMATION BD. All Rights Reserved.
+                © 2017-2024 SHAFA ABID AUTOMATION BD. All Rights Reserved.
             </div>
         </div>
     </footer>
+    
+    <!-- Leaflet JS for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
     <script>
         // ============================================
@@ -838,7 +1080,7 @@
                 model: "6ES7214-1HG40-0XB0",
                 price: "Contact for quote",
                 category: "automation",
-                description: "Programmable Logic Controller",
+                description: "Programmable Logic Controller for industrial automation",
                 image: "",
                 featured: true
             },
@@ -846,23 +1088,57 @@
                 id: 2,
                 name: "ABB VFD Drive 7.5kW",
                 model: "ACS580-01-076A-4",
-                price: "Contact for quote",
+                price: "৳ 85,000",
                 category: "drives",
-                description: "Variable Frequency Drive",
+                description: "Variable Frequency Drive for motor control",
                 image: "",
                 featured: true
+            },
+            {
+                id: 3,
+                name: "Omron Proximity Sensor",
+                model: "E2E-X5ME1",
+                price: "৳ 3,500",
+                category: "sensors",
+                description: "Inductive proximity sensor with 5mm sensing distance",
+                image: "",
+                featured: false
+            },
+            {
+                id: 4,
+                name: "Schneider Circuit Breaker",
+                model: "IC60N 32A",
+                price: "৳ 2,800",
+                category: "electrical",
+                description: "Miniature circuit breaker for electrical protection",
+                image: "",
+                featured: false
             }
         ];
         
         let brandsData = JSON.parse(localStorage.getItem('brandsData')) || [
             { id: 1, name: "Siemens", image: "" },
             { id: 2, name: "ABB", image: "" },
-            { id: 3, name: "Omron", image: "" }
+            { id: 3, name: "Omron", image: "" },
+            { id: 4, name: "Schneider", image: "" },
+            { id: 5, name: "Delta", image: "" },
+            { id: 6, name: "Mitsubishi", image: "" }
         ];
         
         let galleryData = JSON.parse(localStorage.getItem('galleryData')) || [
             { id: 1, title: "Control Panel Design", image: "" },
-            { id: 2, title: "Factory Setup", image: "" }
+            { id: 2, title: "Factory Setup", image: "" },
+            { id: 3, title: "Product Installation", image: "" }
+        ];
+        
+        // Load categories from localStorage or initialize with default categories
+        let categories = JSON.parse(localStorage.getItem('productCategories')) || [
+            "automation",
+            "electrical",
+            "sensors",
+            "drives",
+            "control",
+            "instruments"
         ];
         
         // ============================================
@@ -880,6 +1156,11 @@
             document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
             document.getElementById(sectionId).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Initialize map when contact section is shown
+            if (sectionId === 'contact' && !window.mapInitialized) {
+                setTimeout(initializeMap, 100);
+            }
         }
         
         // ============================================
@@ -918,6 +1199,7 @@
             document.getElementById('adminProductPanel').style.display = 'block';
             document.getElementById('adminBrandPanel').style.display = 'block';
             document.getElementById('adminGalleryPanel').style.display = 'block';
+            document.getElementById('categoryManagementPanel').style.display = 'block';
             document.getElementById('adminControls').style.display = 'flex';
             
             // Add logout button to header
@@ -933,12 +1215,14 @@
             loadProducts();
             loadBrands();
             loadGallery();
+            loadCategories();
         }
         
         function hideAdminPanels() {
             document.getElementById('adminProductPanel').style.display = 'none';
             document.getElementById('adminBrandPanel').style.display = 'none';
             document.getElementById('adminGalleryPanel').style.display = 'none';
+            document.getElementById('categoryManagementPanel').style.display = 'none';
             document.getElementById('adminControls').style.display = 'none';
             
             // Remove logout button
@@ -949,6 +1233,7 @@
             loadProducts();
             loadBrands();
             loadGallery();
+            loadCategories();
         }
         
         // ============================================
@@ -1034,7 +1319,7 @@
                 productDiv.innerHTML = `
                     <div>
                         <strong>${product.name}</strong>
-                        <div style="font-size: 0.9rem; color: #666;">${product.model}</div>
+                        <div style="font-size: 0.9rem; color: #666;">${product.model} (${product.category})</div>
                     </div>
                     <div>
                         <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
@@ -1060,7 +1345,136 @@
         }
         
         // ============================================
-        // PRODUCTS SYSTEM
+        // CATEGORY MANAGEMENT SYSTEM
+        // ============================================
+        function showCategoryModal() {
+            loadCategoriesList();
+            document.getElementById('categoryModal').style.display = 'flex';
+        }
+        
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').style.display = 'none';
+        }
+        
+        function loadCategoriesList() {
+            const container = document.getElementById('categoriesListContainer');
+            container.innerHTML = '';
+            
+            categories.forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category-tag';
+                categoryDiv.innerHTML = `
+                    ${category}
+                    <button class="remove-category" onclick="removeCategory('${category}')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                container.appendChild(categoryDiv);
+            });
+        }
+        
+        function addNewCategory() {
+            const newCategory = document.getElementById('newCategoryName').value.trim().toLowerCase();
+            
+            if (!newCategory) {
+                alert('Please enter a category name');
+                return;
+            }
+            
+            if (categories.includes(newCategory)) {
+                alert('This category already exists');
+                return;
+            }
+            
+            categories.push(newCategory);
+            saveCategories();
+            loadCategoriesList();
+            loadCategories(); // Update category filter
+            updateCategorySelect(); // Update category dropdown in add product form
+            
+            document.getElementById('newCategoryName').value = '';
+            alert('Category added successfully!');
+        }
+        
+        function removeCategory(categoryToRemove) {
+            if (confirm(`Are you sure you want to remove the category "${categoryToRemove}"?`)) {
+                categories = categories.filter(cat => cat !== categoryToRemove);
+                saveCategories();
+                loadCategoriesList();
+                loadCategories(); // Update category filter
+                updateCategorySelect(); // Update category dropdown in add product form
+                alert('Category removed successfully!');
+            }
+        }
+        
+        function loadCategories() {
+            const filterContainer = document.getElementById('categoryFilter');
+            const categoriesList = document.getElementById('categoriesList');
+            
+            // Clear existing content
+            filterContainer.innerHTML = '';
+            if (categoriesList) categoriesList.innerHTML = '';
+            
+            // Add "All" button
+            const allButton = document.createElement('button');
+            allButton.className = 'category-btn active';
+            allButton.textContent = 'All Products';
+            allButton.onclick = () => {
+                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                allButton.classList.add('active');
+                filterProducts('all');
+            };
+            filterContainer.appendChild(allButton);
+            
+            // Add category buttons
+            categories.forEach(category => {
+                // Category filter buttons
+                const categoryBtn = document.createElement('button');
+                categoryBtn.className = 'category-btn';
+                categoryBtn.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                categoryBtn.onclick = () => {
+                    document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                    categoryBtn.classList.add('active');
+                    filterProducts(category);
+                };
+                filterContainer.appendChild(categoryBtn);
+                
+                // Categories list for admin panel
+                if (categoriesList) {
+                    const categoryTag = document.createElement('div');
+                    categoryTag.className = 'category-tag';
+                    categoryTag.innerHTML = `
+                        ${category}
+                        ${isAdminLoggedIn ? `
+                            <button class="remove-category" onclick="removeCategory('${category}')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        ` : ''}
+                    `;
+                    categoriesList.appendChild(categoryTag);
+                }
+            });
+        }
+        
+        function updateCategorySelect() {
+            const select = document.getElementById('newProductCategory');
+            if (!select) return;
+            
+            select.innerHTML = '';
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                select.appendChild(option);
+            });
+        }
+        
+        function saveCategories() {
+            localStorage.setItem('productCategories', JSON.stringify(categories));
+        }
+        
+        // ============================================
+        // PRODUCTS SYSTEM WITH SEARCH
         // ============================================
         function loadProducts() {
             const container = document.getElementById('productsContainer');
@@ -1068,16 +1482,17 @@
             
             // All products
             container.innerHTML = productsData.map(product => `
-                <div class="product-card" data-category="${product.category}">
+                <div class="product-card" data-category="${product.category}" data-search="${product.name.toLowerCase()} ${product.model.toLowerCase()} ${product.description.toLowerCase()}">
                     <div class="product-img">
                         ${product.image ? `<img src="${product.image}" alt="${product.name}" />` : '<i class="fas fa-box"></i>'}
                     </div>
                     <div class="product-body">
                         <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">${product.name}</h3>
                         ${product.model ? `<p><strong>Model:</strong> ${product.model}</p>` : ''}
-                        ${product.description ? `<p>${product.description}</p>` : ''}
-                        ${product.price ? `<p><strong>Price:</strong> ${product.price}</p>` : ''}
-                        <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801869552775?text=Interested in ${encodeURIComponent(product.name)}')" style="margin-top: 0.8rem; width: 100%;">
+                        <p><strong>Category:</strong> ${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</p>
+                        ${product.description ? `<p style="margin-top: 0.5rem; font-size: 0.9rem;">${product.description}</p>` : ''}
+                        ${product.price ? `<p style="margin-top: 0.5rem; color: var(--accent-orange); font-weight: bold; font-size: 1.1rem;">${product.price}</p>` : ''}
+                        <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801869552775?text=Interested in ${encodeURIComponent(product.name)} - Model: ${encodeURIComponent(product.model)}')" style="margin-top: 0.8rem; width: 100%;">
                             <i class="fab fa-whatsapp"></i> Inquire Now
                         </button>
                         ${isAdminLoggedIn ? `
@@ -1087,7 +1502,7 @@
                                 </button>
                                 ${product.featured ? `
                                     <button class="btn" style="flex: 1; background: #f39c12;" title="Featured Product">
-                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i> Featured
                                     </button>
                                 ` : ''}
                             </div>
@@ -1106,7 +1521,8 @@
                         </div>
                         <div class="product-body">
                             <h3 style="color: var(--primary-blue);">${product.name}</h3>
-                            ${product.price ? `<p><strong>Price:</strong> ${product.price}</p>` : ''}
+                            <p><strong>Model:</strong> ${product.model}</p>
+                            ${product.price ? `<p style="color: var(--accent-orange); font-weight: bold;">${product.price}</p>` : ''}
                             <button class="btn btn-secondary" onclick="window.open('https://wa.me/8801869552775?text=Interested in ${encodeURIComponent(product.name)}')" style="margin-top: 0.8rem; width: 100%;">
                                 <i class="fab fa-whatsapp"></i> Inquire Now
                             </button>
@@ -1115,12 +1531,63 @@
                 `).join('');
             } else {
                 featuredContainer.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
-                        <i class="fas fa-star" style="font-size: 3rem; color: var(--border-color); margin-bottom: 1rem;"></i>
+                    <div class="no-results">
+                        <i class="fas fa-star"></i>
                         <h3>No Featured Products Yet</h3>
                         <p>Admin can mark products as featured from the admin controls</p>
                     </div>
                 `;
+            }
+        }
+        
+        function searchProducts() {
+            const searchTerm = document.getElementById('productSearch').value.toLowerCase();
+            const products = document.querySelectorAll('#productsContainer .product-card');
+            const noResults = document.getElementById('noResults');
+            let visibleCount = 0;
+            
+            products.forEach(product => {
+                const searchData = product.getAttribute('data-search');
+                if (searchData.includes(searchTerm)) {
+                    product.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+            
+            // Show/hide no results message
+            if (visibleCount === 0 && searchTerm.length > 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        }
+        
+        function filterProducts(category) {
+            const products = document.querySelectorAll('#productsContainer .product-card');
+            const searchTerm = document.getElementById('productSearch').value.toLowerCase();
+            const noResults = document.getElementById('noResults');
+            let visibleCount = 0;
+            
+            products.forEach(product => {
+                const productCategory = product.getAttribute('data-category');
+                const searchData = product.getAttribute('data-search');
+                
+                if ((category === 'all' || productCategory === category) && 
+                    searchData.includes(searchTerm)) {
+                    product.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+            
+            // Show/hide no results message
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
             }
         }
         
@@ -1143,10 +1610,16 @@
             const price = document.getElementById('newProductPrice').value;
             const category = document.getElementById('newProductCategory').value;
             const description = document.getElementById('newProductDescription').value;
+            const featured = document.getElementById('newProductFeatured').checked;
             const imageFile = document.getElementById('productImageFile').files[0];
             
             if (!name) {
                 alert('Product name is required');
+                return;
+            }
+            
+            if (!category) {
+                alert('Please select a category');
                 return;
             }
             
@@ -1155,15 +1628,15 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     imageData = e.target.result;
-                    saveNewProduct(name, model, price, category, description, imageData);
+                    saveNewProduct(name, model, price, category, description, imageData, featured);
                 }
                 reader.readAsDataURL(imageFile);
             } else {
-                saveNewProduct(name, model, price, category, description, '');
+                saveNewProduct(name, model, price, category, description, '', featured);
             }
         }
         
-        function saveNewProduct(name, model, price, category, description, imageData) {
+        function saveNewProduct(name, model, price, category, description, imageData, featured) {
             const newProduct = {
                 id: Date.now(),
                 name: name,
@@ -1172,7 +1645,7 @@
                 category: category,
                 description: description,
                 image: imageData,
-                featured: false
+                featured: featured
             };
             
             productsData.push(newProduct);
@@ -1184,6 +1657,7 @@
             document.getElementById('newProductModel').value = '';
             document.getElementById('newProductPrice').value = '';
             document.getElementById('newProductDescription').value = '';
+            document.getElementById('newProductFeatured').checked = false;
             document.getElementById('productImageFile').value = '';
             document.getElementById('productImagePreview').style.display = 'none';
             
@@ -1196,17 +1670,6 @@
                 saveData();
                 loadProducts();
             }
-        }
-        
-        function filterProducts(category) {
-            const products = document.querySelectorAll('#productsContainer .product-card');
-            products.forEach(product => {
-                if (category === 'all' || product.getAttribute('data-category') === category) {
-                    product.style.display = 'block';
-                } else {
-                    product.style.display = 'none';
-                }
-            });
         }
         
         // ============================================
@@ -1369,6 +1832,42 @@
         }
         
         // ============================================
+        // LIVE MAP SYSTEM
+        // ============================================
+        let map;
+        window.mapInitialized = false;
+        
+        function initializeMap() {
+            if (window.mapInitialized) return;
+            
+            // Your company location (Kumira, Sitakunda, Chittagong)
+            const companyLocation = [22.5019, 91.7119];
+            
+            // Initialize map
+            map = L.map('map').setView(companyLocation, 15);
+            
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            // Add marker
+            const marker = L.marker(companyLocation).addTo(map);
+            marker.bindPopup(`
+                <b>SHAFA ABID AUTOMATION BD</b><br>
+                Shop No: 01, Porir Rasta, Cort Para<br>
+                Kumira-4314, Sitakunda, Chittagong<br>
+                Phone: +880 1869-552775
+            `).openPopup();
+            
+            window.mapInitialized = true;
+        }
+        
+        function openGoogleMaps() {
+            window.open('https://maps.app.goo.gl/wrvSQWH3EcMFJdVa9');
+        }
+        
+        // ============================================
         // DATA SAVE/LOAD
         // ============================================
         function saveData() {
@@ -1387,12 +1886,19 @@
                 document.getElementById('companyLogo').src = savedLogo;
             }
             
+            loadCategories();
+            updateCategorySelect();
             loadProducts();
             loadBrands();
             loadGallery();
             
             if (isAdminLoggedIn) {
                 showAdminPanels();
+            }
+            
+            // Initialize map if on contact page
+            if (window.location.hash === '#contact') {
+                setTimeout(initializeMap, 500);
             }
         });
     </script>
