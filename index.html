@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shafa Abid Automation BD</title>
     
+    <!-- Cache Control Meta Tags -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <!-- PDF থিমের Colors -->
     <style>
         :root {
@@ -753,6 +758,10 @@
         <button class="admin-control-btn" onclick="showCategoryModal()" title="Manage Categories">
             <i class="fas fa-tags"></i>
         </button>
+        <!-- Cache Refresh Button -->
+        <button class="admin-control-btn" onclick="refreshCache()" title="Refresh Cache" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+            <i class="fas fa-sync-alt"></i>
+        </button>
     </div>
     
     <!-- Navigation -->
@@ -1061,6 +1070,12 @@
     
     <script>
         // ============================================
+        // CACHE CONTROL SYSTEM
+        // ============================================
+        const APP_VERSION = '2.0.1'; // Increment this when you update images
+        const CACHE_BUST = `?v=${APP_VERSION}`;
+        
+        // ============================================
         // GITHUB CONFIGURATION
         // ============================================
         // আপনার GitHub username এবং repository name এখানে দিন
@@ -1068,7 +1083,7 @@
         const GITHUB_REPO = 'shafa-abid-automation-bd'; // আপনার repository name
         const GITHUB_TOKEN = ''; // Optional: যদি private repo হয়
         
-        // Base URL for GitHub images
+        // Base URL for GitHub images WITH cache busting
         const GITHUB_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/main/images`;
         
         // ============================================
@@ -1078,7 +1093,18 @@
         
         let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
         
-        // Load or initialize data with GitHub URLs
+        // Function to add cache busting to GitHub URLs
+        function getImageUrl(type, filename) {
+            const baseUrl = `${GITHUB_BASE_URL}/${type}/${filename}`;
+            
+            // Check if we're on GitHub Pages
+            if (window.location.host.includes('github.io')) {
+                return `${baseUrl}?v=${APP_VERSION}&t=${Date.now()}`;
+            }
+            return baseUrl + CACHE_BUST;
+        }
+        
+        // Initialize with cache-busted URLs
         let productsData = JSON.parse(localStorage.getItem('productsData')) || [
             {
                 id: 1,
@@ -1087,7 +1113,7 @@
                 price: "Contact for quote",
                 category: "automation",
                 description: "Programmable Logic Controller for industrial automation",
-                image: `${GITHUB_BASE_URL}/products/plc.png`,
+                image: getImageUrl('products', 'plc.png'),
                 featured: true
             },
             {
@@ -1097,20 +1123,20 @@
                 price: "Contact for quote",
                 category: "drives",
                 description: "Variable Frequency Drive for motor control",
-                image: `${GITHUB_BASE_URL}/products/alarm.jpg`,
+                image: getImageUrl('products', 'alarm.jpg'),
                 featured: true
             }
         ];
         
         let brandsData = JSON.parse(localStorage.getItem('brandsData')) || [
-            { id: 1, name: "Siemens", image: `${GITHUB_BASE_URL}/brands/siemens.png` },
-            { id: 2, name: "ABB", image: `${GITHUB_BASE_URL}/brands/abb.png` },
-            { id: 3, name: "Rexroth", image: `${GITHUB_BASE_URL}/brands/rexroth.png` }
+            { id: 1, name: "Siemens", image: getImageUrl('brands', 'siemens.png') },
+            { id: 2, name: "ABB", image: getImageUrl('brands', 'abb.png') },
+            { id: 3, name: "Rexroth", image: getImageUrl('brands', 'rexroth.png') }
         ];
         
         let galleryData = JSON.parse(localStorage.getItem('galleryData')) || [
-            { id: 1, title: "Control Panel Design", image: `${GITHUB_BASE_URL}/gallery/panel1.jpg` },
-            { id: 2, title: "Factory Setup", image: `${GITHUB_BASE_URL}/gallery/panel2.jpg` }
+            { id: 1, title: "Control Panel Design", image: getImageUrl('gallery', 'panel1.jpg') },
+            { id: 2, title: "Factory Setup", image: getImageUrl('gallery', 'panel2.jpg') }
         ];
         
         // Load categories
@@ -1124,23 +1150,85 @@
         ];
         
         // ============================================
-        // IMAGE HANDLING FUNCTIONS
+        // CACHE MANAGEMENT FUNCTIONS
         // ============================================
         
-        function getImageUrl(type, filename) {
-            // Returns GitHub URL for images
-            return `${GITHUB_BASE_URL}/${type}/${filename}`;
+        function refreshCache() {
+            // Clear all caches
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            // Clear browser cache for images
+            if ('caches' in window) {
+                caches.keys().then(names => {
+                    names.forEach(name => caches.delete(name));
+                });
+            }
+            
+            // Force reload all images
+            document.querySelectorAll('img[src*="githubusercontent.com"]').forEach(img => {
+                const originalSrc = img.src.split('?')[0];
+                img.src = originalSrc + '?refresh=' + Date.now();
+            });
+            
+            // Update data with fresh cache-busted URLs
+            productsData = productsData.map(p => ({
+                ...p,
+                image: p.image?.includes('raw.githubusercontent.com') 
+                       ? getImageUrlFromPath(p.image)
+                       : p.image
+            }));
+            
+            brandsData = brandsData.map(b => ({
+                ...b,
+                image: b.image?.includes('raw.githubusercontent.com') 
+                       ? getImageUrlFromPath(b.image)
+                       : b.image
+            }));
+            
+            galleryData = galleryData.map(g => ({
+                ...g,
+                image: g.image?.includes('raw.githubusercontent.com') 
+                       ? getImageUrlFromPath(g.image)
+                       : g.image
+            }));
+            
+            // Save updated data
+            saveData();
+            
+            // Reload display
+            loadProducts();
+            loadBrands();
+            loadGallery();
+            
+            // Update logo
+            updateLogoWithCacheBust();
+            
+            alert('Cache refreshed successfully! Page will reload.');
+            setTimeout(() => location.reload(true), 1000);
         }
         
-        function setDefaultImages() {
-            // Update logo to use GitHub URL
+        function getImageUrlFromPath(fullPath) {
+            // Extract filename from full path
+            const parts = fullPath.split('/');
+            const filename = parts.pop();
+            const folder = parts.pop();
+            return getImageUrl(folder, filename.split('?')[0]);
+        }
+        
+        function updateLogoWithCacheBust() {
             const logoElement = document.getElementById('companyLogo');
-            const githubLogoUrl = `${GITHUB_BASE_URL}/logo.png`;
+            const currentSrc = logoElement.src.split('?')[0];
+            logoElement.src = currentSrc + CACHE_BUST;
             
-            logoElement.src = githubLogoUrl;
+            // Handle error
             logoElement.onerror = function() {
                 this.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%232c3e50%22/%3E%3Ctext x=%2250%22 y=%2250%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22white%22 text-anchor=%22middle%22 dy=%22.3em%22%3ESA%3C/text%3E%3C/svg%3E';
             };
+        }
+        
+        function setDefaultImages() {
+            updateLogoWithCacheBust();
         }
         
         // ============================================
@@ -1294,12 +1382,12 @@
             
             // All products
             container.innerHTML = productsData.map(product => {
-                const imageUrl = product.image || `${GITHUB_BASE_URL}/products/default.png`;
+                const imageUrl = product.image || getImageUrl('products', 'default.png');
                 return `
                 <div class="product-card" data-category="${product.category}" data-search="${product.name.toLowerCase()} ${product.model.toLowerCase()} ${product.description.toLowerCase()}">
                     <div class="product-img">
                         <img src="${imageUrl}" alt="${product.name}" 
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image';">
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image&' + Date.now();">
                     </div>
                     <div class="product-body">
                         <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">${product.name}</h3>
@@ -1330,12 +1418,12 @@
             const featuredProducts = productsData.filter(p => p.featured);
             if (featuredProducts.length > 0) {
                 featuredContainer.innerHTML = featuredProducts.map(product => {
-                    const imageUrl = product.image || `${GITHUB_BASE_URL}/products/default.png`;
+                    const imageUrl = product.image || getImageUrl('products', 'default.png');
                     return `
                     <div class="product-card">
                         <div class="product-img">
                             <img src="${imageUrl}" alt="${product.name}" 
-                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image';">
+                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Product+Image&' + Date.now();">
                         </div>
                         <div class="product-body">
                             <h3 style="color: var(--primary-blue);">${product.name}</h3>
@@ -1454,8 +1542,8 @@
                 }
                 reader.readAsDataURL(imageFile);
             } else {
-                // Use default GitHub image
-                imageData = `${GITHUB_BASE_URL}/products/default.png`;
+                // Use default GitHub image with cache bust
+                imageData = getImageUrl('products', 'default.png');
                 saveNewProduct(name, model, price, category, description, imageData, featured);
             }
         }
@@ -1502,12 +1590,12 @@
         function loadBrands() {
             const container = document.getElementById('brandsContainer');
             container.innerHTML = brandsData.map(brand => {
-                const imageUrl = brand.image || `${GITHUB_BASE_URL}/brands/default.png`;
+                const imageUrl = brand.image || getImageUrl('brands', 'default.png');
                 return `
                 <div class="brand-card">
                     <div class="brand-logo">
                         <img src="${imageUrl}" alt="${brand.name}" 
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/100x50?text=${encodeURIComponent(brand.name)}';">
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/100x50?text=${encodeURIComponent(brand.name)}&' + Date.now();">
                     </div>
                     <p>${brand.name}</p>
                     ${isAdminLoggedIn ? `
@@ -1549,7 +1637,7 @@
                 }
                 reader.readAsDataURL(imageFile);
             } else {
-                imageData = `${GITHUB_BASE_URL}/brands/default.png`;
+                imageData = getImageUrl('brands', 'default.png');
                 saveNewBrand(name, imageData);
             }
         }
@@ -1586,11 +1674,11 @@
         function loadGallery() {
             const container = document.getElementById('galleryContainer');
             container.innerHTML = galleryData.map(item => {
-                const imageUrl = item.image || `${GITHUB_BASE_URL}/gallery/default.jpg`;
+                const imageUrl = item.image || getImageUrl('gallery', 'default.jpg');
                 return `
                 <div class="gallery-item">
                     <img src="${imageUrl}" alt="${item.title}" class="gallery-img"
-                         onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=${encodeURIComponent(item.title)}';">
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=${encodeURIComponent(item.title)}&' + Date.now();">
                     ${isAdminLoggedIn ? `
                         <div style="padding: 1rem; text-align: center;">
                             <p>${item.title}</p>
@@ -1633,7 +1721,7 @@
                 }
                 reader.readAsDataURL(imageFile);
             } else {
-                imageData = `${GITHUB_BASE_URL}/gallery/default.jpg`;
+                imageData = getImageUrl('gallery', 'default.jpg');
                 saveGalleryItem(title, imageData);
             }
         }
@@ -1812,14 +1900,57 @@
         }
         
         // ============================================
-        // INITIALIZE
+        // INITIALIZE WITH CACHE CONTROL
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Update these variables with your GitHub info
-            if (GITHUB_USERNAME === 'shafaabidautomationbd') {
-                alert('Please update GitHub username and repository name in the code!');
+            // Check URL for cache clear command
+            if (window.location.search.includes('clear_cache=true')) {
+                localStorage.clear();
+                sessionStorage.clear();
+                if ('caches' in window) {
+                    caches.keys().then(names => {
+                        names.forEach(name => caches.delete(name));
+                    });
+                }
+                // Remove the parameter from URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+                alert('Cache cleared! Page will reload.');
+                location.reload(true);
+                return;
             }
             
+            // Check app version
+            const lastVersion = localStorage.getItem('appVersion');
+            if (lastVersion !== APP_VERSION) {
+                console.log('App updated from version', lastVersion, 'to', APP_VERSION);
+                localStorage.setItem('appVersion', APP_VERSION);
+                
+                // Update all GitHub URLs with new cache bust
+                productsData = productsData.map(p => ({
+                    ...p,
+                    image: p.image?.includes('raw.githubusercontent.com') 
+                           ? p.image.split('?')[0] + CACHE_BUST
+                           : p.image
+                }));
+                
+                brandsData = brandsData.map(b => ({
+                    ...b,
+                    image: b.image?.includes('raw.githubusercontent.com') 
+                           ? b.image.split('?')[0] + CACHE_BUST
+                           : b.image
+                }));
+                
+                galleryData = galleryData.map(g => ({
+                    ...g,
+                    image: g.image?.includes('raw.githubusercontent.com') 
+                           ? g.image.split('?')[0] + CACHE_BUST
+                           : g.image
+                }));
+                
+                saveData();
+            }
+            
+            // Initialize
             setDefaultImages();
             loadCategories();
             loadProducts();
@@ -1828,6 +1959,18 @@
             
             if (isAdminLoggedIn) {
                 showAdminPanels();
+            }
+            
+            // Force image reload on GitHub Pages after 1 second
+            if (window.location.host.includes('github.io')) {
+                setTimeout(() => {
+                    document.querySelectorAll('img[src*="githubusercontent.com"]').forEach(img => {
+                        const src = img.src;
+                        if (!src.includes('?v=')) {
+                            img.src = src.split('?')[0] + CACHE_BUST;
+                        }
+                    });
+                }, 1000);
             }
         });
     </script>
