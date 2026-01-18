@@ -8,15 +8,5 @@
     "description": "Programmable Logic Controller for industrial automation",
     "image": "https://raw.githubusercontent.com/shafaabidautomationbd/shafa-abid-automation-bd/main/images/products/plc.png",
     "featured": true
-  },
-  {
-    "id": 2,
-    "name": "TIGER ALARM",
-    "model": "BC-8",
-    "price": "Contact for quote",
-    "category": "drives",
-    "description": "Variable Frequency Drive for motor control",
-    "image": "https://raw.githubusercontent.com/shafaabidautomationbd/shafa-abid-automation-bd/main/images/products/alarm.jpg",
-    "featured": true
   }
 ]
