@@ -103,7 +103,7 @@
         /* CHANGE SHOP NAME COLOR HERE */
         .logo-text {
             font-family: 'Montserrat', sans-serif;
-            font-size: 2rem;
+            font-size: 1.1rem;
             font-weight: 800;
             color: var(--headline-color); /* This uses the headline color variable */
         }
@@ -182,7 +182,7 @@
         
         .hero-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             font-weight: 800;
             margin-bottom: 1rem;
         }
@@ -660,37 +660,6 @@
     </style>
 </head>
 <body>
-    <!-- GitHub Token Modal -->
-    <div class="login-modal" id="githubTokenModal">
-        <div class="login-box">
-            <h2 style="color: var(--primary-blue); margin-bottom: 1.5rem;">GitHub Configuration</h2>
-            <div style="margin-bottom: 1rem;">
-                <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
-                    Enter your GitHub Personal Access Token to enable automatic file updates.
-                </p>
-                <input type="password" id="githubToken" placeholder="GitHub Personal Access Token" style="padding: 0.8rem; border: 1px solid var(--border-color); border-radius: var(--radius); width: 100%; margin-bottom: 1rem;">
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                    <button class="btn btn-secondary" onclick="window.open('https://github.com/settings/tokens/new', '_blank')">
-                        <i class="fab fa-github"></i> Create Token
-                    </button>
-                    <button class="btn" onclick="saveGitHubToken()">
-                        <i class="fas fa-save"></i> Save Token
-                    </button>
-                </div>
-                <div style="background: #f8f9fa; padding: 1rem; border-radius: var(--radius); font-size: 0.85rem;">
-                    <p><strong>Required permissions:</strong></p>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                        <li><code>repo</code> (Full control)</li>
-                        <li><code>workflow</code> (Optional)</li>
-                    </ul>
-                </div>
-            </div>
-            <div style="display: flex; gap: 1rem;">
-                <button class="btn btn-secondary" onclick="closeGitHubTokenModal()">Cancel</button>
-            </div>
-        </div>
-    </div>
-    
     <!-- Login Modal -->
     <div class="login-modal" id="loginModal">
         <div class="login-box">
@@ -792,11 +761,8 @@
         <button class="admin-control-btn" onclick="refreshCache()" title="Refresh Cache" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
             <i class="fas fa-sync-alt"></i>
         </button>
-        <button class="admin-control-btn" onclick="configureGitHub()" title="GitHub Config" style="background: linear-gradient(135deg, #333, #24292e);">
-            <i class="fab fa-github"></i>
-        </button>
-        <button class="admin-control-btn" onclick="syncAllData()" title="Sync All Data" style="background: linear-gradient(135deg, #1abc9c, #16a085);">
-            <i class="fas fa-cloud-upload"></i>
+        <button class="admin-control-btn" onclick="exportData()" title="Export Data" style="background: linear-gradient(135deg, #1abc9c, #16a085);">
+            <i class="fas fa-download"></i>
         </button>
     </div>
     
@@ -931,9 +897,9 @@
                             <i class="fas fa-plus"></i> Add Product
                         </button>
                         
-                        <!-- Sync Button -->
-                        <button class="btn btn-success" onclick="syncProductsToGitHub()" style="margin-top: 1rem;">
-                            <i class="fas fa-cloud-upload"></i> Sync Products to GitHub
+                        <!-- Export Button -->
+                        <button class="btn btn-success" onclick="exportProductsData()" style="margin-top: 1rem;">
+                            <i class="fas fa-download"></i> Export Products Data
                         </button>
                     </div>
                 </div>
@@ -970,9 +936,9 @@
                             <i class="fas fa-plus"></i> Add Brand
                         </button>
                         
-                        <!-- Sync Button -->
-                        <button class="btn btn-success" onclick="syncBrandsToGitHub()" style="margin-top: 1rem;">
-                            <i class="fas fa-cloud-upload"></i> Sync Brands to GitHub
+                        <!-- Export Button -->
+                        <button class="btn btn-success" onclick="exportBrandsData()" style="margin-top: 1rem;">
+                            <i class="fas fa-download"></i> Export Brands Data
                         </button>
                     </div>
                 </div>
@@ -1009,9 +975,9 @@
                             <i class="fas fa-plus"></i> Add Image
                         </button>
                         
-                        <!-- Sync Button -->
-                        <button class="btn btn-success" onclick="syncGalleryToGitHub()" style="margin-top: 1rem;">
-                            <i class="fas fa-cloud-upload"></i> Sync Gallery to GitHub
+                        <!-- Export Button -->
+                        <button class="btn btn-success" onclick="exportGalleryData()" style="margin-top: 1rem;">
+                            <i class="fas fa-download"></i> Export Gallery Data
                         </button>
                     </div>
                 </div>
@@ -1135,9 +1101,6 @@
             categories: `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/main/data/categories.json`
         };
         
-        // GitHub API Base URL
-        const GITHUB_API_BASE = 'https://api.github.com';
-        
         // ============================================
         // DEFAULT DATA (Fallback)
         // ============================================
@@ -1181,7 +1144,6 @@
         // ============================================
         const ADMIN_PASSWORD = "admin123";
         let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
-        let githubToken = localStorage.getItem('github_token') || '';
         
         let productsData = [];
         let brandsData = [];
@@ -1189,234 +1151,10 @@
         let categories = [];
         
         // ============================================
-        // GITHUB API FUNCTIONS
-        // ============================================
-        
-        // Configure GitHub Token
-        function configureGitHub() {
-            document.getElementById('githubTokenModal').style.display = 'flex';
-            document.getElementById('githubToken').value = githubToken;
-        }
-        
-        function closeGitHubTokenModal() {
-            document.getElementById('githubTokenModal').style.display = 'none';
-        }
-        
-        function saveGitHubToken() {
-            const token = document.getElementById('githubToken').value.trim();
-            if (token) {
-                githubToken = token;
-                localStorage.setItem('github_token', token);
-                alert('GitHub token saved successfully!');
-                closeGitHubTokenModal();
-            } else {
-                alert('Please enter a valid GitHub token');
-            }
-        }
-        
-        // Check if GitHub token is configured
-        function isGitHubConfigured() {
-            if (!githubToken) {
-                alert('GitHub token not configured. Please configure it from the admin controls (GitHub icon).');
-                configureGitHub();
-                return false;
-            }
-            return true;
-        }
-        
-        // Get current SHA of a file (required for updating)
-        async function getFileSha(filePath) {
-            try {
-                const response = await fetch(
-                    `${GITHUB_API_BASE}/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${filePath}`,
-                    {
-                        headers: {
-                            'Authorization': `token ${githubToken}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    }
-                );
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    return data.sha;
-                } else if (response.status === 404) {
-                    // File doesn't exist yet
-                    return null;
-                } else {
-                    throw new Error(`Failed to get file SHA: ${response.status}`);
-                }
-            } catch (error) {
-                console.error('Error getting file SHA:', error);
-                return null;
-            }
-        }
-        
-        // Update file on GitHub
-        async function updateGitHubFile(filePath, content, message = 'Update data') {
-            if (!isGitHubConfigured()) return false;
-            
-            try {
-                const sha = await getFileSha(filePath);
-                
-                const response = await fetch(
-                    `${GITHUB_API_BASE}/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${filePath}`,
-                    {
-                        method: 'PUT',
-                        headers: {
-                            'Authorization': `token ${githubToken}`,
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/vnd.github.v3+json'
-                        },
-                        body: JSON.stringify({
-                            message: message,
-                            content: btoa(unescape(encodeURIComponent(content))),
-                            sha: sha // If null, creates new file
-                        })
-                    }
-                );
-                
-                if (response.ok) {
-                    console.log(`Successfully updated ${filePath} on GitHub`);
-                    return true;
-                } else {
-                    const error = await response.json();
-                    throw new Error(`GitHub API error: ${error.message}`);
-                }
-            } catch (error) {
-                console.error('Error updating GitHub file:', error);
-                alert(`Failed to update GitHub: ${error.message}`);
-                return false;
-            }
-        }
-        
-        // ============================================
-        // SYNC FUNCTIONS
-        // ============================================
-        
-        // Sync products to GitHub
-        async function syncProductsToGitHub() {
-            if (!isGitHubConfigured()) return;
-            
-            const loading = showLoading('Syncing products to GitHub...');
-            
-            try {
-                const content = JSON.stringify(productsData, null, 2);
-                const success = await updateGitHubFile('data/products.json', content, 'Update products data');
-                
-                if (success) {
-                    alert('Products successfully synced to GitHub! Changes will appear on all devices.');
-                }
-            } catch (error) {
-                console.error('Sync failed:', error);
-            } finally {
-                hideLoading(loading);
-            }
-        }
-        
-        // Sync brands to GitHub
-        async function syncBrandsToGitHub() {
-            if (!isGitHubConfigured()) return;
-            
-            const loading = showLoading('Syncing brands to GitHub...');
-            
-            try {
-                const content = JSON.stringify(brandsData, null, 2);
-                const success = await updateGitHubFile('data/brands.json', content, 'Update brands data');
-                
-                if (success) {
-                    alert('Brands successfully synced to GitHub! Changes will appear on all devices.');
-                }
-            } catch (error) {
-                console.error('Sync failed:', error);
-            } finally {
-                hideLoading(loading);
-            }
-        }
-        
-        // Sync gallery to GitHub
-        async function syncGalleryToGitHub() {
-            if (!isGitHubConfigured()) return;
-            
-            const loading = showLoading('Syncing gallery to GitHub...');
-            
-            try {
-                const content = JSON.stringify(galleryData, null, 2);
-                const success = await updateGitHubFile('data/gallery.json', content, 'Update gallery data');
-                
-                if (success) {
-                    alert('Gallery successfully synced to GitHub! Changes will appear on all devices.');
-                }
-            } catch (error) {
-                console.error('Sync failed:', error);
-            } finally {
-                hideLoading(loading);
-            }
-        }
-        
-        // Sync categories to GitHub
-        async function syncCategoriesToGitHub() {
-            if (!isGitHubConfigured()) return;
-            
-            const loading = showLoading('Syncing categories to GitHub...');
-            
-            try {
-                const content = JSON.stringify(categories, null, 2);
-                const success = await updateGitHubFile('data/categories.json', content, 'Update categories data');
-                
-                if (success) {
-                    alert('Categories successfully synced to GitHub!');
-                }
-            } catch (error) {
-                console.error('Sync failed:', error);
-            } finally {
-                hideLoading(loading);
-            }
-        }
-        
-        // Sync all data to GitHub
-        async function syncAllData() {
-            if (!isGitHubConfigured()) return;
-            
-            if (!confirm('Sync ALL data to GitHub? This will update all JSON files.')) {
-                return;
-            }
-            
-            const loading = showLoading('Syncing all data to GitHub...');
-            
-            try {
-                // Sync products
-                const productsContent = JSON.stringify(productsData, null, 2);
-                const productsSuccess = await updateGitHubFile('data/products.json', productsContent, 'Update all data');
-                
-                // Sync brands
-                const brandsContent = JSON.stringify(brandsData, null, 2);
-                const brandsSuccess = await updateGitHubFile('data/brands.json', brandsContent, 'Update all data');
-                
-                // Sync gallery
-                const galleryContent = JSON.stringify(galleryData, null, 2);
-                const gallerySuccess = await updateGitHubFile('data/gallery.json', galleryContent, 'Update all data');
-                
-                // Sync categories
-                const categoriesContent = JSON.stringify(categories, null, 2);
-                const categoriesSuccess = await updateGitHubFile('data/categories.json', categoriesContent, 'Update all data');
-                
-                if (productsSuccess && brandsSuccess && gallerySuccess && categoriesSuccess) {
-                    alert('All data successfully synced to GitHub! Changes will appear on all devices immediately.');
-                } else {
-                    alert('Some files may not have synced. Please check individual sync buttons.');
-                }
-            } catch (error) {
-                console.error('Sync failed:', error);
-            } finally {
-                hideLoading(loading);
-            }
-        }
-        
-        // ============================================
         // DATA LOADING FUNCTIONS
         // ============================================
         
+        // Function to load data from GitHub with cache busting
         async function loadDataFromGitHub() {
             try {
                 // Add cache busting parameter
@@ -1471,6 +1209,7 @@
             }
         }
         
+        // Cache data in localStorage
         function cacheDataLocally() {
             try {
                 localStorage.setItem('cached_productsData', JSON.stringify(productsData));
@@ -1484,11 +1223,13 @@
             }
         }
         
+        // Load data from localStorage cache
         function loadFromLocalStorage() {
             try {
                 const cacheTime = localStorage.getItem('cache_timestamp');
                 const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000);
                 
+                // Use cache if less than 1 day old
                 if (cacheTime && parseInt(cacheTime) > oneDayAgo) {
                     productsData = JSON.parse(localStorage.getItem('cached_productsData') || '[]');
                     brandsData = JSON.parse(localStorage.getItem('cached_brandsData') || '[]');
@@ -1513,6 +1254,7 @@
             } catch (e) {
                 console.error('Error loading from localStorage:', e);
                 
+                // Use default data
                 productsData = DEFAULT_DATA.products;
                 brandsData = DEFAULT_DATA.brands;
                 galleryData = DEFAULT_DATA.gallery;
@@ -1523,44 +1265,14 @@
         }
         
         // ============================================
-        // UTILITY FUNCTIONS
+        // CACHE MANAGEMENT
         // ============================================
-        
-        function showLoading(message) {
-            const loadingDiv = document.createElement('div');
-            loadingDiv.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.7);
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                z-index: 9999;
-                color: white;
-                font-size: 1.2rem;
-            `;
-            loadingDiv.innerHTML = `
-                <i class="fas fa-spinner fa-spin fa-3x" style="margin-bottom: 20px;"></i>
-                <div>${message}</div>
-            `;
-            document.body.appendChild(loadingDiv);
-            return loadingDiv;
-        }
-        
-        function hideLoading(loadingDiv) {
-            if (loadingDiv && loadingDiv.parentNode) {
-                loadingDiv.parentNode.removeChild(loadingDiv);
-            }
-        }
-        
         function refreshCache() {
+            // Clear only image cache, not data
             if ('caches' in window) {
                 caches.keys().then(names => {
                     names.forEach(name => {
+                        // Only delete image caches, not data
                         if (name.includes('image') || name.includes('github')) {
                             caches.delete(name);
                         }
@@ -1568,9 +1280,80 @@
                 });
             }
             
+            // Reload page with cache busting
             window.location.href = window.location.pathname + '?refresh=' + Date.now();
         }
         
+        // ============================================
+        // DATA EXPORT FUNCTIONS
+        // ============================================
+        function exportProductsData() {
+            const dataStr = JSON.stringify(productsData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'products_data.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            alert('Products data exported! Copy this JSON to /data/products.json in your GitHub repository.');
+        }
+        
+        function exportBrandsData() {
+            const dataStr = JSON.stringify(brandsData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'brands_data.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            alert('Brands data exported! Copy this JSON to /data/brands.json in your GitHub repository.');
+        }
+        
+        function exportGalleryData() {
+            const dataStr = JSON.stringify(galleryData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'gallery_data.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            alert('Gallery data exported! Copy this JSON to /data/gallery.json in your GitHub repository.');
+        }
+        
+        function exportData() {
+            const allData = {
+                products: productsData,
+                brands: brandsData,
+                gallery: galleryData,
+                categories: categories,
+                export_date: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(allData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'shafa_abid_data_export.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            alert('All data exported! You can use this backup file.');
+        }
+        
+        // ============================================
+        // IMAGE HANDLING
+        // ============================================
         function getImageUrl(type, filename) {
             return `${GITHUB_BASE_URL}/${type}/${filename}`;
         }
@@ -1579,6 +1362,7 @@
             const logoElement = document.getElementById('companyLogo');
             const githubLogoUrl = `${GITHUB_BASE_URL}/logo.png`;
             
+            // Add cache busting for GitHub Pages
             if (window.location.host.includes('github.io')) {
                 logoElement.src = githubLogoUrl + '?t=' + Date.now();
             } else {
@@ -1649,6 +1433,7 @@
             document.getElementById('adminGalleryPanel').style.display = 'block';
             document.getElementById('adminControls').style.display = 'flex';
             
+            // Add logout button to header
             const header = document.querySelector('.app-header');
             const logoutBtn = document.createElement('button');
             logoutBtn.className = 'btn btn-danger';
@@ -1715,6 +1500,7 @@
             const reader = new FileReader();
             
             reader.onload = function(e) {
+                // Update logo on page
                 document.getElementById('companyLogo').src = e.target.result;
                 
                 showUploadStatus('logoUploadStatus', 'Logo updated on this device. For permanent storage, upload to GitHub images folder.', 'success');
@@ -1728,7 +1514,7 @@
         }
         
         // ============================================
-        // PRODUCTS SYSTEM WITH AUTO-SYNC
+        // PRODUCTS SYSTEM
         // ============================================
         function loadProducts() {
             const container = document.getElementById('productsContainer');
@@ -1868,9 +1654,6 @@
             }
         });
         
-        // MODIFIED: Auto-sync option
-        let autoSyncEnabled = localStorage.getItem('auto_sync') === 'true';
-        
         function addProduct() {
             const name = document.getElementById('newProductName').value;
             const model = document.getElementById('newProductModel').value;
@@ -1899,12 +1682,13 @@
                 }
                 reader.readAsDataURL(imageFile);
             } else {
+                // Use default image
                 imageData = `${GITHUB_BASE_URL}/products/default.png`;
                 saveNewProduct(name, model, price, category, description, imageData, featured);
             }
         }
         
-        async function saveNewProduct(name, model, price, category, description, imageData, featured) {
+        function saveNewProduct(name, model, price, category, description, imageData, featured) {
             const newProduct = {
                 id: Date.now(),
                 name: name,
@@ -1917,24 +1701,8 @@
             };
             
             productsData.push(newProduct);
-            cacheDataLocally(); // Save to localStorage
+            cacheDataLocally(); // Cache locally
             loadProducts();
-            
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(productsData, null, 2);
-                    await updateGitHubFile('data/products.json', content, 'Add new product');
-                    showUploadStatus('productUploadStatus', 'Product added and auto-synced to GitHub!', 'success');
-                } catch (error) {
-                    showUploadStatus('productUploadStatus', 'Product added locally. GitHub sync failed.', 'error');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
-                showUploadStatus('productUploadStatus', 'Product added locally. Sync to GitHub for all devices.', 'success');
-            }
             
             // Clear form
             document.getElementById('newProductName').value = '';
@@ -1944,34 +1712,21 @@
             document.getElementById('newProductFeatured').checked = false;
             document.getElementById('productImageFile').value = '';
             document.getElementById('productImagePreview').style.display = 'none';
+            
+            showUploadStatus('productUploadStatus', 'Product added to local cache. Export and upload to GitHub for permanent storage.', 'success');
         }
         
-        async function deleteProduct(id) {
-            if (!confirm('Are you sure you want to delete this product?')) return;
-            
-            productsData = productsData.filter(p => p.id !== id);
-            cacheDataLocally();
-            loadProducts();
-            
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(productsData, null, 2);
-                    await updateGitHubFile('data/products.json', content, 'Delete product');
-                    alert('Product deleted and synced to GitHub!');
-                } catch (error) {
-                    alert('Product deleted locally. GitHub sync failed.');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
+        function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                productsData = productsData.filter(p => p.id !== id);
+                cacheDataLocally();
+                loadProducts();
                 alert('Product deleted from local cache.');
             }
         }
         
         // ============================================
-        // BRANDS SYSTEM WITH AUTO-SYNC
+        // BRANDS SYSTEM
         // ============================================
         function loadBrands() {
             const container = document.getElementById('brandsContainer');
@@ -2005,7 +1760,7 @@
             }
         });
         
-        async function addBrand() {
+        function addBrand() {
             const name = document.getElementById('newBrandName').value;
             const imageFile = document.getElementById('brandImageFile').files[0];
             
@@ -2028,7 +1783,7 @@
             }
         }
         
-        async function saveNewBrand(name, imageData) {
+        function saveNewBrand(name, imageData) {
             const newBrand = {
                 id: Date.now(),
                 name: name,
@@ -2039,53 +1794,24 @@
             cacheDataLocally();
             loadBrands();
             
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(brandsData, null, 2);
-                    await updateGitHubFile('data/brands.json', content, 'Add new brand');
-                    showUploadStatus('brandUploadStatus', 'Brand added and auto-synced to GitHub!', 'success');
-                } catch (error) {
-                    showUploadStatus('brandUploadStatus', 'Brand added locally. GitHub sync failed.', 'error');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
-                showUploadStatus('brandUploadStatus', 'Brand added locally. Sync to GitHub for all devices.', 'success');
-            }
-            
             document.getElementById('newBrandName').value = '';
             document.getElementById('brandImageFile').value = '';
             document.getElementById('brandImagePreview').style.display = 'none';
+            
+            showUploadStatus('brandUploadStatus', 'Brand added to local cache. Export and upload to GitHub for permanent storage.', 'success');
         }
         
-        async function deleteBrand(id) {
-            if (!confirm('Are you sure you want to delete this brand?')) return;
-            
-            brandsData = brandsData.filter(b => b.id !== id);
-            cacheDataLocally();
-            loadBrands();
-            
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(brandsData, null, 2);
-                    await updateGitHubFile('data/brands.json', content, 'Delete brand');
-                    alert('Brand deleted and synced to GitHub!');
-                } catch (error) {
-                    alert('Brand deleted locally. GitHub sync failed.');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
+        function deleteBrand(id) {
+            if (confirm('Are you sure you want to delete this brand?')) {
+                brandsData = brandsData.filter(b => b.id !== id);
+                cacheDataLocally();
+                loadBrands();
                 alert('Brand deleted from local cache.');
             }
         }
         
         // ============================================
-        // GALLERY SYSTEM WITH AUTO-SYNC
+        // GALLERY SYSTEM
         // ============================================
         function loadGallery() {
             const container = document.getElementById('galleryContainer');
@@ -2119,7 +1845,7 @@
             }
         });
         
-        async function addGalleryItem() {
+        function addGalleryItem() {
             const title = document.getElementById('newGalleryTitle').value;
             const imageFile = document.getElementById('galleryImageFile').files[0];
             
@@ -2142,7 +1868,7 @@
             }
         }
         
-        async function saveGalleryItem(title, imageData) {
+        function saveGalleryItem(title, imageData) {
             const newItem = {
                 id: Date.now(),
                 title: title,
@@ -2153,53 +1879,24 @@
             cacheDataLocally();
             loadGallery();
             
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(galleryData, null, 2);
-                    await updateGitHubFile('data/gallery.json', content, 'Add gallery item');
-                    showUploadStatus('galleryUploadStatus', 'Gallery item added and auto-synced to GitHub!', 'success');
-                } catch (error) {
-                    showUploadStatus('galleryUploadStatus', 'Gallery item added locally. GitHub sync failed.', 'error');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
-                showUploadStatus('galleryUploadStatus', 'Gallery item added locally. Sync to GitHub for all devices.', 'success');
-            }
-            
             document.getElementById('newGalleryTitle').value = '';
             document.getElementById('galleryImageFile').value = '';
             document.getElementById('galleryImagePreview').style.display = 'none';
+            
+            showUploadStatus('galleryUploadStatus', 'Gallery image added to local cache. Export and upload to GitHub for permanent storage.', 'success');
         }
         
-        async function deleteGalleryItem(id) {
-            if (!confirm('Are you sure you want to delete this image?')) return;
-            
-            galleryData = galleryData.filter(g => g.id !== id);
-            cacheDataLocally();
-            loadGallery();
-            
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(galleryData, null, 2);
-                    await updateGitHubFile('data/gallery.json', content, 'Delete gallery item');
-                    alert('Gallery item deleted and synced to GitHub!');
-                } catch (error) {
-                    alert('Gallery item deleted locally. GitHub sync failed.');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
+        function deleteGalleryItem(id) {
+            if (confirm('Are you sure you want to delete this image?')) {
+                galleryData = galleryData.filter(g => g.id !== id);
+                cacheDataLocally();
+                loadGallery();
                 alert('Gallery item deleted from local cache.');
             }
         }
         
         // ============================================
-        // CATEGORY MANAGEMENT WITH AUTO-SYNC
+        // CATEGORY MANAGEMENT
         // ============================================
         function loadCategories() {
             const filterContainer = document.getElementById('categoryFilter');
@@ -2268,7 +1965,7 @@
             });
         }
         
-        async function addNewCategory() {
+        function addNewCategory() {
             const newCategory = document.getElementById('newCategoryName').value.trim().toLowerCase();
             
             if (!newCategory) {
@@ -2286,46 +1983,16 @@
             loadCategoriesList();
             loadCategories();
             
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(categories, null, 2);
-                    await updateGitHubFile('data/categories.json', content, 'Add new category');
-                    alert('Category added and auto-synced to GitHub!');
-                } catch (error) {
-                    alert('Category added locally. GitHub sync failed.');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
-                alert('Category added to local cache.');
-            }
-            
             document.getElementById('newCategoryName').value = '';
+            alert('Category added to local cache.');
         }
         
-        async function removeCategory(categoryToRemove) {
-            if (!confirm(`Are you sure you want to remove the category "${categoryToRemove}"?`)) return;
-            
-            categories = categories.filter(cat => cat !== categoryToRemove);
-            cacheDataLocally();
-            loadCategoriesList();
-            loadCategories();
-            
-            // Auto-sync to GitHub if enabled
-            if (autoSyncEnabled && githubToken) {
-                const loading = showLoading('Auto-syncing to GitHub...');
-                try {
-                    const content = JSON.stringify(categories, null, 2);
-                    await updateGitHubFile('data/categories.json', content, 'Remove category');
-                    alert('Category removed and synced to GitHub!');
-                } catch (error) {
-                    alert('Category removed locally. GitHub sync failed.');
-                } finally {
-                    hideLoading(loading);
-                }
-            } else {
+        function removeCategory(categoryToRemove) {
+            if (confirm(`Are you sure you want to remove the category "${categoryToRemove}"?`)) {
+                categories = categories.filter(cat => cat !== categoryToRemove);
+                cacheDataLocally();
+                loadCategoriesList();
+                loadCategories();
                 alert('Category removed from local cache.');
             }
         }
@@ -2366,9 +2033,6 @@
         // INITIALIZATION
         // ============================================
         document.addEventListener('DOMContentLoaded', async function() {
-            // Check for auto-sync setting
-            autoSyncEnabled = localStorage.getItem('auto_sync') === 'true';
-            
             // Load data from GitHub
             await loadDataFromGitHub();
             
@@ -2381,9 +2045,6 @@
             
             if (isAdminLoggedIn) {
                 showAdminPanels();
-                
-                // Add auto-sync toggle to admin controls
-                addAutoSyncToggle();
             }
             
             // Add cache busting for GitHub Pages images
@@ -2397,85 +2058,6 @@
                 }, 500);
             }
         });
-        
-        // Add auto-sync toggle to admin panel
-        function addAutoSyncToggle() {
-            const productPanel = document.getElementById('adminProductPanel');
-            if (productPanel) {
-                const toggleDiv = document.createElement('div');
-                toggleDiv.style.cssText = `
-                    margin-top: 1rem;
-                    padding: 1rem;
-                    background: rgba(44, 62, 80, 0.05);
-                    border-radius: var(--radius);
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                `;
-                toggleDiv.innerHTML = `
-                    <div>
-                        <strong><i class="fas fa-sync"></i> Auto-Sync to GitHub</strong>
-                        <p style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">
-                            Automatically sync changes to GitHub (requires token)
-                        </p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="autoSyncToggle" ${autoSyncEnabled ? 'checked' : ''}>
-                        <span class="slider"></span>
-                    </label>
-                    <style>
-                        .switch {
-                            position: relative;
-                            display: inline-block;
-                            width: 60px;
-                            height: 34px;
-                        }
-                        .switch input {
-                            opacity: 0;
-                            width: 0;
-                            height: 0;
-                        }
-                        .slider {
-                            position: absolute;
-                            cursor: pointer;
-                            top: 0;
-                            left: 0;
-                            right: 0;
-                            bottom: 0;
-                            background-color: #ccc;
-                            transition: .4s;
-                            border-radius: 34px;
-                        }
-                        .slider:before {
-                            position: absolute;
-                            content: "";
-                            height: 26px;
-                            width: 26px;
-                            left: 4px;
-                            bottom: 4px;
-                            background-color: white;
-                            transition: .4s;
-                            border-radius: 50%;
-                        }
-                        input:checked + .slider {
-                            background-color: #2196F3;
-                        }
-                        input:checked + .slider:before {
-                            transform: translateX(26px);
-                        }
-                    </style>
-                `;
-                productPanel.querySelector('.admin-form').appendChild(toggleDiv);
-
-                
-                // Add event listener
-                document.getElementById('autoSyncToggle').addEventListener('change', function() {
-                    autoSyncEnabled = this.checked;
-                    localStorage.setItem('auto_sync', autoSyncEnabled);
-                    alert(`Auto-sync ${autoSyncEnabled ? 'enabled' : 'disabled'}`);
-                });
-            }
-        }
     </script>
 </body>
 </html>
